@@ -54,6 +54,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisResultsWc.cs" />
     <Compile Include="CatBrAoo.cs" />
     <Compile Include="ChratcerListCoils.cs" />
     <Compile Include="DataSets\DsRptOtk.cs">

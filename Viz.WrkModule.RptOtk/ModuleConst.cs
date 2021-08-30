@@ -43,6 +43,7 @@
     public const int AccCmdOtkQualityAvo2 = 323;
     public const int AccCmdFinCutByCat = 324;
     public const int AccCmdWarningCoupons = 325;
+    public const int AccCmdAnalysisResultsWc = 326;
 
     public const string ScriptsFolder = "\\Scripts";
     public const string OtkQntDefMonthSource = "\\Xlt\\Viz.WrkModule.RptOtkQntDefMonth.xltx";
@@ -116,6 +117,10 @@
 
     public const string WarningCouponsSource = "\\Xlt\\Viz.WrkModule.RptOtk-WarningCoupons.xltx";
     public const string WarningCouponsDest = "\\Viz.WrkModule.RptOtk-WarningCoupons.xlsx";
+
+    public const string AnalysisResultsWcSource = "\\Xlt\\Viz.WrkModule.RptOtk-AnalysisResultsWc.xltx";
+    public const string AnalysisResultsWcDest = "\\Viz.WrkModule.RptOtk-AnalysisResultsWc.xlsx";
+
 
   }
 }

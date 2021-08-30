@@ -374,6 +374,7 @@ d:DesignHeight="579" d:DesignWidth="932" RegName="UcRptOtk" Caption="Отчет�
           <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="2" Padding="0">
             <Image Source="pack://application:,,,/Viz.WrkModule.RptOtk;Component/Images/RptCheck-16x16.png"/>
             <Button Name="b171001_325" Content="Талоны предупреждений" Command="{Binding WarningCouponsCommand}" HorizontalAlignment="Left"/>
+            <Button Name="b171001_326" Content="Результаты разбора ТП" Command="{Binding AnalysisResultsWcCommand}" HorizontalAlignment="Left"/>
           </dxl:FlowLayoutControl>
         </dxl:LayoutItem>
       </dxl:LayoutGroup>

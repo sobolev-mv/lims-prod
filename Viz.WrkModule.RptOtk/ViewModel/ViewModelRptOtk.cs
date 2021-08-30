@@ -908,7 +908,7 @@ namespace Viz.WrkModule.RptOtk
       }
 
       //Делаем кнопки управления невидимыми 
-      for (int i = ModuleConst.AccCmdOtkAvoBonus; i < ModuleConst.AccCmdWarningCoupons + 1; i++){
+      for (int i = ModuleConst.AccCmdOtkAvoBonus; i < ModuleConst.AccCmdAnalysisResultsWc + 1; i++){
         var uie = LogicalTreeHelper.FindLogicalNode(this.usrControl, "b" + ModuleConst.ModuleId + "_" + i) as UIElement;
         if (uie == null) continue;
 
@@ -952,6 +952,7 @@ namespace Viz.WrkModule.RptOtk
     private DelegateCommand<Object> otkFreqDistrDefectAvoCommand;
     private DelegateCommand<Object> otkFinCutByCatCommand;
     private DelegateCommand<Object> warningCouponsCommand;
+    private DelegateCommand<Object> analysisResultsWcCommand;
 
     public ICommand ShowListRptCommand
     {
@@ -2227,6 +2228,34 @@ namespace Viz.WrkModule.RptOtk
     }
 
     private bool CanExecuteWarningCoupons(Object parameter)
+    {
+      return true;
+    }
+    
+    public ICommand AnalysisResultsWcCommand
+    {
+      get { return analysisResultsWcCommand ?? (analysisResultsWcCommand = new DelegateCommand<Object>(ExecuteAnalysisResultsWc, CanExecuteAnalysisResultsWc)); }
+    }
+
+    private void ExecuteAnalysisResultsWc(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.AnalysisResultsWcSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.AnalysisResultsWcDest;
+      var rptParam = new Db.AnalysisResultsWcRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd
+      };
+
+      var sp = new Db.AnalysisResultsWc();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteAnalysisResultsWc(Object parameter)
     {
       return true;
     }
