@@ -362,6 +362,23 @@ d:DesignHeight="579" d:DesignWidth="932" RegName="UcRptOtk" Caption="Отчет�
           </dxl:LayoutItem>
         </dxl:LayoutGroup>
       </dxl:LayoutGroup>
+
+      <dxl:LayoutGroup Name="Lg171001_403" Header="Отчетность по талонам предупреждений" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="3" >
+        <dxl:LayoutItem Label="Дата:" IsRequired="True">
+          <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="2" Padding="0">
+            <dxe:DateEdit Width="90" EditValue="{Binding DateBegin}" IsTextEditable="False" />
+            <dxe:DateEdit Width="90" EditValue="{Binding DateEnd}" IsTextEditable="False" />
+          </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem>
+          <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="2" Padding="0">
+            <Image Source="pack://application:,,,/Viz.WrkModule.RptOtk;Component/Images/RptCheck-16x16.png"/>
+            <Button Name="b171001_325" Content="Талоны предупреждений" Command="{Binding WarningCouponsCommand}" HorizontalAlignment="Left"/>
+          </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+
+
     </dxl:LayoutGroup>
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>

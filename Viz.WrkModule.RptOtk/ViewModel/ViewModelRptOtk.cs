@@ -882,7 +882,7 @@ namespace Viz.WrkModule.RptOtk
       usrControl = control;
       DateBegin = DateEnd = DateBeginAroF1 = DateEndAroF1 = DateBegin1200F1 = DateEnd1200F1 = DateBeginApr1F1 = DateEndApr1F1 = DateBeginAooF1 = DateEndAooF1 = DateBeginAvoLstF1 = DateEndAvoLstF1 = DateTime.Today;
  
-      for (int i = ModuleConst.AccGrpLg0; i < ModuleConst.AccGrpLg2 + 1; i++){
+      for (int i = ModuleConst.AccGrpLg0; i < ModuleConst.AccGrpLg3 + 1; i++){
         this.lg = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Lg" + ModuleConst.ModuleId + "_" + i.ToString()) as LayoutGroup;
 
         if (this.lg != null){
@@ -908,7 +908,7 @@ namespace Viz.WrkModule.RptOtk
       }
 
       //Делаем кнопки управления невидимыми 
-      for (int i = ModuleConst.AccCmdOtkAvoBonus; i < ModuleConst.AccCmdFinCutByCat + 1; i++){
+      for (int i = ModuleConst.AccCmdOtkAvoBonus; i < ModuleConst.AccCmdWarningCoupons + 1; i++){
         var uie = LogicalTreeHelper.FindLogicalNode(this.usrControl, "b" + ModuleConst.ModuleId + "_" + i) as UIElement;
         if (uie == null) continue;
 
@@ -951,6 +951,8 @@ namespace Viz.WrkModule.RptOtk
     private DelegateCommand<Object> otkChratcerListCoilsCommand;
     private DelegateCommand<Object> otkFreqDistrDefectAvoCommand;
     private DelegateCommand<Object> otkFinCutByCatCommand;
+    private DelegateCommand<Object> warningCouponsCommand;
+
     public ICommand ShowListRptCommand
     {
       get { return showListRptCommand ?? (showListRptCommand = new DelegateCommand<Object>(ExecuteShowListRpt, CanExecuteShowListRpt)); }
@@ -2199,6 +2201,36 @@ namespace Viz.WrkModule.RptOtk
     {
       return true;
     }
+    
+
+    public ICommand WarningCouponsCommand
+    {
+      get { return warningCouponsCommand ?? (warningCouponsCommand = new DelegateCommand<Object>(ExecuteWarningCoupons, CanExecuteWarningCoupons)); }
+    }
+
+    private void ExecuteWarningCoupons(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.WarningCouponsSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.WarningCouponsDest;
+      var rptParam = new Db.WarningCouponsRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd
+      };
+
+      var sp = new Db.WarningCoupons();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteWarningCoupons(Object parameter)
+    {
+      return true;
+    }
+
 
 
     #endregion
