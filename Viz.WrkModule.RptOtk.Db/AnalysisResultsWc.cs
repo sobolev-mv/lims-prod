@@ -75,15 +75,13 @@ namespace Viz.WrkModule.RptOtk.Db
     private Boolean RunRpt(AnalysisResultsWcRptParam prm, dynamic CurrentWrkSheet)
     {
       OracleDataReader odr = null;
-      string SqlStmt = null;
       Boolean Result = false;
-      OdacErrorInfo oef = new OdacErrorInfo();
       DateTime? dtBegin = null;
       DateTime? dtEnd = null;
 
       try{
 
-        SqlStmt = "SELECT * FROM VIZ_PRN.V_TP_ANALYSIS";
+        var SqlStmt = "SELECT * FROM VIZ_PRN.V_TP_ANALYSIS";
         DbVar.SetRangeDate(prm.DateBegin, prm.DateEnd, 1);
         dtBegin = DbVar.GetDateBeginEnd(true, true);
         dtEnd = DbVar.GetDateBeginEnd(false, true);

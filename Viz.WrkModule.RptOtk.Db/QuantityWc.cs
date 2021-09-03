@@ -80,15 +80,9 @@ namespace Viz.WrkModule.RptOtk.Db
       OracleDataReader odr = null;
       string SqlStmt = null;
       Boolean Result = false;
-      OdacErrorInfo oef = new OdacErrorInfo();
-      DateTime? dtBegin = null;
-      DateTime? dtEnd = null;
 
       try{
         
-        //dtBegin = DbVar.GetDateBeginEnd(true, true);
-        //dtEnd = DbVar.GetDateBeginEnd(false, true);
-
         var param = new OracleParameter
         {
           DbType = DbType.DateTime,
