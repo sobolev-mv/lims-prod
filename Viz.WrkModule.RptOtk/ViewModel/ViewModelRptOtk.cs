@@ -908,7 +908,7 @@ namespace Viz.WrkModule.RptOtk
       }
 
       //Делаем кнопки управления невидимыми 
-      for (int i = ModuleConst.AccCmdOtkAvoBonus; i < ModuleConst.AccCmdAnalysisResultsWc + 1; i++){
+      for (int i = ModuleConst.AccCmdOtkAvoBonus; i < ModuleConst.AccCmdQuantityWc + 1; i++){
         var uie = LogicalTreeHelper.FindLogicalNode(this.usrControl, "b" + ModuleConst.ModuleId + "_" + i) as UIElement;
         if (uie == null) continue;
 
@@ -953,6 +953,7 @@ namespace Viz.WrkModule.RptOtk
     private DelegateCommand<Object> otkFinCutByCatCommand;
     private DelegateCommand<Object> warningCouponsCommand;
     private DelegateCommand<Object> analysisResultsWcCommand;
+    private DelegateCommand<Object> quantityWcCommand;
 
     public ICommand ShowListRptCommand
     {
@@ -2259,6 +2260,35 @@ namespace Viz.WrkModule.RptOtk
     {
       return true;
     }
+    
+    public ICommand QuantityWcCommand
+    {
+      get { return quantityWcCommand ?? (quantityWcCommand = new DelegateCommand<Object>(ExecuteQuantityWc, CanExecuteQuantityWc)); }
+    }
+
+    private void ExecuteQuantityWc(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.QuantityWcSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.QuantityWcDest;
+      var rptParam = new Db.QuantityWcRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd
+      };
+
+      var sp = new Db.QuantityWc();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteQuantityWc(Object parameter)
+    {
+      return true;
+    }
+
 
 
 

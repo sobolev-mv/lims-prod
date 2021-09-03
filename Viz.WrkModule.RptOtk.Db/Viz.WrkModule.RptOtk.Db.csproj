@@ -66,6 +66,7 @@
     <Compile Include="OtkAvoBonus.cs" />
     <Compile Include="OtkOutMe1Cls1Srt.cs" />
     <Compile Include="OutMeWdt1000.cs" />
+    <Compile Include="QuantityWc.cs" />
     <Compile Include="RptWithF1\Distrib501OnLength.cs" />
     <Compile Include="RptWithF1\DistribDefectsOnLength.cs" />
     <Compile Include="RptWithF1\DistribDefectsOnSurface.cs" />
