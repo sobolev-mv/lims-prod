@@ -61,6 +61,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DevDayKesi.cs" />
+    <Compile Include="DynWc.cs" />
     <Compile Include="FinCutByCat.cs" />
     <Compile Include="InfoShovPoryv.cs" />
     <Compile Include="OtkAvoBonus.cs" />

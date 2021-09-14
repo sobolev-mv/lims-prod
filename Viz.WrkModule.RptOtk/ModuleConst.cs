@@ -45,7 +45,7 @@
     public const int AccCmdWarningCoupons = 325;
     public const int AccCmdAnalysisResultsWc = 326;
     public const int AccCmdQuantityWc = 327;
-
+    public const int AccCmdDynWc = 328;
 
     public const string ScriptsFolder = "\\Scripts";
     public const string OtkQntDefMonthSource = "\\Xlt\\Viz.WrkModule.RptOtkQntDefMonth.xltx";
@@ -125,6 +125,13 @@
 
     public const string QuantityWcSource = "\\Xlt\\Viz.WrkModule.RptOtk-QuantityWc.xltx";
     public const string QuantityWcDest = "\\Viz.WrkModule.RptOtk-QuantityWc.xlsx";
+
+    public const string DynWcSource = "\\Xlt\\Viz.WrkModule.RptOtk-DynWc.xltx";
+    public const string DynWcDest = "\\Viz.WrkModule.RptOtk-DynWc.xlsx";
+
+
+//    public const string DynWcSource = "\\Xlt\\Viz.WrkModule.RptOtk-DynWc2.xltx";
+//    public const string DynWcDest = "\\Viz.WrkModule.RptOtk-DynWc2.xlsx";
 
 
   }
