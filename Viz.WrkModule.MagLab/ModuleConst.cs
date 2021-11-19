@@ -9,7 +9,8 @@ namespace Viz.WrkModule.MagLab
   public enum MlMeasureDevice{
     Ui5099 = 1,
     Mk4A = 2,
-    Mpg200D = 3
+    Mpg200D = 3,
+    Mpg200D1 = 4
   };
 
   public enum MlTypeCorrect

@@ -100,20 +100,20 @@ namespace Viz.WrkModule.MagLab
       DXMessageBox.Show((view as Window), state == SampleState.Closed ? "Образец отправлен в MES." : "Образец доступен для редактирования.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    private void MeasureListMpg200D(DataRow smpDataRow)
+    private void MeasureListMpg200D(DataRow smpDataRow, MlMeasureDevice device)
     {
       const int uType = 1;
       
       Dictionary<string, decimal> resData = new Dictionary<string, decimal>();
       var mesVal = new string[] { "B100", "B800", "B2500", "P1550", "P1750" };
 
-      dsMagLab.MlMpg200d.LoadData(uType);
+      dsMagLab.MlMpg200d.LoadData((int)device, uType);
       var dlgMpg200D = new ViewBrockhausMpg200D(uType, Convert.ToDecimal(smpDataRow["ThickNessNominal"]), Convert.ToString(smpDataRow["Id"]), dsMagLab.MlMpg200d, resData);
 
       if (!dlgMpg200D.ShowDialog().GetValueOrDefault())
         return;
 
-      dsMagLab.MlData.MesDevice = (int)MlMeasureDevice.Mpg200D;
+      dsMagLab.MlData.MesDevice = (int)device;
 
       smpDataRow.BeginEdit();
 
@@ -324,7 +324,9 @@ namespace Viz.WrkModule.MagLab
       if (SelectedMeasureDevice == (int) MlMeasureDevice.Mk4A)
         MeasureListMk4a(currentSmpDataRow);
       else if (SelectedMeasureDevice == (int) MlMeasureDevice.Mpg200D)
-        MeasureListMpg200D(currentSmpDataRow);
+        MeasureListMpg200D(currentSmpDataRow, MlMeasureDevice.Mpg200D);
+      else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D1)
+        MeasureListMpg200D(currentSmpDataRow, MlMeasureDevice.Mpg200D1);
       else
         DXMessageBox.Show((view as Window),  "Измерительное устр-во не определено!", "Измерить", MessageBoxButton.OK, MessageBoxImage.Error);
     }

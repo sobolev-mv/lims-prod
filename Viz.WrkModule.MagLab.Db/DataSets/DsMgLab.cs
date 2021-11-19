@@ -210,10 +210,19 @@ namespace Viz.WrkModule.MagLab.Db.DataSets {
 
       //--Commands
       adapter.SelectCommand = new OracleCommand { Connection = Odac.DbConnection };
-      adapter.SelectCommand.CommandText = "SELECT * FROM LIMS.ML_MPG200D WHERE UTYPE = :PUTYPE ORDER BY 1, 2";
+      adapter.SelectCommand.CommandText = "SELECT UTYPE, COILNAME, DENSITY, LENGTHSMP, WIDTHSMP, QUANTITY FROM LIMS.ML_MPG200D WHERE DEVICE_ID = :PDEVID AND UTYPE = :PUTYPE ORDER BY 1, 2";
       adapter.SelectCommand.CommandType = CommandType.Text;
 
       var prm = new OracleParameter
+      {
+        DbType = DbType.Int32,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.Integer,
+        ParameterName = "PDEVID"
+      };
+      adapter.SelectCommand.Parameters.Add(prm);
+
+      prm = new OracleParameter
       {
         DbType = DbType.Int32,
         Direction = ParameterDirection.Input,
@@ -223,9 +232,9 @@ namespace Viz.WrkModule.MagLab.Db.DataSets {
       adapter.SelectCommand.Parameters.Add(prm);
     }
 
-    public int LoadData(Int32 uType)
+    public int LoadData(Int32 devId, Int32 uType)
     {
-      var lstPrmValue = new List<Object> { uType };
+      var lstPrmValue = new List<Object> { devId, uType };
       return Odac.LoadDataTable(this, adapter, true, lstPrmValue);
     }
 

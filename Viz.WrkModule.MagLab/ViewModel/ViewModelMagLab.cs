@@ -609,12 +609,12 @@ namespace Viz.WrkModule.MagLab
       dsMagLab.MlData.SaveData();
     }
 
-    private void MeasureListApMpg200D(DataRow SampleRow, int uType)
+    private void MeasureListApMpg200D(DataRow SampleRow, MlMeasureDevice device, int uType)
     {
       Dictionary<string, decimal> resData = new Dictionary<string, decimal>();
       var mesVal = new string[] { "B100", "B800", "B2500", "P1550", "P1750" };
 
-      dsMagLab.MlMpg200d.LoadData(uType);
+      dsMagLab.MlMpg200d.LoadData((int)device, uType);
       var dlgMpg200D = new ViewBrockhausMpg200D(uType, Convert.ToDecimal(SampleRow["ThickNessNominal"]), Convert.ToString(SampleRow["SampleNum"]), dsMagLab.MlMpg200d, resData);
 
       if (!dlgMpg200D.ShowDialog().GetValueOrDefault())
@@ -623,7 +623,7 @@ namespace Viz.WrkModule.MagLab
       Object obj = gcSampleData.GetFocusedRow();
       if (obj == null) return;
       DataRow rowSampleData = (obj as DataRowView).Row;
-      dsMagLab.MlData.MesDevice = (int) MlMeasureDevice.Mpg200D;
+      dsMagLab.MlData.MesDevice = (int)device;
 
       rowSampleData.BeginEdit();
 
@@ -1216,7 +1216,9 @@ namespace Viz.WrkModule.MagLab
           if (SelectedMeasureDevice == (int)MlMeasureDevice.Mk4A)
             MeasureListApMk4a(currentSampleDataRow, currentMeasureUnit);
           else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D)
-            MeasureListApMpg200D(currentSampleDataRow, currentMeasureUnit);
+            MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D, currentMeasureUnit);
+          else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D1)
+            MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D1, currentMeasureUnit);
           else
             DXMessageBox.Show(Application.Current.Windows[0], "Для выбранного устройства возможен только ручной ввод данных.", "Измерения", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -1225,7 +1227,9 @@ namespace Viz.WrkModule.MagLab
           if (SelectedMeasureDevice == (int)MlMeasureDevice.Mk4A)
             MeasureListApMk4a(currentSampleDataRow, currentMeasureUnit);
           else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D)
-            MeasureListApMpg200D(currentSampleDataRow, currentMeasureUnit);
+            MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D, currentMeasureUnit);
+          else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D1)
+            MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D1, currentMeasureUnit);
           else
             DXMessageBox.Show(Application.Current.Windows[0], "Для выбранного устройства возможен только ручной ввод данных.", "Измерения", MessageBoxButton.OK, MessageBoxImage.Information);
 
