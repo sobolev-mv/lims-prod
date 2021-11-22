@@ -631,12 +631,16 @@ namespace Viz.WrkModule.MagLab
       {
         //Здесь происходит корректировка измеренных значений
         dsMagLab.MlMesurCof.DefaultView.ApplyDefaultSort = true;
-        int i = dsMagLab.MlMesurCof.DefaultView.Find(new Object[]{SampleRow["Md"], mesVal[j], uType, (int) MlMeasureDevice.Mpg200D});
+        //int i = dsMagLab.MlMesurCof.DefaultView.Find(new Object[]{SampleRow["Md"], mesVal[j], uType, (int) MlMeasureDevice.Mpg200D});
+        int i = dsMagLab.MlMesurCof.DefaultView.Find(new Object[] { SampleRow["Md"], mesVal[j], uType, (int)device });
+
 
         if ((i != -1) && (Convert.ToChar(dsMagLab.MlMesurCof.DefaultView[i]["TypCor"]) == 'D'))
           rowSampleData[mesVal[j]] = resData[mesVal[j]] + Convert.ToDecimal(dsMagLab.MlMesurCof.DefaultView[i]["Corr"]);
-        else
+        else {
+          MessageBox.Show("Корректирующие коэффициенты не найдены! Сообщите о данной ошибке.");
           rowSampleData[mesVal[j]] = resData[mesVal[j]];
+        }
       }
 
       rowSampleData["Massa"] = resData["Weight"];
