@@ -1201,6 +1201,7 @@ namespace Viz.WrkModule.RptOpr
         DateBegin = DateBegin,
         DateEnd = DateEnd,
       };
+
       var sp = new TrimAlongUo();
       var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
 
