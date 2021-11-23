@@ -219,7 +219,7 @@
         </dxl:LayoutItem>
       </dxl:LayoutGroup>
     </dxl:LayoutGroup>
-    <dxl:LayoutGroup Name="L1Grp_10004" Header="Изоляция Первичной порезки и АВО, Вырезка брака УО, АПР-8, Причины порывов и НУ на ПУ, Качественные показатели УО1, Толщина АПР-8, Различная аттестация, Рез. назн. ТЗ" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="3">
+    <dxl:LayoutGroup Name="L1Grp_10004" Header="Изоляция Первичной порезки и АВО, Вырезка брака УО, Продольная обрезь УО, АПР-8, Причины порывов и НУ на ПУ, Качественные показатели УО1, Толщина АПР-8, Различная аттестация, Рез. назн. ТЗ" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="3">
       <dxl:LayoutItem>
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
           <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
