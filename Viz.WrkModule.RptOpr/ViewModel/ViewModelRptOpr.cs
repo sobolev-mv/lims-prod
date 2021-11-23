@@ -744,6 +744,8 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> outOfServiceMillRolls;
     private DelegateCommand<Object> resultTargetValue;
     private DelegateCommand<Object> sgpAndPsCommand;
+    private DelegateCommand<Object> trimAlongUoCommand;
+
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
     private void ExecuteShiftRptFinish(Object parameter)
@@ -1186,6 +1188,35 @@ namespace Viz.WrkModule.RptOpr
     {
       return true;
     }
+    
+    public ICommand TrimAlongUoCommand => trimAlongUoCommand ?? (trimAlongUoCommand = new DelegateCommand<Object>(ExecuteTrimAlongUo, CanExecuteTrimAlongUo));
+
+    private void ExecuteTrimAlongUo(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.TrimAlongUoSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.TrimAlongUoDest;
+
+      var rptParam = new TrimAlongUoRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd,
+      };
+      var sp = new TrimAlongUo();
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+
+    }
+
+    private bool CanExecuteTrimAlongUo(Object parameter)
+    {
+      return true;
+    }
+
+
+
 
     #endregion
   }

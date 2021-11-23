@@ -226,6 +226,7 @@
           <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateEnd}"/>
           <Button Name="b_16003" Content="Изол Перв/порез и АВО" HorizontalAlignment="Left" Command="{Binding IsolFinCut2StrannCommand}"/>
           <Button Name="b_16005" Content="Вырезка брака УО" HorizontalAlignment="Left" Command="{Binding CuttingMatScrapUoCommand}"/>
+          <Button Name="b_16016"  Content="Продольная обрезь УО" HorizontalAlignment="Left" Command="{Binding TrimAlongUoCommand}"/>
           <Button Name="b_16006" Content="Металл на АПР8" HorizontalAlignment="Left" Command="{Binding Apr8MatOutCommand}"/>
           <Button Name="b_16007" Content="Причины порывов и НУ на ПУ" HorizontalAlignment="Left" Command="{Binding ReasonOfStripBreakageRmAreaCommand}"/>
           <Button Name="b_16008" Content="Качественные показатели УО1" HorizontalAlignment="Left" Command="{Binding QualityIndsUo1Command}"/>
