@@ -89,6 +89,7 @@
     <Compile Include="SgpAndPs.cs" />
     <Compile Include="ShiftRptFinish.cs" />
     <Compile Include="Thickness2ndCut.cs" />
+    <Compile Include="TrimAlongUo.cs" />
     <Compile Include="WghtAvrWidth.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

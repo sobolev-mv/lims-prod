@@ -42,7 +42,8 @@
       OutOfServiceMillRolls = 16012,
       ResultTargetValue = 16013,
       SgpAndPsToGp = 16014,
-      SgpAndPsRepSGp = 16015
+      SgpAndPsRepSGp = 16015,
+      TrimAlongUo = 16016
     }
 
     public const string ScriptsFolder = "\\Scripts";
@@ -82,6 +83,8 @@
     public const string ResultTargetValueDest = "\\Viz.WrkModule.RptOpr-ResultTargetValue.xlsx";
     public const string SgpAndPsSource = "\\Xlt\\Viz.WrkModule.RptOpr-SgpAndPs.xltx";
     public const string SgpAndPsDest = "\\Viz.WrkModule.RptOpr-SgpAndPs.xlsx";
-    //
+    public const string TrimAlongUoSource = "\\Xlt\\Viz.WrkModule.RptOpr-TrimAlongUo.xltx";
+    public const string TrimAlongUoDest = "\\Viz.WrkModule.RptOpr-TrimAlongUo.xlsx";
+
   }
 }
