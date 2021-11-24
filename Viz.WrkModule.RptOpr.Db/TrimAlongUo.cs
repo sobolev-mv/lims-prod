@@ -102,6 +102,41 @@ namespace Viz.WrkModule.RptOpr.Db
           }
         }
 
+        odr.Close();
+        odr.Dispose();
+
+        prm.ExcelApp.ActiveWorkbook.WorkSheets[2].Select();
+        CurrentWrkSheet = prm.ExcelApp.ActiveSheet;
+        CurrentWrkSheet.Cells[2, 5].Value = $"с {dtBegin:dd.MM.yyyy HH:mm:ss} по {dtEnd:dd.MM.yyyy HH:mm:ss}";
+        
+        var sum = Odac.ExecuteScalar("SELECT VES FROM VIZ_PRN.UO_SCRAB_TRIM_VES", CommandType.Text,false,null);
+        CurrentWrkSheet.Cells[3, 5].Value = sum;
+
+        
+        odr = Odac.GetOracleReader("SELECT * FROM VIZ_PRN.UO_SCRAB_TRIM_DEF", CommandType.Text, false, null, null);
+
+        if (odr != null)
+        {
+          var row = 6;
+          int flds = odr.FieldCount;
+
+          const int firstExcelColumn = 2;
+          const int lastExcelColumn = 6;
+
+          while (odr.Read())
+          {
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, firstExcelColumn], CurrentWrkSheet.Cells[row + 1, lastExcelColumn]]);
+
+            for (int i = 0; i < odr.FieldCount; i++)
+              CurrentWrkSheet.Cells[row, i + 2].Value = odr.GetValue(i);
+
+            row++;
+          }
+        }
+        
+
+        prm.ExcelApp.ActiveWorkbook.WorkSheets[1].Select();
+        CurrentWrkSheet = prm.ExcelApp.ActiveSheet;
         CurrentWrkSheet.Cells[1, 1].Select();
         Result = true;
       }
