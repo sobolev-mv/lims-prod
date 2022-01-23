@@ -76,8 +76,10 @@ namespace Viz.WrkModule.RptOpr.Db
         CurrentWrkSheet.Cells[1, 4].Value = $"с {dtBegin:dd.MM.yyyy HH:mm:ss} по {dtEnd:dd.MM.yyyy HH:mm:ss}";
         
         const string sqlStmt0 = "VIZ_PRN.Schrott_UO.preSchrott_TRIM_UO";
-        Odac.ExecuteNonQuery(sqlStmt0, CommandType.StoredProcedure, false, null);
+        var res = Odac.ExecuteNonQuery(sqlStmt0, CommandType.StoredProcedure, false, null);
 
+        if (!res)
+          throw new DataException();
 
         const string sqlStmt1 = "SELECT * FROM VIZ_PRN.UO_SCRAB_TRIM";
         odr = Odac.GetOracleReader(sqlStmt1, CommandType.Text, false, null, null);
@@ -115,23 +117,37 @@ namespace Viz.WrkModule.RptOpr.Db
         
         odr = Odac.GetOracleReader("SELECT * FROM VIZ_PRN.UO_SCRAB_TRIM_DEF", CommandType.Text, false, null, null);
 
+
         if (odr != null)
         {
           var row = 6;
+          //var isertRow = 7;
+
           int flds = odr.FieldCount;
 
           const int firstExcelColumn = 2;
           const int lastExcelColumn = 6;
+          
 
+          
           while (odr.Read())
           {
+            //CurrentWrkSheet.Rows[row].Insert();
+
+            //CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, firstExcelColumn], CurrentWrkSheet.Cells[row + 1, lastExcelColumn]]);
+
+            CurrentWrkSheet.Rows[row + 1].Insert();
             CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, firstExcelColumn], CurrentWrkSheet.Cells[row + 1, lastExcelColumn]]);
+            //CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].ClearContents();
+
 
             for (int i = 0; i < odr.FieldCount; i++)
               CurrentWrkSheet.Cells[row, i + 2].Value = odr.GetValue(i);
-
+            
             row++;
+            //isertRow++;
           }
+          
         }
         
 

@@ -176,10 +176,10 @@ namespace Viz.MagLab.MeasureUnits
 
       if ((i != -1) && (Convert.ToChar(crcftData.DefaultView[i]["TypCor"]) == 'D')){
 
-        /*Ввод чистого значения и корректирующего коэфф.
-        if (fldName == "P1750")
-          MessageBox.Show(Convert.ToDecimal(e.ProposedValue).ToString() + " / " + Convert.ToDecimal(crcftData.DefaultView[i]["Corr"]).ToString());
-        */
+        /*Ввод чистого значения и корректирующего коэфф.*/
+        //if (fldName == "B800")
+          //MessageBox.Show(Convert.ToDecimal(e.ProposedValue).ToString() + " / " + Convert.ToDecimal(crcftData.DefaultView[i]["Corr"]).ToString());
+        
 
         e.ProposedValue = Convert.ToDecimal(e.ProposedValue) + Convert.ToDecimal(crcftData.DefaultView[i]["Corr"]);
       }
