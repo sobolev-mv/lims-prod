@@ -123,6 +123,7 @@ namespace Viz.WrkModule.RptManager
     private int vtoF5TimeAooVto;
     //Поля для Фильтра качества Конец
 
+    private string typeUm = "R";
 
     #endregion
 
@@ -1081,9 +1082,14 @@ namespace Viz.WrkModule.RptManager
           case 5:
             break;
           case 6:
-            DateBeginQuart = DbUtils.GetDateBeginQuart();
-            DateEndQuart = DbUtils.GetDateEndQuart();
+            DateBeginQuart = DbUtils.GetDateBeginQuart(1);
+            DateEndQuart = DbUtils.GetDateEndQuart(1);
             break;
+          case 8:
+            DateBeginQuart = DbUtils.GetDateBeginQuart(2);
+            DateEndQuart = DbUtils.GetDateEndQuart(2);
+            break;
+
           default:
             break;
         }
@@ -1151,7 +1157,7 @@ namespace Viz.WrkModule.RptManager
       dsDcBlMet.ParamListThickness.LoadData(23);
  
       //Группы 1-уровня
-      for (int i = ModuleConst.AccGrpRk; i < ModuleConst.AccGrpKpaRolling + 1; i++){
+      for (int i = ModuleConst.AccGrpRk; i < ModuleConst.AccGrpMonitorDefTrim + 1; i++){
         var lg = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Lg" + ModuleConst.ModuleId + "_" + i.ToString()) as DevExpress.Xpf.LayoutControl.LayoutGroup;
 
         if (lg != null){
@@ -1179,7 +1185,7 @@ namespace Viz.WrkModule.RptManager
 
 
       //Делаем controls невидимыми
-      for (int i = ModuleConst.AccCmdRkSko; i < ModuleConst.AccCmdDefects1StRoll + 1; i++){
+      for (int i = ModuleConst.AccCmdRkSko; i < ModuleConst.AccCmdMonitorDefLngTrim + 1; i++){
         var btn = LogicalTreeHelper.FindLogicalNode(this.usrControl, "b" + ModuleConst.ModuleId + "_" + i.ToString()) as UIElement;
 
         if (btn == null) continue;
@@ -1210,6 +1216,8 @@ namespace Viz.WrkModule.RptManager
     #endregion Constructor
 
     #region Commands
+    private DelegateCommand<Object> selectTypeUmCommand;
+
     private DelegateCommand<Object> showListRptCommand;
     private DelegateCommand<Object> loadFromTxtFileCommand;
     private DelegateCommand<Object> rkSkoCommand;
@@ -1248,6 +1256,7 @@ namespace Viz.WrkModule.RptManager
     private DelegateCommand<Object> monitorDefCommand;
     private DelegateCommand<Object> lider2CatCommand;
     private DelegateCommand<Object> defects1StRollCommand;
+    private DelegateCommand<Object> monitorDefLngTrimCommand;
 
     public ICommand ShowListRptCommand
     {
@@ -1299,7 +1308,22 @@ namespace Viz.WrkModule.RptManager
     {
       return true;
     }
-    
+
+    public ICommand SelectTypeUmCommand
+    {
+      get { return selectTypeUmCommand ?? (selectTypeUmCommand = new DelegateCommand<Object>(ExecuteSelectTypeUm, CanExecuteSelectTypeUm)); }
+    }
+
+    private void ExecuteSelectTypeUm(Object parameter)
+    {
+      typeUm = Convert.ToString(parameter);
+    }
+
+    private bool CanExecuteSelectTypeUm(Object parameter)
+    {
+      return true;
+    }
+
     public ICommand RkSkoCommand
     {
       get { return rkSkoCommand ?? (rkSkoCommand = new DelegateCommand<Object>(ExecuteRkSko, CanExecuteRkSko)); }
@@ -2272,7 +2296,7 @@ namespace Viz.WrkModule.RptManager
         DateEnd = this.DateEndQuart
       };
 
-      DbUtils.SaveDateQuart(this.DateBeginQuart, this.DateEndQuart);
+      DbUtils.SaveDateQuart(1, this.DateBeginQuart, this.DateEndQuart);
 
       var sp = new MonitorDef2Cat();
       Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
@@ -2328,7 +2352,7 @@ namespace Viz.WrkModule.RptManager
         DateEnd = this.DateEndQuart
       };
 
-      DbUtils.SaveDateQuart(this.DateBeginQuart, this.DateEndQuart);
+      DbUtils.SaveDateQuart(1, this.DateBeginQuart, this.DateEndQuart);
 
       var sp = new MonitorDef();
       Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
@@ -2389,6 +2413,43 @@ namespace Viz.WrkModule.RptManager
     {
       return true;
     }
+
+    public ICommand MonitorDefLngTrimCommand => monitorDefLngTrimCommand ?? (monitorDefLngTrimCommand = new DelegateCommand<Object>(ExecuteMonitorDefLngTrimCommand, CanExecuteMonitorDefLngTrimCommand));
+    private void ExecuteMonitorDefLngTrimCommand(Object parameter)
+    {
+      string src;
+      string dst;
+
+      if (string.Equals(typeUm, "R", StringComparison.InvariantCulture)) {
+        src = Etc.StartPath + ModuleConst.MonitorDefLngTrimRkSource;
+        dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MonitorDefLngTrimRkDest;
+      }
+      else {
+        src = Etc.StartPath + ModuleConst.MonitorDefLngTrimTnSource;
+        dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MonitorDefLngTrimTnDest;
+      }
+
+      var rptParam = new MonitorDefLngTrimRptParam(src, dst)
+      {
+        DateBegin = this.DateBeginQuart,
+        DateEnd = this.DateEndQuart,
+        TypeUm = typeUm
+      };
+
+      DbUtils.SaveDateQuart(2, this.DateBeginQuart, this.DateEndQuart);
+
+      var sp = new MonitorDefLngTrim();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteMonitorDefLngTrimCommand(Object parameter)
+    {
+      return true;
+    }
+
 
 
     #endregion Commands

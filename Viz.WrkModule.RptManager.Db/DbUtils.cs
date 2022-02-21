@@ -64,21 +64,43 @@ namespace Viz.WrkModule.RptManager.Db
       return res;
     }
 
-    public static DateTime GetDateBeginQuart()
+    public static DateTime GetDateBeginQuart(int idKey)
     {
-      const string stmtSql = "select DTBEGIN from VIZ_PRN.DG_QUARTILE where ID = 1";
-      return Convert.ToDateTime(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, null));
+      const string stmtSql = "select DTBEGIN from VIZ_PRN.DG_QUARTILE where ID = :PID";
+      List<OracleParameter> lstPrm = new List<OracleParameter>();
+      OracleParameter prm = new OracleParameter
+      {
+        ParameterName = "PID",
+        DbType = DbType.Int32,
+        OracleDbType = OracleDbType.Integer,
+        Direction = ParameterDirection.Input,
+        Value = idKey
+      };
+      lstPrm.Add(prm);
+
+      return Convert.ToDateTime(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
 
-    public static DateTime GetDateEndQuart()
+    public static DateTime GetDateEndQuart(int idKey)
     {
-      const string stmtSql = "select DTEND from VIZ_PRN.DG_QUARTILE where ID = 1";
-      return Convert.ToDateTime(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, null));
+      const string stmtSql = "select DTEND from VIZ_PRN.DG_QUARTILE where ID = :PID";
+      List<OracleParameter> lstPrm = new List<OracleParameter>();
+      OracleParameter prm = new OracleParameter
+      {
+        ParameterName = "PID",
+        DbType = DbType.Int32,
+        OracleDbType = OracleDbType.Integer,
+        Direction = ParameterDirection.Input,
+        Value = idKey
+      };
+      lstPrm.Add(prm);
+
+      return Convert.ToDateTime(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
 
-    public static void SaveDateQuart(DateTime dateBegin, DateTime dateEnd)
+    public static void SaveDateQuart(int idKey, DateTime dateBegin, DateTime dateEnd)
     {
-      const string stmtSql = "UPDATE VIZ_PRN.DG_QUARTILE SET DTBEGIN = TRUNC(:PDTBEGIN, 'MM'), DTEND = TRUNC(:PDTEND, 'MM'), DTUPDT = SYSDATE WHERE ID = 1";
+      const string stmtSql = "UPDATE VIZ_PRN.DG_QUARTILE SET DTBEGIN = TRUNC(:PDTBEGIN, 'MM'), DTEND = TRUNC(:PDTEND, 'MM'), DTUPDT = SYSDATE WHERE ID = :PID";
       List<OracleParameter> lstPrm = new List<OracleParameter>();
 
       OracleParameter prm = new OracleParameter
@@ -98,6 +120,16 @@ namespace Viz.WrkModule.RptManager.Db
         OracleDbType = OracleDbType.Date,
         Direction = ParameterDirection.Input,
         Value = dateEnd
+      };
+      lstPrm.Add(prm);
+
+      prm = new OracleParameter
+      {
+        ParameterName = "PID",
+        DbType = DbType.Int32,
+        OracleDbType = OracleDbType.Integer,
+        Direction = ParameterDirection.Input,
+        Value = idKey
       };
       lstPrm.Add(prm);
 
