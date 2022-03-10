@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="MatTechStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QcHrc.cs" />
     <Compile Include="Qczl1.cs" />
     <Compile Include="Qczl2.cs" />
     <Compile Include="RptWithF1\CzlDefPlosk.cs" />

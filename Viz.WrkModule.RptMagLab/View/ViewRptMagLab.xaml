@@ -90,7 +90,7 @@ mc:Ignorable="d" d:DesignHeight="579" d:DesignWidth="932" RegName="UcRptMagLab" 
           </dxl:LayoutItem>
         </dxl:LayoutGroup>
       </dxl:LayoutGroup>
-      <dxl:LayoutGroup Name="Lg166001_202" Header="Склад, Лазер, Покрытие АОО, Первич. порезка" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="2">
+      <dxl:LayoutGroup Name="Lg166001_202" Header="Склад, Лазер, Покрытие АОО, Первич. порезка, Качество ГКР" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="2">
         <dxl:LayoutGroup>
           <dxl:LayoutItem HorizontalAlignment="Left">
             <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
@@ -109,6 +109,9 @@ mc:Ignorable="d" d:DesignHeight="579" d:DesignWidth="932" RegName="UcRptMagLab" 
           </dxl:LayoutItem>
           <dxl:LayoutItem HorizontalAlignment="Left">
             <Button Name="b166001_106" Content="Первич. порезка" Command="{Binding CzlFinCutCommand}" HorizontalAlignment="Left"/>
+          </dxl:LayoutItem>
+          <dxl:LayoutItem HorizontalAlignment="Left">
+            <Button Name="b166001_121" Content="Качество ГКР" Command="{Binding QcHrcCommand}" HorizontalAlignment="Left"/>
           </dxl:LayoutItem>
         </dxl:LayoutGroup>
       </dxl:LayoutGroup>

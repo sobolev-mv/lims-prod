@@ -15,6 +15,8 @@ namespace Viz.WrkModule.RptMagLab
     public const int AccCmdCzlLaser = 104;
     public const int AccCmdCzlIsoGo = 105;
     public const int AccCmdCzlFinCut = 106;
+    public const int AccCmdQcHrc = 121;
+
     //Группа "Средние эл.маг. св-ва и распределение по маркам ЭАС; Доля ЭАС с высок. МС"
     public const int AccCmdQCzl = 107;
     public const int AccCmdCzlOutLowLevelP1750 = 108;
@@ -92,6 +94,8 @@ namespace Viz.WrkModule.RptMagLab
     public const string CzlLineAooCoilSource = "\\Xlt\\Viz.WrkModule.RptMagLab-CzlLineAooCoil.xltx";
     public const string CzlLineAooCoilDest = "\\Viz.WrkModule.RptMagLab-CzlLineAooCoil.xlsx";
 
+    public const string QcHrcSource = "\\Xlt\\Viz.WrkModule.RptMagLab-QcHrc.xltx";
+    public const string QcHrcDest = "\\Viz.WrkModule.RptMagLab-QcHrc.xlsx";
 
   }
 

@@ -859,7 +859,7 @@ namespace Viz.WrkModule.RptMagLab
       }
 
       //Делаем controls невидимыми
-      for (int i = ModuleConst.AccCmdMatTechStep; i < ModuleConst.AccCmdCzlEfLsr9t_NoLst + 1; i++)
+      for (int i = ModuleConst.AccCmdMatTechStep; i < ModuleConst.AccCmdQcHrc + 1; i++)
       {
         var btn = LogicalTreeHelper.FindLogicalNode(usrControl, "b" + ModuleConst.ModuleId + "_" + i) as UIElement;
 
@@ -890,6 +890,7 @@ namespace Viz.WrkModule.RptMagLab
     private DelegateCommand<Object> czlLaserCommand;
     private DelegateCommand<Object> czlIsoGoCommand;
     private DelegateCommand<Object> czlFinCutCommand;
+    private DelegateCommand<Object> qcHrcCommand;
     private DelegateCommand<Object> loadFromTxtFileCommand;
 
     //--Для отчета Гомзикова ЦЗЛ "Средние эл. маг. х-тики ЭАС"
@@ -907,6 +908,7 @@ namespace Viz.WrkModule.RptMagLab
     private DelegateCommand<Object> czlDefPloskF1Command;
     //--Для отчетов Линии АОО
     private DelegateCommand<Object> czlLineAooCommand;
+
 
     public ICommand ShowListRptCommand
     {
@@ -1543,6 +1545,42 @@ namespace Viz.WrkModule.RptMagLab
     {
       return true;
     }
+
+    public ICommand QcHrcCommand
+    {
+      get { return qcHrcCommand ?? (qcHrcCommand = new DelegateCommand<Object>(ExecuteQcHrc, CanExecuteQcHrc)); }
+    }
+
+    private void ExecuteQcHrc(Object parameter)
+    {
+      string src;
+      string dst;
+
+      src = Etc.StartPath + ModuleConst.QcHrcSource;
+      dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.QcHrcDest;
+
+
+      var rptParam = new QcHrcRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd,
+      };
+
+      var sp = new QcHrc();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (res)
+      {
+        var barEditItem = param as BarEditItem;
+        if (barEditItem != null) barEditItem.IsVisible = true;
+      }
+    }
+
+    private bool CanExecuteQcHrc(Object parameter)
+    {
+      return true;
+    }
+
 
     #endregion Commands
 
