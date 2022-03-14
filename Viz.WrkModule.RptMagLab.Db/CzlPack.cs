@@ -93,28 +93,30 @@ namespace Viz.WrkModule.RptMagLab.Db
 
         int flds = odr.FieldCount;
         int row = 7;
-        
+        const int firstExcelColumn = 1;
+        const int lastExcelColumn = 188;
+
         string prevLocId = null; 
         string curLocId = null;
         int ColorRow = 49407;
 
         while (odr.Read()){
           curLocId = Convert.ToString(odr.GetValue("MLOCID"));
-          CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, 1], CurrentWrkSheet.Cells[row, 187]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, 1], CurrentWrkSheet.Cells[row + 1, 187]]);
+          CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, firstExcelColumn], CurrentWrkSheet.Cells[row + 1, lastExcelColumn]]);
           
           if (curLocId == prevLocId){
-            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, 1], CurrentWrkSheet.Cells[row, 187]].Interior.Pattern = 1;//xlSolid
-            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, 1], CurrentWrkSheet.Cells[row, 187]].Interior.Color = ColorRow;
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Interior.Pattern = 1;//xlSolid
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Interior.Color = ColorRow;
             //===================
-            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row - 1, 1], CurrentWrkSheet.Cells[row - 1, 187]].Interior.Pattern = 1;//xlSolid
-            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row - 1, 1], CurrentWrkSheet.Cells[row - 1, 187]].Interior.Color = ColorRow;
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row - 1, firstExcelColumn], CurrentWrkSheet.Cells[row - 1, lastExcelColumn]].Interior.Pattern = 1;//xlSolid
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row - 1, firstExcelColumn], CurrentWrkSheet.Cells[row - 1, lastExcelColumn]].Interior.Color = ColorRow;
             ColorRow -= 100;
           }  
 
           prevLocId = curLocId;
 
           for (int i = 0; i < flds; i++)
-            CurrentWrkSheet.Cells[row, i + 1].Value2 = odr.GetValue(i);
+            CurrentWrkSheet.Cells[row, i + 1].Value = odr.GetValue(i);
 
           row++;
         }
