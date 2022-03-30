@@ -94,7 +94,7 @@ namespace Viz.WrkModule.RptMagLab.Db
         int flds = odr.FieldCount;
         int row = 7;
         const int firstExcelColumn = 1;
-        const int lastExcelColumn = 188;
+        const int lastExcelColumn = 191;
 
         string prevLocId = null; 
         string curLocId = null;
