@@ -1185,7 +1185,7 @@ namespace Viz.WrkModule.RptManager
 
 
       //Делаем controls невидимыми
-      for (int i = ModuleConst.AccCmdRkSko; i < ModuleConst.AccCmdMonitorDefLngTrim + 1; i++){
+      for (int i = ModuleConst.AccCmdRkSko; i < ModuleConst.AccCmdMonitorDefCrossTrim + 1; i++){
         var btn = LogicalTreeHelper.FindLogicalNode(this.usrControl, "b" + ModuleConst.ModuleId + "_" + i.ToString()) as UIElement;
 
         if (btn == null) continue;
@@ -1257,6 +1257,7 @@ namespace Viz.WrkModule.RptManager
     private DelegateCommand<Object> lider2CatCommand;
     private DelegateCommand<Object> defects1StRollCommand;
     private DelegateCommand<Object> monitorDefLngTrimCommand;
+    private DelegateCommand<Object> monitorDefCrossTrimCommand;
 
     public ICommand ShowListRptCommand
     {
@@ -2450,6 +2451,43 @@ namespace Viz.WrkModule.RptManager
       return true;
     }
 
+    public ICommand MonitorDefCrossTrimCommand => monitorDefCrossTrimCommand ?? (monitorDefCrossTrimCommand = new DelegateCommand<Object>(ExecuteMonitorDefCrossTrimCommand, CanExecuteMonitorDefCrossTrimCommand));
+    private void ExecuteMonitorDefCrossTrimCommand(Object parameter)
+    {
+      string src;
+      string dst;
+
+      if (string.Equals(typeUm, "R", StringComparison.InvariantCulture))
+      {
+        src = Etc.StartPath + ModuleConst.MonitorDefCrossTrimRkSource;
+        dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MonitorDefCrossTrimRkDest;
+      }
+      else
+      {
+        src = Etc.StartPath + ModuleConst.MonitorDefCrossTrimTnSource;
+        dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MonitorDefCrossTrimTnDest;
+      }
+
+      var rptParam = new MonitorDefCrossTrimRptParam(src, dst)
+      {
+        DateBegin = this.DateBeginQuart,
+        DateEnd = this.DateEndQuart,
+        TypeUm = typeUm
+      };
+
+      DbUtils.SaveDateQuart(2, this.DateBeginQuart, this.DateEndQuart);
+
+      var sp = new MonitorDefCrossTrim();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteMonitorDefCrossTrimCommand(Object parameter)
+    {
+      return true;
+    }
 
 
     #endregion Commands

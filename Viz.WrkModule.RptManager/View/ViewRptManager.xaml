@@ -488,7 +488,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
       </dxl:LayoutGroup>
 
     </dxl:LayoutGroup>
-    <dxl:LayoutGroup Name="Lg172001_610" Header="Мониторинг дефектов продольной обрези" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="8">
+    <dxl:LayoutGroup Name="Lg172001_610" Header="Мониторинг дефектов продольной, поперечной обрези" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="8">
       <dxl:LayoutItem Label="Период расчета квартилей:" IsRequired="True">
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
           <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBeginQuart}" Mask="MM.yyyy" MaskUseAsDisplayFormat="True">
@@ -508,6 +508,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
             </dxl:FlowLayoutControl>
           </dxl:LayoutItem>
           <Button Name="b172001_532" Content="Мониторинг прод обрези"  HorizontalAlignment="Left" Command="{Binding MonitorDefLngTrimCommand}" />
+          <Button Name="b172001_533" Content="Мониторинг поперечн обрези"  HorizontalAlignment="Left" Command="{Binding MonitorDefCrossTrimCommand}" />
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>

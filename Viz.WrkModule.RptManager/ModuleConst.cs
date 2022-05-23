@@ -36,6 +36,7 @@
     public const int AccCmdBalanceWrkTime              = 530;
     public const int AccCmdDefects1StRoll              = 531;
     public const int AccCmdMonitorDefLngTrim           = 532;
+    public const int AccCmdMonitorDefCrossTrim         = 533;
 
     //Группы 1 уровня
     public const int AccGrpRk              = 600;
@@ -162,6 +163,11 @@
     public const string MonitorDefLngTrimTnSource = "\\Xlt\\Viz.WrkModule.RptManager-MonitorDefLngTrimTn.xltx";
     public const string MonitorDefLngTrimTnDest = "\\Viz.WrkModule.RptManager-MonitorDefLngTrimTn.xlsx";
 
+    public const string MonitorDefCrossTrimTnSource = "\\Xlt\\Viz.WrkModule.RptManager-MonitorDefCrossTrimTn.xltx";
+    public const string MonitorDefCrossTrimTnDest = "\\Viz.WrkModule.RptManager-MonitorDefCrossTrimTn.xlsx";
+
+    public const string MonitorDefCrossTrimRkSource = "\\Xlt\\Viz.WrkModule.RptManager-MonitorDefCrossTrimRk.xltx";
+    public const string MonitorDefCrossTrimRkDest = "\\Viz.WrkModule.RptManager-MonitorDefCrossTrimRk.xlsx";
 
   }
 
