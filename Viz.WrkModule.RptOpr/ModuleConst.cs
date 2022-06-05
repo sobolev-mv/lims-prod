@@ -13,7 +13,8 @@
       IsolFinCut2Strann = 10004,
       WghtAvrWidth = 10005,
       Equipment = 10006,
-      PackUo = 10007
+      PackUo = 10007,
+      MonitorTrimUoShift = 10008
     }
 
     //Группы 2ур.
@@ -43,7 +44,8 @@
       ResultTargetValue = 16013,
       SgpAndPsToGp = 16014,
       SgpAndPsRepSGp = 16015,
-      TrimAlongUo = 16016
+      TrimAlongUo = 16016,
+      MonitorTrimUoShift = 16017 
     }
 
     public const string ScriptsFolder = "\\Scripts";
@@ -86,5 +88,7 @@
     public const string TrimAlongUoSource = "\\Xlt\\Viz.WrkModule.RptOpr-TrimAlongUo.xltx";
     public const string TrimAlongUoDest = "\\Viz.WrkModule.RptOpr-TrimAlongUo.xlsx";
 
+    public const string MonitorLngTrimUoShiftRkSource = "\\Xlt\\Viz.WrkModule.RptOpr-MonitorTrimUoShiftRk.xltx";
+    public const string MonitorLngTrimUoShiftRkDest = "\\Viz.WrkModule.RptOpr-MonitorTrimUoShiftRk.xlsx";
   }
 }

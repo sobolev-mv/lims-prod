@@ -307,5 +307,48 @@
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
 
+    <dxl:LayoutGroup Name="L1Grp_10008" Header="Мониторинг обрези УО" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="7">
+      <dxl:LayoutItem Label="Период расчета квартилей:" IsRequired="True">
+        <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBeginQuart}" Mask="MM.yyyy" MaskUseAsDisplayFormat="True">
+            <dxe:DateEdit.StyleSettings>
+              <dxe:DateEditPickerStyleSettings/>
+            </dxe:DateEdit.StyleSettings>
+          </dxe:DateEdit>
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateEndQuart}" Mask="MM.yyyy" MaskUseAsDisplayFormat="True">
+            <dxe:DateEdit.StyleSettings>
+              <dxe:DateEditPickerStyleSettings/>
+            </dxe:DateEdit.StyleSettings>
+          </dxe:DateEdit>
+          <dxl:LayoutItem Label="РК общ:" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <dxe:TextEdit Width="50" HorizontalContentAlignment="Right" EditValue="{Binding RkTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n4" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+          </dxl:LayoutItem>
+          <dxl:LayoutItem Label="РК прод обрези:" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <dxe:TextEdit Width="50" HorizontalContentAlignment="Right" EditValue="{Binding RkLng, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n4" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+          </dxl:LayoutItem>
+        </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
+
+      <dxl:LayoutItem  IsRequired="True">
+        <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
+          <dxl:LayoutItem Label="Дата:"  HorizontalAlignment="Left">
+            <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
+          </dxl:LayoutItem>
+          <dxl:LayoutItem Label="Смена:" HorizontalAlignment="Left" >
+            <dxe:ComboBoxEdit Width="40" IsTextEditable="False" EditValue="{Binding TypeShiftFinishApr}">
+              <dxe:ComboBoxEdit.Items>
+                <sys:String>Д</sys:String>
+                <sys:String>Н</sys:String>
+              </dxe:ComboBoxEdit.Items>
+            </dxe:ComboBoxEdit>
+          </dxl:LayoutItem>
+          <Button Name="b_16017" Content="Мониторинг обрези за смену УО"  HorizontalAlignment="Left" Command="{Binding MonitorDefLngTrimCommand}" />
+
+        </dxl:FlowLayoutControl>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+
+
+
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>

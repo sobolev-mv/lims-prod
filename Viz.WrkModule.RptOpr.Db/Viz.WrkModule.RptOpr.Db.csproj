@@ -64,8 +64,10 @@
     <Compile Include="DataSets\DsRptOpr.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DbUtils.cs" />
     <Compile Include="DiffCert.cs" />
     <Compile Include="IsolFinCut2Strann.cs" />
+    <Compile Include="MonitorDefLngTrimUo.cs" />
     <Compile Include="OutOfServiceMillRolls.cs" />
     <Compile Include="ProcLaserAndApr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

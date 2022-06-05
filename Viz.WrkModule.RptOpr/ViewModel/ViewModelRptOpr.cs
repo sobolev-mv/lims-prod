@@ -81,6 +81,12 @@ namespace Viz.WrkModule.RptOpr
     private Boolean isSortF3;
     private int? idSortF3;
     private DataRowView selSortItemF3;
+
+    private DateTime dateBeginQuart;
+    private DateTime dateEndQuart;
+    //private string typeUm = "R";
+    private decimal rkTotal;
+    private decimal rkLng;
     #endregion
 
     #region Public Property
@@ -601,6 +607,52 @@ namespace Viz.WrkModule.RptOpr
         OnPropertyChanged("SelSortItemF3");
       }
     }
+
+    public DateTime DateBeginQuart
+    {
+      get { return dateBeginQuart; }
+      set
+      {
+        if (value == dateBeginQuart) return;
+        dateBeginQuart = value;
+        base.OnPropertyChanged("DateBeginQuart");
+      }
+    }
+
+    public DateTime DateEndQuart
+    {
+      get { return dateEndQuart; }
+      set
+      {
+        if (value == dateEndQuart) return;
+        dateEndQuart = value;
+        base.OnPropertyChanged("DateEndQuart");
+      }
+    }
+
+    public decimal RkTotal
+    {
+      get { return rkTotal; }
+      set
+      {
+        if (value == rkTotal) return;
+        rkTotal = value;
+        OnPropertyChanged("RkTotal");
+      }
+    }
+
+    public decimal RkLng
+    {
+      get { return rkLng; }
+      set
+      {
+        if (value == rkLng) return;
+        rkLng = value;
+        OnPropertyChanged("RkLng");
+      }
+    }
+
+
     #endregion
 
     #region Private Method
@@ -634,6 +686,14 @@ namespace Viz.WrkModule.RptOpr
             LgExpanded4();
             break;
           case 5:
+            break;
+          case 6:
+            break;
+          case 7:
+            RkTotal = Convert.ToDecimal(DbUtils.GetTotalRk(1));
+            RkLng = Convert.ToDecimal(DbUtils.GetLngRk(1));
+            DateBeginQuart = DbUtils.GetDateBeginQuart(3);
+            DateEndQuart = DbUtils.GetDateEndQuart(3);
             break;
         }
       }
@@ -745,6 +805,8 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> resultTargetValue;
     private DelegateCommand<Object> sgpAndPsCommand;
     private DelegateCommand<Object> trimAlongUoCommand;
+    private DelegateCommand<Object> selectTypeUmCommand;
+    private DelegateCommand<Object> monitorDefLngTrimCommand;
 
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
@@ -1212,6 +1274,60 @@ namespace Viz.WrkModule.RptOpr
     }
 
     private bool CanExecuteTrimAlongUo(Object parameter)
+    {
+      return true;
+    }
+
+    public ICommand SelectTypeUmCommand
+    {
+      get { return selectTypeUmCommand ?? (selectTypeUmCommand = new DelegateCommand<Object>(ExecuteSelectTypeUm, CanExecuteSelectTypeUm)); }
+    }
+
+    private void ExecuteSelectTypeUm(Object parameter)
+    {
+      //typeUm = Convert.ToString(parameter);
+    }
+
+    private bool CanExecuteSelectTypeUm(Object parameter)
+    {
+      return true;
+    }
+
+    public ICommand MonitorDefLngTrimCommand => monitorDefLngTrimCommand ?? (monitorDefLngTrimCommand = new DelegateCommand<Object>(ExecuteMonitorLngDefTrim, CanExecuteMonitorLngDefLngTrim));
+    private void ExecuteMonitorLngDefTrim(Object parameter)
+    {
+      string src;
+      string dst;
+
+      //MessageBox.Show("111");
+      //return;
+
+      src = Etc.StartPath + ModuleConst.MonitorLngTrimUoShiftRkSource;
+      dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MonitorLngTrimUoShiftRkDest;
+ 
+        
+      var rptParam = new MonitorDefLngTrimUoRptParam(src, dst)
+      {
+        DateBegin = this.DateBeginQuart,
+        DateEnd = this.DateEndQuart,
+        RkTotal = this.RkTotal,
+        RkPlan = this.RkLng,
+        DateMon = this.DateBegin,
+        Shift = this.TypeShiftFinishApr
+      };
+      
+      DbUtils.SaveDateQuart(3, this.DateBeginQuart, this.DateEndQuart);
+      DbUtils.SaveRk(1,RkTotal, RkLng);
+      
+      var sp = new MonitorDefLngTrimUo();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+      
+
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteMonitorLngDefLngTrim(Object parameter)
     {
       return true;
     }
