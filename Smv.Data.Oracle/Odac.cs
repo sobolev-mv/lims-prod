@@ -138,7 +138,8 @@ namespace Smv.Data.Oracle
                                Password = strPass,
                                Server = strDbName,
                                Direct = false,
-                               Unicode = isUnicode
+                               Unicode = isUnicode,
+                               ConnectionTimeout = 1000 * 90
       };
 
       try{
