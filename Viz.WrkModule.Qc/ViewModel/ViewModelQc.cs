@@ -17,6 +17,7 @@ using Viz.WrkModule.Qc.Db.DataSets;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Input;
+using DevExpress.Xpf.Ribbon;
 using Smv.Utils;
 using Viz.DbApp.Psi;
 
@@ -28,6 +29,8 @@ namespace Viz.WrkModule.Qc
     #region Fields
 
     private readonly UserControl usrControl;
+    private readonly RibbonControl rcMain;
+    private readonly BarManager bmMain;
     private readonly DsQc dsQc = new DsQc();
     private readonly DXTabControl tcMain;
     private readonly GridControl gcRef;
@@ -69,6 +72,7 @@ namespace Viz.WrkModule.Qc
     public virtual Boolean IsControlEnabled { get; set; } = true;
 
     //Прогнозное качество
+    public virtual string CaptionParamInFq { get; set; }
     public virtual string ParamInFq { get; set; }
     public virtual Boolean IsEnableParamInFq { get; set; } = true;
     public virtual Int32 TypeFqId { get; set; } = (int)ModuleConst.TypeFqGrp.Coil;
@@ -119,17 +123,36 @@ namespace Viz.WrkModule.Qc
         IsEnableParamInFq = false;
         AgTypFq = "0000";
         IsEnableCbAgTypFq = true;
+        CaptionParamInFq = String.Empty;
       }
       else
       {
         IsEnableParamInFq = true;
         IsEnableCbAgTypFq = false;
+        CaptionParamInFq = Db.Utils.GetNameTypeForecast(TypeFqId) + ":";
       }
     }
 
     #endregion
 
     #region Private Method
+    private void RibbonSelectedPageChanged(object sender, RibbonPropertyChangedEventArgs e)
+    {
+      if (e.OldValue == null)
+        return;
+
+      if (e.NewValue == null)
+        return;
+
+      if ((e.OldValue as FrameworkContentElement).Tag == null)
+        return;
+
+      if ((e.NewValue as FrameworkContentElement).Tag == null)
+        return;
+
+      tcMain.SelectedIndex = Convert.ToInt32((e.NewValue as FrameworkContentElement).Tag);
+    }
+
     private void ParamItemChanged(object sender, CurrentItemChangedEventArgs args)
     {
       //btnXSamplesRowChanged.CommandParameter = (sender as DevExpress.Xpf.Grid.GridViewBase).Grid.GetRow(e.RowData.RowHandle.Value);
@@ -794,6 +817,11 @@ namespace Viz.WrkModule.Qc
     public ViewModelQc(UserControl control, Object mainWindow)
     {
       usrControl = control;
+      rcMain = LogicalTreeHelper.FindLogicalNode(mainWindow as Window, "rcMain") as RibbonControl;
+      rcMain.SelectedPageChanged += RibbonSelectedPageChanged;
+      bmMain = LogicalTreeHelper.FindLogicalNode(mainWindow as Window, "bmMain") as BarManager;
+
+
       tcMain = LogicalTreeHelper.FindLogicalNode(this.usrControl, "tcMain") as DXTabControl;
       gcRef = LogicalTreeHelper.FindLogicalNode(this.usrControl, "GcRef") as GridControl;
       /*
@@ -823,6 +851,8 @@ namespace Viz.WrkModule.Qc
 
       accCmdEditReference = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdEditReference, ModuleConst.ModuleId);
       gcRef.View.AllowEditing = accCmdEditReference;
+
+      CaptionParamInFq = Db.Utils.GetNameTypeForecast(TypeFqId) + ":";
     }
 
 

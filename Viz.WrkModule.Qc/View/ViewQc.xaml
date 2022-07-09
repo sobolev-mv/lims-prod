@@ -70,7 +70,7 @@
       </dxb:BarEditItem.EditSettings>
     </dxb:BarEditItem>
     <dxb:BarButtonItem Name="btnStartClcGrp" Content="Расч." Command="{Binding CalcUstGrpCommand}" LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/Effects-32x32.png" Hint="Расчитать х-тики качества для групп." />
-    <dxb:BarEditItem Name="beiParamInFq" EditValue="{Binding ParamInFq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Парам: " Hint="Лок №, Стенд. пратия, Список стендов. партий" EditWidth="250" IsEnabled="{Binding IsEnableParamInFq}">
+    <dxb:BarEditItem Name="beiParamInFq" EditValue="{Binding ParamInFq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding CaptionParamInFq}" Hint="Лок №, Стенд. пратия, Список стендов. партий" EditWidth="250" IsEnabled="{Binding IsEnableParamInFq}">
       <dxb:BarEditItem.EditSettings>
         <dxe:TextEditSettings TextWrapping="Wrap"/>
       </dxb:BarEditItem.EditSettings>
@@ -94,7 +94,7 @@
 
   </ruc:RibbonUserControl.BarManagerItems>
   <ruc:RibbonUserControl.UserPages>
-    <dxr:RibbonPage Caption="Справочники">
+    <dxr:RibbonPage Caption="Справочники" Tag="0">
       <dxr:RibbonPageGroup Name="rpgImage" AllowCollapse="False">
         <dxb:BarStaticItemLink BarItemName="siGlyxza" RibbonStyle="Large"/>
       </dxr:RibbonPageGroup>
@@ -107,7 +107,7 @@
         <dxb:BarButtonItemLink BarItemName="btnQuitxyz" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
       </dxr:RibbonPageGroup>
     </dxr:RibbonPage>
-    <dxr:RibbonPage Caption="Уст">
+    <dxr:RibbonPage Caption="Уст" Tag="1">
       <dxr:RibbonPageGroup AllowCollapse="False">
         <dxb:BarStaticItemLink BarItemName="siGlyxza" RibbonStyle="Large"/>
       </dxr:RibbonPageGroup>
@@ -129,13 +129,13 @@
         <dxb:BarButtonItemLink BarItemName="btnQuitxyz" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
       </dxr:RibbonPageGroup>
     </dxr:RibbonPage>
-    <dxr:RibbonPage Caption="Прогноз">
+    <dxr:RibbonPage Caption="Прогноз" Tag="2">
       <dxr:RibbonPageGroup AllowCollapse="False">
         <dxb:BarStaticItemLink BarItemName="siGlyxza" RibbonStyle="Large"/>
       </dxr:RibbonPageGroup>
       <dxr:RibbonPageGroup AllowCollapse="False" Caption="Прогнозное качество">
-        <dxb:BarEditItemLink BarItemName="beiParamInFq" RibbonStyle="SmallWithText"/>
         <dxb:BarEditItemLink BarItemName="cbTypFq" RibbonStyle="SmallWithText"/>
+        <dxb:BarEditItemLink BarItemName="beiParamInFq" RibbonStyle="SmallWithText"/>
         <dxb:BarEditItemLink BarItemName="cbIndFq" RibbonStyle="SmallWithText"/>
         <dxb:BarEditItemLink BarItemName="cbAgTypFq" RibbonStyle="SmallWithText"/>
         <dxb:BarButtonItemLink BarItemName="btnStartClcFq" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
@@ -152,7 +152,7 @@
     <dxl:LayoutGroup HorizontalAlignment="Stretch" Orientation="Vertical">
       <dxc:DXTabControl Name="tcMain">
         <dxc:DXTabControl.View>
-          <dxc:TabControlScrollView HeaderLocation="Top"/>
+          <dxc:TabControlScrollView HeaderLocation="None"/>
         </dxc:DXTabControl.View>
         <dxc:DXTabItem Header="Справочники">
           <dxl:LayoutControl x:Name="LayoutRoot1" StretchContentVertically="True" Orientation="Vertical">
