@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viz.MagLab.MeasureUnits", "Viz.MagLab.MeasureUnits\Viz.MagLab.MeasureUnits.csproj", "{07ABC596-50ED-4A7E-BB36-BCA6B5CEA17C}"
 EndProject
@@ -66,6 +66,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viz.WrkModule.PrintLabel", "Viz.WrkModule.PrintLabel\Viz.WrkModule.PrintLabel.csproj", "{6892AFA9-6EA3-416C-BD64-92BEBBE5E4B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viz.WrkModule.PrintLabel.Db", "Viz.WrkModule.PrintLabel.Db\Viz.WrkModule.PrintLabel.Db.csproj", "{3CC5727E-17D7-43A2-AE9F-7EA4AC71C797}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viz.WrkModule.Qc.Db", "Viz.WrkModule.Qc.Db\Viz.WrkModule.Qc.Db.csproj", "{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viz.WrkModule.Qc", "Viz.WrkModule.Qc\Viz.WrkModule.Qc.csproj", "{75CC35FD-70EE-4873-89EC-D35F7F993BE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -401,113 +405,35 @@ Global
 		{3CC5727E-17D7-43A2-AE9F-7EA4AC71C797}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3CC5727E-17D7-43A2-AE9F-7EA4AC71C797}.Release|x86.ActiveCfg = Release|Any CPU
 		{3CC5727E-17D7-43A2-AE9F-7EA4AC71C797}.Release|x86.Build.0 = Release|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Debug|x86.Build.0 = Debug|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Release|x86.ActiveCfg = Release|Any CPU
+		{AEE1A811-E792-4A38-B94F-B94A64EDDA7D}.Release|x86.Build.0 = Release|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Debug|x86.Build.0 = Debug|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Release|x86.ActiveCfg = Release|Any CPU
+		{75CC35FD-70EE-4873-89EC-D35F7F993BE9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC711122-4F9C-4ADD-8751-4624168AFCEF}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 33
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://emb8w.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Smv.Data.Oracle\\Smv.Data.Oracle.csproj
-		SccProjectName1 = Smv.Data.Oracle
-		SccLocalPath1 = Smv.Data.Oracle
-		SccProjectUniqueName2 = Smv.DispUpdate\\Smv.DispUpdate.csproj
-		SccProjectName2 = Smv.DispUpdate
-		SccLocalPath2 = Smv.DispUpdate
-		SccProjectUniqueName3 = Smv.Modules.MgrExt\\Smv.Modules.MgrExt.csproj
-		SccProjectName3 = Smv.Modules.MgrExt
-		SccLocalPath3 = Smv.Modules.MgrExt
-		SccProjectUniqueName4 = Smv.Prj.Core\\Smv.Prj.Core.csproj
-		SccProjectName4 = Smv.Prj.Core
-		SccLocalPath4 = Smv.Prj.Core
-		SccProjectUniqueName5 = Viz.DbApp.Psi\\Viz.DbApp.Psi.csproj
-		SccProjectName5 = Viz.DbApp.Psi
-		SccLocalPath5 = Viz.DbApp.Psi
-		SccProjectUniqueName6 = Viz.DbModule.Psi\\Viz.DbModule.Psi.csproj
-		SccProjectName6 = Viz.DbModule.Psi
-		SccLocalPath6 = Viz.DbModule.Psi
-		SccProjectUniqueName7 = Viz.Lims.Sh\\Viz.Lims.Sh.csproj
-		SccProjectName7 = Viz.Lims.Sh
-		SccLocalPath7 = Viz.Lims.Sh
-		SccProjectUniqueName8 = Viz.MagLab.MeasureUnits\\Viz.MagLab.MeasureUnits.csproj
-		SccProjectName8 = Viz.MagLab.MeasureUnits
-		SccLocalPath8 = Viz.MagLab.MeasureUnits
-		SccProjectUniqueName9 = Viz.WrkModule.Diagrm.Db\\Viz.WrkModule.Diagrm.Db.csproj
-		SccProjectName9 = Viz.WrkModule.Diagrm.Db
-		SccLocalPath9 = Viz.WrkModule.Diagrm.Db
-		SccProjectUniqueName10 = Viz.WrkModule.Diagrm\\Viz.WrkModule.Diagrm.csproj
-		SccProjectName10 = Viz.WrkModule.Diagrm
-		SccLocalPath10 = Viz.WrkModule.Diagrm
-		SccProjectUniqueName11 = Viz.WrkModule.Isc.Db\\Viz.WrkModule.Isc.Db.csproj
-		SccProjectName11 = Viz.WrkModule.Isc.Db
-		SccLocalPath11 = Viz.WrkModule.Isc.Db
-		SccProjectUniqueName12 = Viz.WrkModule.Isc\\Viz.WrkModule.Isc.csproj
-		SccProjectName12 = Viz.WrkModule.Isc
-		SccLocalPath12 = Viz.WrkModule.Isc
-		SccProjectUniqueName13 = Viz.WrkModule.MagLab.Db\\Viz.WrkModule.MagLab.Db.csproj
-		SccProjectName13 = Viz.WrkModule.MagLab.Db
-		SccLocalPath13 = Viz.WrkModule.MagLab.Db
-		SccProjectUniqueName14 = Viz.WrkModule.MagLab\\Viz.WrkModule.MagLab.csproj
-		SccProjectName14 = Viz.WrkModule.MagLab
-		SccLocalPath14 = Viz.WrkModule.MagLab
-		SccProjectUniqueName15 = Viz.WrkModule.MapDefects.Db\\Viz.WrkModule.MapDefects.Db.csproj
-		SccProjectName15 = Viz.WrkModule.MapDefects.Db
-		SccLocalPath15 = Viz.WrkModule.MapDefects.Db
-		SccProjectUniqueName16 = Viz.WrkModule.MapDefects\\Viz.WrkModule.MapDefects.csproj
-		SccProjectName16 = Viz.WrkModule.MapDefects
-		SccLocalPath16 = Viz.WrkModule.MapDefects
-		SccProjectUniqueName17 = Viz.WrkModule.PrintLabel.Db\\Viz.WrkModule.PrintLabel.Db.csproj
-		SccProjectName17 = Viz.WrkModule.PrintLabel.Db
-		SccLocalPath17 = Viz.WrkModule.PrintLabel.Db
-		SccProjectUniqueName18 = Viz.WrkModule.PrintLabel\\Viz.WrkModule.PrintLabel.csproj
-		SccProjectName18 = Viz.WrkModule.PrintLabel
-		SccLocalPath18 = Viz.WrkModule.PrintLabel
-		SccProjectUniqueName19 = Viz.WrkModule.RptHimLab.Db\\Viz.WrkModule.RptHimLab.Db.csproj
-		SccProjectName19 = Viz.WrkModule.RptHimLab.Db
-		SccLocalPath19 = Viz.WrkModule.RptHimLab.Db
-		SccProjectUniqueName20 = Viz.WrkModule.RptHimLab\\Viz.WrkModule.RptHimLab.csproj
-		SccProjectName20 = Viz.WrkModule.RptHimLab
-		SccLocalPath20 = Viz.WrkModule.RptHimLab
-		SccProjectUniqueName21 = Viz.WrkModule.RptMagLab.Db\\Viz.WrkModule.RptMagLab.Db.csproj
-		SccProjectName21 = Viz.WrkModule.RptMagLab.Db
-		SccLocalPath21 = Viz.WrkModule.RptMagLab.Db
-		SccProjectUniqueName22 = Viz.WrkModule.RptMagLab\\Viz.WrkModule.RptMagLab.csproj
-		SccProjectName22 = Viz.WrkModule.RptMagLab
-		SccLocalPath22 = Viz.WrkModule.RptMagLab
-		SccProjectUniqueName23 = Viz.WrkModule.RptManager.Db\\Viz.WrkModule.RptManager.Db.csproj
-		SccProjectName23 = Viz.WrkModule.RptManager.Db
-		SccLocalPath23 = Viz.WrkModule.RptManager.Db
-		SccProjectUniqueName24 = Viz.WrkModule.RptManager\\Viz.WrkModule.RptManager.csproj
-		SccProjectName24 = Viz.WrkModule.RptManager
-		SccLocalPath24 = Viz.WrkModule.RptManager
-		SccProjectUniqueName25 = Viz.WrkModule.RptOpr.Db\\Viz.WrkModule.RptOpr.Db.csproj
-		SccProjectName25 = Viz.WrkModule.RptOpr.Db
-		SccLocalPath25 = Viz.WrkModule.RptOpr.Db
-		SccProjectUniqueName26 = Viz.WrkModule.RptOpr\\Viz.WrkModule.RptOpr.csproj
-		SccProjectName26 = Viz.WrkModule.RptOpr
-		SccLocalPath26 = Viz.WrkModule.RptOpr
-		SccProjectUniqueName27 = Viz.WrkModule.RptOtk.Db\\Viz.WrkModule.RptOtk.Db.csproj
-		SccProjectName27 = Viz.WrkModule.RptOtk.Db
-		SccLocalPath27 = Viz.WrkModule.RptOtk.Db
-		SccProjectUniqueName28 = Viz.WrkModule.RptOtk\\Viz.WrkModule.RptOtk.csproj
-		SccProjectName28 = Viz.WrkModule.RptOtk
-		SccLocalPath28 = Viz.WrkModule.RptOtk
-		SccProjectUniqueName29 = Viz.WrkModule.Spep.Db\\Viz.WrkModule.Spep.Db.csproj
-		SccProjectName29 = Viz.WrkModule.Spep.Db
-		SccLocalPath29 = Viz.WrkModule.Spep.Db
-		SccProjectUniqueName30 = Viz.WrkModule.Spep\\Viz.WrkModule.Spep.csproj
-		SccProjectName30 = Viz.WrkModule.Spep
-		SccLocalPath30 = Viz.WrkModule.Spep
-		SccProjectUniqueName31 = Viz.WrkModule.Thp.Db\\Viz.WrkModule.Thp.Db.csproj
-		SccProjectName31 = Viz.WrkModule.Thp.Db
-		SccLocalPath31 = Viz.WrkModule.Thp.Db
-		SccProjectUniqueName32 = Viz.WrkModule.Thp\\Viz.WrkModule.Thp.csproj
-		SccProjectName32 = Viz.WrkModule.Thp
-		SccLocalPath32 = Viz.WrkModule.Thp
 	EndGlobalSection
 EndGlobal
