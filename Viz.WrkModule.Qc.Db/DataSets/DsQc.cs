@@ -26,6 +26,7 @@ namespace Viz.WrkModule.Qc.Db.DataSets
     public ResultFcastDataTable ResultFcast { get; private set; }
     public AgTypDataTable AgTypNzp { get; private set; }
     public ResultFcastAllDataTable ResultFcastAll { get; private set; }
+    public ParamNotExistsDataTable ParamNotExists { get; private set; }
 
     public DsQc() : base()
     {
@@ -85,6 +86,8 @@ namespace Viz.WrkModule.Qc.Db.DataSets
       this.ResultFcastAll = new ResultFcastAllDataTable("ResultFcastAll");
       this.Tables.Add(this.ResultFcastAll);
 
+      this.ParamNotExists = new ParamNotExistsDataTable("ParamNotExists");
+      this.Tables.Add(this.ParamNotExists);
 
     }
   }

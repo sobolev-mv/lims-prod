@@ -38,6 +38,8 @@ namespace Viz.WrkModule.Qc
     private GridControl gcParamChrOpt;
     private GridControl gcParamLnk;
     private GridControl gcFocused;
+    private GridControl gcPrmNotExists;
+
     private ChartControl chartSts;
     private readonly ProgressBarEdit pgbWait;
     private ModuleConst.TypeReferences crTypeRef;
@@ -62,6 +64,7 @@ namespace Viz.WrkModule.Qc
     public virtual string Agr { get; set; }
     public virtual DataTable Agregate => this.dsQc.Agregate;
     public virtual DataTable Brigade => this.dsQc.Brigade;
+    public virtual DataTable ParamNotExists => this.dsQc.ParamNotExists;
     public virtual Int32 Brig { get; set; }
     public virtual double ?ResUstGrp { get; set; } = null;
     public virtual string LabelHeaderResUstGrp { get; set; }
@@ -633,6 +636,7 @@ namespace Viz.WrkModule.Qc
       ResUstGrp = null;
       Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.Sts.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
+      dsQc.ParamNotExists.LoadData();
     }
 
     private void AfterTaskEndCalcUst4LocNum(Task obj)
@@ -690,6 +694,9 @@ namespace Viz.WrkModule.Qc
         chartSts.Diagram.Series[0].ValueDataMember = "RatioSts";
         chartSts.Diagram.Series[0].ArgumentDataMember = "NameGroup";
         chartSts.Diagram.Series[0].DataSource = dsQc.Sts;
+
+        gcPrmNotExists.ItemsSource = ParamNotExists;
+
         LabelHeaderResUstGrp = "УСТ общее:";
         LabelResUstGrp = null;
         ResUstGrp = Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
@@ -824,6 +831,7 @@ namespace Viz.WrkModule.Qc
 
       tcMain = LogicalTreeHelper.FindLogicalNode(this.usrControl, "tcMain") as DXTabControl;
       gcRef = LogicalTreeHelper.FindLogicalNode(this.usrControl, "GcRef") as GridControl;
+      gcPrmNotExists = LogicalTreeHelper.FindLogicalNode(this.usrControl, "GcPrmNotExists") as GridControl;
       /*
       if (this.dbgMaterial != null)
         this.dbgMaterial.CurrentItemChanged += CurrentItemChanged;
@@ -964,6 +972,8 @@ namespace Viz.WrkModule.Qc
     {
       IsControlEnabled = false;
       StartWaitPgb();
+      dsQc.ParamNotExists.Rows.Clear();
+      gcPrmNotExists.ItemsSource = null;
       var task = Task.Factory.StartNew(TaskCalcUst4LocNum, null).ContinueWith(AfterTaskEndCalcUst4LocNum);
     }
 
