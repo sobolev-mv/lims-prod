@@ -1017,6 +1017,9 @@ namespace Viz.WrkModule.Qc
 
     public void CalcUstGrp()
     {
+      dsQc.ParamNotExists.Rows.Clear();
+      gcPrmNotExists.ItemsSource = null;
+
       chartSts.Diagram = null;
       chartSts.Titles.Clear();
       IsControlEnabled = false;
