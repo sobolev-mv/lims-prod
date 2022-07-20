@@ -96,6 +96,8 @@ namespace Viz.WrkModule.Qc.Db
 
     public static void CalcParam4LocNum(string typeSts, string locNum)
     {
+      Odac.ExecuteNonQuery("delete from VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
+
       const string stmtSql = "VIZ_PRN.QMF_CALC_CORE.CalcParam4LocNum";
       var lstPrm = new List<OracleParameter>();
 

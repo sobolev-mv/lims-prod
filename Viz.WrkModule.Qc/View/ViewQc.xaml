@@ -202,6 +202,7 @@
                     <dxg:TableView NavigationStyle="Row" AllowEditing="False"  ShowGroupPanel="True" AllowGrouping="True" AutoWidth="True" AllowFilterEditor="False" ShowFilterPanelMode="Never" UseEvenRowBackground="True" CompactFilterElementShowMode="Never" AllowedGroupFilters="None" AllowColumnFiltering="False"/>
                   </dxg:GridControl.View>
                   <dxg:GridControl.Columns>
+                    <dxg:GridColumn FieldName="LocNum" Header="Лок №" MinWidth="150" Width="150" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="GroupId" Header="ИД Группы" MinWidth="80" Width="80" EditSettings="{dxe:TextSettings DisplayFormat=d}" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="GroupName" Header="Группа" MinWidth="150" Width="150" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="ParamId" Header="ИД Параметра" MinWidth="80" Width="80" EditSettings="{dxe:TextSettings DisplayFormat=d}" ReadOnly="True"/>

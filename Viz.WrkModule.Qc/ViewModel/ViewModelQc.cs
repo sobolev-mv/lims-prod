@@ -716,18 +716,22 @@ namespace Viz.WrkModule.Qc
       {
         case ModuleConst.TypeUstGrp.Agregate:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, Agr, Brig);
+          dsQc.ParamNotExists.LoadData(AgTyp);
           break;
         case ModuleConst.TypeUstGrp.AgTyp:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, null, 0);
+          dsQc.ParamNotExists.LoadData(AgTyp);
           break;
         case ModuleConst.TypeUstGrp.WorkShop:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, null, null, 0);
+          dsQc.ParamNotExists.LoadData();
           break;
         default:
           return;
       }
       
       tmpDouble = Db.Utils.GetUst4AgTypAgr(ModuleConst.CS_TypeClcParamVld);
+      
     }
 
     private void AfterTaskEndCalcUstGrp(Task obj)
@@ -737,6 +741,7 @@ namespace Viz.WrkModule.Qc
         tcMain.SelectedIndex = 1;
         CreateLabelResUstGrp();
         ResUstGrp = tmpDouble;
+        gcPrmNotExists.ItemsSource = ParamNotExists;
         EndWaitPgb();
         IsControlEnabled = true;
         CommandManager.InvalidateRequerySuggested();
