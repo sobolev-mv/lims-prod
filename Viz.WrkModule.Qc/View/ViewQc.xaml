@@ -199,14 +199,16 @@
               <dxl:LayoutGroup View="Group" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
                 <dxg:GridControl Name="GcPrmNotExists" ShowBorder="True">
                   <dxg:GridControl.View>
-                    <dxg:TableView NavigationStyle="Row" AllowEditing="False"  ShowGroupPanel="True" AllowGrouping="True" AutoWidth="True" AllowFilterEditor="False" ShowFilterPanelMode="Never" UseEvenRowBackground="True" CompactFilterElementShowMode="Never" AllowedGroupFilters="None" AllowColumnFiltering="False"/>
+                    <dxg:TableView NavigationStyle="Row" AllowEditing="False"  ShowGroupPanel="True" AllowGrouping="True" AutoWidth="True" AllowFilterEditor="True" UseEvenRowBackground="True" CompactFilterElementShowMode="Never" AllowColumnFiltering="True"/>
                   </dxg:GridControl.View>
                   <dxg:GridControl.Columns>
                     <dxg:GridColumn FieldName="LocNum" Header="Лок №" MinWidth="150" Width="150" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="GroupId" Header="ИД Группы" MinWidth="80" Width="80" EditSettings="{dxe:TextSettings DisplayFormat=d}" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="GroupName" Header="Группа" MinWidth="150" Width="150" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="ParamId" Header="ИД Параметра" MinWidth="80" Width="80" EditSettings="{dxe:TextSettings DisplayFormat=d}" ReadOnly="True"/>
-                    <dxg:GridColumn FieldName="ParamName" Header="Отсутствующий параметр" MinWidth="150" Width="150" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="ParamName" Header="Параметр" MinWidth="150" Width="150" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="IsExt" Header="Рассчитан?" MinWidth="150" Width="150" EditSettings="{dxe:CheckSettings}"/>
+                    <dxg:GridColumn FieldName="IsClcN" Header="Выпал из критерия" MinWidth="150" Width="150" EditSettings="{dxe:CheckSettings}"/>
                   </dxg:GridControl.Columns>
                 </dxg:GridControl>
               </dxl:LayoutGroup>  

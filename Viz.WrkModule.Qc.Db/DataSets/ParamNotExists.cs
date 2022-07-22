@@ -41,6 +41,12 @@ namespace Viz.WrkModule.Qc.Db.DataSets
         col = new DataColumn("ParamName", typeof(string), null, MappingType.Element);
         this.Columns.Add(col);
 
+        col = new DataColumn("IsExt", typeof(Int32), null, MappingType.Element);
+        this.Columns.Add(col);
+
+        col = new DataColumn("IsClcN", typeof(Int32), null, MappingType.Element);
+        this.Columns.Add(col);
+
         this.Constraints.Add(new UniqueConstraint("Pk_" + tblName, new[] { this.Columns["LocNum"], this.Columns["GroupId"], this.Columns["ParamId"] }, true));
 
         adapter.TableMappings.Clear();
@@ -50,13 +56,16 @@ namespace Viz.WrkModule.Qc.Db.DataSets
         dtm.ColumnMappings.Add("GROUP_NAME", "GroupName");
         dtm.ColumnMappings.Add("PARAM_ID", "ParamId");
         dtm.ColumnMappings.Add("PARAM_NAME", "ParamName");
+        dtm.ColumnMappings.Add("IS_EXT", "IsExt");
+        dtm.ColumnMappings.Add("IS_CLCN", "IsClcN");
+
         adapter.TableMappings.Add(dtm);
 
         //Select Command
         adapter.SelectCommand = new OracleCommand
         {
           Connection = Odac.DbConnection,
-          CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME FROM VIZ_PRN.V_QMF_STS_NEPARAMALL",
+          CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN FROM VIZ_PRN.V_QMF_STS_NEPARAMALL",
           CommandType = CommandType.Text
         };
 
@@ -65,14 +74,14 @@ namespace Viz.WrkModule.Qc.Db.DataSets
       public int LoadData()
       {
         adapter.SelectCommand.Parameters.Clear();
-        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME FROM VIZ_PRN.V_QMF_STS_NEPARAMALL";
+        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN FROM VIZ_PRN.V_QMF_STS_NEPARAMALL";
         return Odac.LoadDataTable(this, adapter, true, null);
       }
 
       public int LoadData(string agTyp)
       {
         adapter.SelectCommand.Parameters.Clear();
-        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME FROM VIZ_PRN.V_QMF_STS_NEPARAMALL WHERE AGTYP = :PAGTYP";
+        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN FROM VIZ_PRN.V_QMF_STS_NEPARAMALL WHERE AGTYP = :PAGTYP";
 
         var lstPrm = new List<Object>(){ agTyp };
         
