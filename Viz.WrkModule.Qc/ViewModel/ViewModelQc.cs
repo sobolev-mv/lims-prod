@@ -723,7 +723,7 @@ namespace Viz.WrkModule.Qc
           dsQc.ParamNotExists.LoadData(AgTyp);
           break;
         case ModuleConst.TypeUstGrp.WorkShop:
-          Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, null, null, 0);
+          Db.Utils.CalcParam4WorkShop(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo);
           dsQc.ParamNotExists.LoadData();
           break;
         default:

@@ -206,6 +206,49 @@ namespace Viz.WrkModule.Qc.Db
       Odac.ExecuteNonQuery(stmtSql, CommandType.StoredProcedure, false, lstPrm);
     }
 
+    public static void CalcParam4WorkShop(string typeSts, DateTime dateFrom, DateTime dateTo)
+    {
+      Odac.ExecuteNonQuery("delete from VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
+
+      const string stmtSql = "VIZ_PRN.QMF_CALC_CORE.CalcParam4WorkShop";
+      var lstPrm = new List<OracleParameter>();
+
+      var prm = new OracleParameter
+      {
+        ParameterName = "pi_TypeClc",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Size = typeSts.Length,
+        Value = typeSts
+      };
+      lstPrm.Add(prm);
+
+      prm = new OracleParameter
+      {
+        ParameterName = "pi_DateFrom",
+        DbType = DbType.DateTime,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.Date,
+        Value = dateFrom
+      };
+      lstPrm.Add(prm);
+
+      prm = new OracleParameter
+      {
+        ParameterName = "pi_DateTo",
+        DbType = DbType.DateTime,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.Date,
+        Value = dateTo
+      };
+      lstPrm.Add(prm);
+
+
+
+      Odac.ExecuteNonQuery(stmtSql, CommandType.StoredProcedure, false, lstPrm);
+    }
+
     public static double GetUst4AgTypAgr(string typeSts)
     {
       const string stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_STS where TYPE_CLC = :PTYPECLC";
@@ -227,6 +270,9 @@ namespace Viz.WrkModule.Qc.Db
 
     public static double GetSts999(string typeSts)
     {
+     
+      
+      
       const string stmtSql = "select count(*) from VIZ_PRN.QMF_CLC where TYPE_CLC = :PTYPECLC";
       var lstPrm = new List<OracleParameter>();
 
