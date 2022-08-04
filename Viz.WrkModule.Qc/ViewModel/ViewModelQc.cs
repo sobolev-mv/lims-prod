@@ -1046,6 +1046,33 @@ namespace Viz.WrkModule.Qc
       return false; 
     }
 
+    public void ExportProtCalcUstGrp()
+    {
+      var sfd = new SaveFileDialog
+      {
+        OverwritePrompt = false,
+        AddExtension = true,
+        DefaultExt = ".xlsx",
+        Filter = "xlsx file (.xlsx)|*.xlsx"
+      };
+
+      if (sfd.ShowDialog().GetValueOrDefault() != true)
+        return;
+
+      if (File.Exists(sfd.FileName))
+        DxInfo.ShowDxBoxInfo("Файл", "Файл: " + sfd.FileName + " уже существует и будет перезаписан!", MessageBoxImage.Warning);
+        
+      
+
+      gcPrmNotExists.View.ExportToXlsx(sfd.FileName);
+      DxInfo.ShowDxBoxInfo("Экспорт данных", "Экспорт данных в файл: " + sfd.FileName + " успешно выполнен", MessageBoxImage.Information);
+    }
+
+    public bool CanExportProtCalcUstGrp()
+    {
+      return (IsControlEnabled && (dsQc.ParamNotExists.Rows.Count > 0));
+    }
+
     public void CalcForecastQuality()
     {
       LabelHeaderResForecast = LabelResForecast = null;
