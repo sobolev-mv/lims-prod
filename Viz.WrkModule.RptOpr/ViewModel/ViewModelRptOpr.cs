@@ -807,6 +807,7 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> trimAlongUoCommand;
     private DelegateCommand<Object> selectTypeUmCommand;
     private DelegateCommand<Object> monitorDefLngTrimCommand;
+    private DelegateCommand<Object> aooMetSleeveCommand;
 
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
@@ -1331,7 +1332,29 @@ namespace Viz.WrkModule.RptOpr
     {
       return true;
     }
+    
+    public ICommand AooMetSleeveCommand => aooMetSleeveCommand ?? (aooMetSleeveCommand = new DelegateCommand<Object>(ExecuteAooMetSleeve, CanExecuteAooMetSleeve));
+    private void ExecuteAooMetSleeve(Object parameter)
+    {
+      string src;
+      string dst;
 
+      src = Etc.StartPath + ModuleConst.AooMetSleeveSource;
+      dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.AooMetSleeveDest;
+
+      var rptParam = new AooMetSleeveRptParam(src, dst);
+
+      var sp = new AooMetSleeve();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+      
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteAooMetSleeve(Object parameter)
+    {
+      return true;
+    }
 
 
 

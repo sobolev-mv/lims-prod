@@ -233,6 +233,7 @@
           <Button Name="b_16009" Content="Толщина АПР-8" HorizontalAlignment="Left" Command="{Binding Thickness2ndCutCommand}"/>
           <Button Name="b_16010" Content="Различная аттестация" HorizontalAlignment="Left" Command="{Binding DiffCertCommand}"/>
           <Button Name="b_16013" Content="Результат назн. ТЗ" HorizontalAlignment="Left" Command="{Binding ResultTargetValueCommand}"/>
+          <Button Name="b_16018" Content="Обраб. с мет. гильзой" HorizontalAlignment="Left" Command="{Binding AooMetSleeveCommand}"/>
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>

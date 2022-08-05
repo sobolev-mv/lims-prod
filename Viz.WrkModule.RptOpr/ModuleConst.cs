@@ -45,7 +45,8 @@
       SgpAndPsToGp = 16014,
       SgpAndPsRepSGp = 16015,
       TrimAlongUo = 16016,
-      MonitorTrimUoShift = 16017 
+      MonitorTrimUoShift = 16017,
+      AooMetSleeve = 16018
     }
 
     public const string ScriptsFolder = "\\Scripts";
@@ -90,5 +91,7 @@
 
     public const string MonitorLngTrimUoShiftRkSource = "\\Xlt\\Viz.WrkModule.RptOpr-MonitorTrimUoShiftRk.xltx";
     public const string MonitorLngTrimUoShiftRkDest = "\\Viz.WrkModule.RptOpr-MonitorTrimUoShiftRk.xlsx";
+    public const string AooMetSleeveSource = "\\Xlt\\Viz.WrkModule.RptOpr-AooMetSleeve.xltx";
+    public const string AooMetSleeveDest = "\\Viz.WrkModule.RptOpr-AooMetSleeve.xlsx";
   }
 }

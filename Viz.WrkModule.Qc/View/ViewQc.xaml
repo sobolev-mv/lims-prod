@@ -125,6 +125,8 @@
         <dxb:BarEditItemLink BarItemName="cbAgr" RibbonStyle="SmallWithText"/>
         <dxb:BarEditItemLink BarItemName="cbBrig" RibbonStyle="SmallWithText"/>
         <dxb:BarButtonItemLink BarItemName="btnStartClcGrp" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
+      </dxr:RibbonPageGroup>
+      <dxr:RibbonPageGroup Name="rpgUstAdditional" Caption="Общее" AllowCollapse="False">
         <dxb:BarButtonItemLink BarItemName="btnExportProtCalc" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
       </dxr:RibbonPageGroup>
       <dxr:RibbonPageGroup Name="rpgQuit1" AllowCollapse="False">

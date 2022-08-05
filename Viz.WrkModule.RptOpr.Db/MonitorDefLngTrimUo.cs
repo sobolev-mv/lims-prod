@@ -105,7 +105,7 @@ namespace Viz.WrkModule.RptOpr.Db
 
       DateTime? dtBegin = null;
       DateTime? dtEnd = null;
-      string sqlStmt = null;
+      //string sqlStmt = null;
       
       try {
         //Корректируем конечную дату
