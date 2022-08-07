@@ -213,6 +213,7 @@
                     <dxg:GridColumn FieldName="ParamName" Header="Параметр" MinWidth="150" Width="150" ReadOnly="True"/>
                     <dxg:GridColumn FieldName="IsExt" Header="Рассчитан?" MinWidth="150" Width="150" EditSettings="{dxe:CheckSettings}"/>
                     <dxg:GridColumn FieldName="IsClcN" Header="Выпал из критерия" MinWidth="150" Width="150" EditSettings="{dxe:CheckSettings}"/>
+                    <dxg:GridColumn FieldName="FactVal" Header="Значение" MinWidth="150" Width="150" ReadOnly="True"/>
                   </dxg:GridControl.Columns>
                 </dxg:GridControl>
               </dxl:LayoutGroup>  
