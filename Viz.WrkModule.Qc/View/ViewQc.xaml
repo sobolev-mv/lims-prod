@@ -70,7 +70,7 @@
       </dxb:BarEditItem.EditSettings>
     </dxb:BarEditItem>
     <dxb:BarButtonItem Name="btnStartClcGrp" Content="Расч." Command="{Binding CalcUstGrpCommand}" LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/Effects-32x32.png" Hint="Расчитать х-тики качества для групп." />
-    <dxb:BarButtonItem Name="btnExportProtCalc" Content="Прот." Command="{Binding ExportProtCalcUstGrpCommand}"  LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/RptParam-32x32.png" Hint="Выгрузить протокол расчета." />
+    <dxb:BarButtonItem Name="btnExportProtCalc" Content="Прот." Command="{Binding ExportProtCalcUstGrpCommand}"  LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/ExportToExcel-32x32.png" Hint="Выгрузить протокол расчета." />
     <dxb:BarEditItem Name="beiParamInFq" EditValue="{Binding ParamInFq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding CaptionParamInFq}" Hint="Лок №, Стенд. пратия, Список стендов. партий" EditWidth="250" IsEnabled="{Binding IsEnableParamInFq}">
       <dxb:BarEditItem.EditSettings>
         <dxe:TextEditSettings TextWrapping="Wrap"/>

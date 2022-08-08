@@ -64,7 +64,7 @@ namespace Viz.WrkModule.Qc
     public virtual string Agr { get; set; }
     public virtual DataTable Agregate => this.dsQc.Agregate;
     public virtual DataTable Brigade => this.dsQc.Brigade;
-    public virtual DataTable ParamNotExists => this.dsQc.ParamNotExists;
+    public virtual DataTable ProtCalcUst => this.dsQc.ProtCalcUst;
     public virtual Int32 Brig { get; set; }
     public virtual double ?ResUstGrp { get; set; } = null;
     public virtual string LabelHeaderResUstGrp { get; set; }
@@ -636,7 +636,7 @@ namespace Viz.WrkModule.Qc
       ResUstGrp = null;
       Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.Sts.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
-      dsQc.ParamNotExists.LoadData();
+      dsQc.ProtCalcUst.LoadData();
     }
 
     private void AfterTaskEndCalcUst4LocNum(Task obj)
@@ -695,7 +695,7 @@ namespace Viz.WrkModule.Qc
         chartSts.Diagram.Series[0].ArgumentDataMember = "NameGroup";
         chartSts.Diagram.Series[0].DataSource = dsQc.Sts;
 
-        gcPrmNotExists.ItemsSource = ParamNotExists;
+        gcPrmNotExists.ItemsSource = ProtCalcUst;
 
         LabelHeaderResUstGrp = "УСТ общее:";
         LabelResUstGrp = null;
@@ -716,15 +716,15 @@ namespace Viz.WrkModule.Qc
       {
         case ModuleConst.TypeUstGrp.Agregate:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, Agr, Brig);
-          dsQc.ParamNotExists.LoadData(AgTyp);
+          dsQc.ProtCalcUst.LoadData(AgTyp);
           break;
         case ModuleConst.TypeUstGrp.AgTyp:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, null, 0);
-          dsQc.ParamNotExists.LoadData(AgTyp);
+          dsQc.ProtCalcUst.LoadData(AgTyp);
           break;
         case ModuleConst.TypeUstGrp.WorkShop:
           Db.Utils.CalcParam4WorkShop(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo);
-          dsQc.ParamNotExists.LoadData();
+          dsQc.ProtCalcUst.LoadData4WorkShop();
           break;
         default:
           return;
@@ -741,7 +741,7 @@ namespace Viz.WrkModule.Qc
         tcMain.SelectedIndex = 1;
         CreateLabelResUstGrp();
         ResUstGrp = tmpDouble;
-        gcPrmNotExists.ItemsSource = ParamNotExists;
+        gcPrmNotExists.ItemsSource = ProtCalcUst;
         EndWaitPgb();
         IsControlEnabled = true;
         CommandManager.InvalidateRequerySuggested();
@@ -977,7 +977,7 @@ namespace Viz.WrkModule.Qc
     {
       IsControlEnabled = false;
       StartWaitPgb();
-      dsQc.ParamNotExists.Rows.Clear();
+      dsQc.ProtCalcUst.Rows.Clear();
       gcPrmNotExists.ItemsSource = null;
       var task = Task.Factory.StartNew(TaskCalcUst4LocNum, null).ContinueWith(AfterTaskEndCalcUst4LocNum);
     }
@@ -1022,7 +1022,7 @@ namespace Viz.WrkModule.Qc
 
     public void CalcUstGrp()
     {
-      dsQc.ParamNotExists.Rows.Clear();
+      dsQc.ProtCalcUst.Rows.Clear();
       gcPrmNotExists.ItemsSource = null;
 
       chartSts.Diagram = null;
@@ -1070,7 +1070,7 @@ namespace Viz.WrkModule.Qc
 
     public bool CanExportProtCalcUstGrp()
     {
-      return (IsControlEnabled && (dsQc.ParamNotExists.Rows.Count > 0));
+      return (IsControlEnabled && (dsQc.ProtCalcUst.Rows.Count > 0));
     }
 
     public void CalcForecastQuality()

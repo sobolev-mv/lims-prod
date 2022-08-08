@@ -66,7 +66,7 @@
     <Compile Include="DataSets\Brigade.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\ParamNotExists.cs">
+    <Compile Include="DataSets\ProtCalcUst.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataSets\ResultFcastAll.cs">
