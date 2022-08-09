@@ -8,11 +8,11 @@ namespace Viz.WrkModule.Qc.Db.DataSets
 {
   public sealed partial class DsQc
   {
-    public class StsDataTable : DataTable
+    public class UstTrendQualityDataTable : DataTable
     {
       protected readonly OracleDataAdapter adapter;
 
-      public StsDataTable(string tblName) : base()
+      public UstTrendQualityDataTable(string tblName) : base()
       {
         this.TableName = tblName;
         adapter = new OracleDataAdapter();

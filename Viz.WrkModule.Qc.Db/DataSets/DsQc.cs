@@ -16,7 +16,7 @@ namespace Viz.WrkModule.Qc.Db.DataSets
     public ThicknessDataTable Thickness { get; private set; }
     public ParamChrOptDataTable ParamChrOpt { get; private set; }
     public ParamLnkDataTable ParamLnk { get; private set; }
-    public StsDataTable Sts { get; private set; }
+    public UstTrendQualityDataTable UstTrendQuality { get; private set; }
     public TypeUstDataTable TypeUst { get; private set; }
     public AgTypDataTable AgTyp { get; private set; }
     public AgregateDataTable Agregate { get; private set; }
@@ -56,8 +56,8 @@ namespace Viz.WrkModule.Qc.Db.DataSets
       this.ParamLnk = new ParamLnkDataTable("ParamLnk");
       this.Tables.Add(this.ParamLnk);
 
-      this.Sts = new StsDataTable("Sts");
-      this.Tables.Add(this.Sts);
+      this.UstTrendQuality = new UstTrendQualityDataTable("UstTrendQuality");
+      this.Tables.Add(this.UstTrendQuality);
 
       this.TypeUst = new TypeUstDataTable("TypeUst");
       this.Tables.Add(this.TypeUst);

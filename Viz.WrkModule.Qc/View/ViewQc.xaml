@@ -197,11 +197,10 @@
             </dxl:LayoutGroup>
             <dxl:LayoutGroup View="Group">
               <dxl:LayoutGroup View="Group" dxl:LayoutControl.AllowHorizontalSizing="True">
-                <dxch:ChartControl Name="ChartSts">
-                </dxch:ChartControl>
+                <dxch:ChartControl Name="ChartSts" AnimationMode="OnDataChanged"/>
               </dxl:LayoutGroup>
               <dxl:LayoutGroup View="Group" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
-                <dxg:GridControl Name="GcPrmNotExists" ShowBorder="True">
+                <dxg:GridControl Name="GcProtCalcUst" ShowBorder="True">
                   <dxg:GridControl.View>
                     <dxg:TableView NavigationStyle="Row" AllowEditing="False"  ShowGroupPanel="True" AllowGrouping="True" AutoWidth="True" AllowFilterEditor="True" UseEvenRowBackground="True" CompactFilterElementShowMode="Never" AllowColumnFiltering="True"/>
                   </dxg:GridControl.View>

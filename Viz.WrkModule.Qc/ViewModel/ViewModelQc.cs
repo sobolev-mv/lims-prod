@@ -38,7 +38,7 @@ namespace Viz.WrkModule.Qc
     private GridControl gcParamChrOpt;
     private GridControl gcParamLnk;
     private GridControl gcFocused;
-    private GridControl gcPrmNotExists;
+    private GridControl gcProtCalcUst;
 
     private ChartControl chartSts;
     private readonly ProgressBarEdit pgbWait;
@@ -631,12 +631,60 @@ namespace Viz.WrkModule.Qc
 
     private void TaskCalcUst4LocNum(Object state)
     {
-      dsQc.Sts.Rows.Clear();
+      dsQc.UstTrendQuality.Rows.Clear();
       LabelHeaderResUstGrp = LabelResUstGrp = null;
       ResUstGrp = null;
       Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
-      dsQc.Sts.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
+      dsQc.UstTrendQuality.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.ProtCalcUst.LoadData();
+    }
+
+    private void CreateTrendUst(string strTitle, DataTable dataSourceTrend)
+    {
+      chartSts.Titles.Add(new Title()
+                          {
+                            Content = strTitle,
+                            HorizontalAlignment = HorizontalAlignment.Center
+                          }
+                         );
+
+
+      chartSts.Diagram = new XYDiagram2D
+      {
+        AxisY = new AxisY2D
+        {
+          GridLinesVisible = true,
+          GridLinesMinorVisible = true,
+          VisualRange = new DevExpress.Xpf.Charts.Range
+          {
+            MinValue = 0,
+            MaxValue = 1
+          }
+        },
+        AxisX = new AxisX2D()
+        {
+          GridLinesVisible = true,
+          GridLinesMinorVisible = true,
+          VisualRange = new DevExpress.Xpf.Charts.Range()
+        }
+      };
+
+      chartSts.Diagram.Series.Add(new LineSeries2D
+                                      {
+                                        Label = new SeriesLabel
+                                        {
+                                          FontSize = 16
+                                        },
+                                        LabelsVisibility = true,
+                                        ValueScaleType = ScaleType.Numerical,
+                                        MarkerVisible = true,
+                                        ValueDataMember = "RatioSts",
+                                        ArgumentDataMember = "NameGroup",
+                                        DataSource = dataSourceTrend
+                                      }
+      );
+
+
     }
 
     private void AfterTaskEndCalcUst4LocNum(Task obj)
@@ -644,13 +692,14 @@ namespace Viz.WrkModule.Qc
       this.usrControl.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)(() =>
       {
         tcMain.SelectedIndex = 1;
+        chartSts.Diagram?.Series.Clear();
         chartSts.Diagram = null;
         chartSts.Titles.Clear();
 
         //Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
         //dsQc.Sts.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
 
-        if (dsQc.Sts.Rows.Count == 0)
+        if (dsQc.UstTrendQuality.Rows.Count == 0)
         {
           DXMessageBox.Show(Application.Current.Windows[0], "Данные по материалу отсутствуют.\r\nМатериал не найден или кон. толщина не равна 0.23, 0.27, 0.30, 0.35", "Нет данных", MessageBoxButton.OK, MessageBoxImage.Warning);
           EndWaitPgb();
@@ -658,44 +707,10 @@ namespace Viz.WrkModule.Qc
           return;
         }
 
-        chartSts.AnimationMode = ChartAnimationMode.OnDataChanged;
-        chartSts.Titles.Add(new Title()
-        {
-          Content = "Лок. №: " + LocNum + "     " + "УСТ общее: " + Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum).ToString(),
-          HorizontalAlignment = HorizontalAlignment.Center
-        }
-                           );
+        var strTitle = $"Лок. №: {LocNum}     УСТ общее: {Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum)}";
+        CreateTrendUst(strTitle, dsQc.UstTrendQuality);
 
-        chartSts.Diagram = new XYDiagram2D();
-        chartSts.Diagram.Series.Add(new LineSeries2D());
-        chartSts.Diagram.Series[0].Label = new SeriesLabel();
-        chartSts.Diagram.Series[0].Label.FontSize = 16;
-        chartSts.Diagram.Series[0].LabelsVisibility = true;
-        ((LineSeries2D)chartSts.Diagram.Series[0]).ValueScaleType = ScaleType.Numerical;
-        ((LineSeries2D)chartSts.Diagram.Series[0]).MarkerVisible = true;
-
-        ((XYDiagram2D)chartSts.Diagram).AxisY = new AxisY2D()
-        {
-          GridLinesVisible = true,
-          GridLinesMinorVisible = true,
-          VisualRange = new DevExpress.Xpf.Charts.Range()
-        };
-
-        ((XYDiagram2D)chartSts.Diagram).ActualAxisY.VisualRange.MinValue = 0;
-        ((XYDiagram2D)chartSts.Diagram).ActualAxisY.VisualRange.MaxValue = 1;
-
-        ((XYDiagram2D)chartSts.Diagram).AxisX = new AxisX2D()
-        {
-          GridLinesVisible = true,
-          GridLinesMinorVisible = true,
-          VisualRange = new DevExpress.Xpf.Charts.Range()
-        };
-
-        chartSts.Diagram.Series[0].ValueDataMember = "RatioSts";
-        chartSts.Diagram.Series[0].ArgumentDataMember = "NameGroup";
-        chartSts.Diagram.Series[0].DataSource = dsQc.Sts;
-
-        gcPrmNotExists.ItemsSource = ProtCalcUst;
+        gcProtCalcUst.ItemsSource = ProtCalcUst;
 
         LabelHeaderResUstGrp = "УСТ общее:";
         LabelResUstGrp = null;
@@ -708,7 +723,7 @@ namespace Viz.WrkModule.Qc
 
     public void TaskCalcUstGrp(Object state)
     {
-      dsQc.Sts.Rows.Clear();
+      dsQc.UstTrendQuality.Rows.Clear();
       LabelHeaderResUstGrp = LabelResUstGrp = null;
       ResUstGrp = null;
 
@@ -741,7 +756,7 @@ namespace Viz.WrkModule.Qc
         tcMain.SelectedIndex = 1;
         CreateLabelResUstGrp();
         ResUstGrp = tmpDouble;
-        gcPrmNotExists.ItemsSource = ProtCalcUst;
+        gcProtCalcUst.ItemsSource = ProtCalcUst;
         EndWaitPgb();
         IsControlEnabled = true;
         CommandManager.InvalidateRequerySuggested();
@@ -836,7 +851,7 @@ namespace Viz.WrkModule.Qc
 
       tcMain = LogicalTreeHelper.FindLogicalNode(this.usrControl, "tcMain") as DXTabControl;
       gcRef = LogicalTreeHelper.FindLogicalNode(this.usrControl, "GcRef") as GridControl;
-      gcPrmNotExists = LogicalTreeHelper.FindLogicalNode(this.usrControl, "GcPrmNotExists") as GridControl;
+      gcProtCalcUst = LogicalTreeHelper.FindLogicalNode(this.usrControl, "GcProtCalcUst") as GridControl;
       /*
       if (this.dbgMaterial != null)
         this.dbgMaterial.CurrentItemChanged += CurrentItemChanged;
@@ -978,7 +993,7 @@ namespace Viz.WrkModule.Qc
       IsControlEnabled = false;
       StartWaitPgb();
       dsQc.ProtCalcUst.Rows.Clear();
-      gcPrmNotExists.ItemsSource = null;
+      gcProtCalcUst.ItemsSource = null;
       var task = Task.Factory.StartNew(TaskCalcUst4LocNum, null).ContinueWith(AfterTaskEndCalcUst4LocNum);
     }
 
@@ -1017,13 +1032,13 @@ namespace Viz.WrkModule.Qc
 
     public bool CanExportStsToGraphFile()
     {
-      return (dsQc.Sts.Rows.Count > 0) && IsControlEnabled;
+      return (dsQc.UstTrendQuality.Rows.Count > 0) && IsControlEnabled;
     }
 
     public void CalcUstGrp()
     {
       dsQc.ProtCalcUst.Rows.Clear();
-      gcPrmNotExists.ItemsSource = null;
+      gcProtCalcUst.ItemsSource = null;
 
       chartSts.Diagram = null;
       chartSts.Titles.Clear();
@@ -1064,7 +1079,7 @@ namespace Viz.WrkModule.Qc
         
       
 
-      gcPrmNotExists.View.ExportToXlsx(sfd.FileName);
+      gcProtCalcUst.View.ExportToXlsx(sfd.FileName);
       DxInfo.ShowDxBoxInfo("Экспорт данных", "Экспорт данных в файл: " + sfd.FileName + " успешно выполнен", MessageBoxImage.Information);
     }
 
