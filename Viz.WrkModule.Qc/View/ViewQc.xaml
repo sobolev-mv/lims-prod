@@ -184,7 +184,7 @@
                 <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding ResUstGrp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" MaskUseAsDisplayFormat="True" MaskBeepOnError="True" IsReadOnly="True" FontFamily="Arial"/>
               </dxl:LayoutItem-->
               <dxl:LayoutItem>
-                <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0,0,0,0">
+                <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3">
                   <Label Content="{Binding LabelHeaderResUstGrp}"  FontFamily="Arial"/>
                   <Label Content="{Binding LabelResUstGrp}"  FontFamily="Arial" FontWeight="Bold">
                     <Label.Foreground>
@@ -192,6 +192,9 @@
                     </Label.Foreground>
                   </Label>
                   <dxe:TextEdit Width="70" HorizontalContentAlignment="Right" EditValue="{Binding ResUstGrp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" MaskUseAsDisplayFormat="True" MaskBeepOnError="True" IsReadOnly="True" FontFamily="Arial"/>
+                  <Label Content="     "/>
+                  <Label Content="{Binding LabelResUstDff}"  FontFamily="Arial"/>
+                  <dxe:TextEdit Width="70" HorizontalContentAlignment="Right" EditValue="{Binding ResUstDiff, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" MaskUseAsDisplayFormat="True" MaskBeepOnError="True" IsReadOnly="True" FontFamily="Arial"/>
                 </dxl:FlowLayoutControl>
               </dxl:LayoutItem>
             </dxl:LayoutGroup>

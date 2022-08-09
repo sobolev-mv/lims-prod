@@ -69,6 +69,8 @@ namespace Viz.WrkModule.Qc
     public virtual double ?ResUstGrp { get; set; } = null;
     public virtual string LabelHeaderResUstGrp { get; set; }
     public virtual string LabelResUstGrp { get; set; }
+    public virtual double? ResUstDff { get; set; } = null;
+    public virtual string LabelResUstDff { get; set; }
     public virtual Boolean IsEnableCbAgTyp { get; set; }
     public virtual Boolean IsEnableCbAgr { get; set; }
     public virtual Boolean IsEnableCbBrg { get; set; }
@@ -632,15 +634,19 @@ namespace Viz.WrkModule.Qc
     private void TaskCalcUst4LocNum(Object state)
     {
       dsQc.UstTrendQuality.Rows.Clear();
-      LabelHeaderResUstGrp = LabelResUstGrp = null;
-      ResUstGrp = null;
+      LabelHeaderResUstGrp = LabelResUstGrp = LabelResUstDff = null;
+      ResUstGrp = ResUstDff = null;
       Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.UstTrendQuality.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
+      dsQc.UstTrendDff.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.ProtCalcUst.LoadData();
+
     }
 
-    private void CreateTrendUst(string strTitle, DataTable dataSourceTrend)
+    private void CreateTrendUst(string strTitle, DataTable dataSourceTrend, string strLegend)
     {
+      chartSts.BeginInit();
+
       chartSts.Titles.Add(new Title()
                           {
                             Content = strTitle,
@@ -648,8 +654,16 @@ namespace Viz.WrkModule.Qc
                           }
                          );
 
+      if (chartSts.Legends.Count == 0)
+        chartSts.Legends.Add(new Legend
+                                 {
+                                   HorizontalPosition = HorizontalPosition.Center,
+                                   VerticalPosition = VerticalPosition.BottomOutside,
+                                   Orientation = Orientation.Horizontal
+                                 }
+                            );
 
-      chartSts.Diagram = new XYDiagram2D
+      chartSts.Diagram ??= new XYDiagram2D
       {
         AxisY = new AxisY2D
         {
@@ -680,21 +694,29 @@ namespace Viz.WrkModule.Qc
                                         MarkerVisible = true,
                                         ValueDataMember = "RatioSts",
                                         ArgumentDataMember = "NameGroup",
-                                        DataSource = dataSourceTrend
-                                      }
+                                        DataSource = dataSourceTrend,
+                                        DisplayName = strLegend
+      }
       );
 
-
+      chartSts.EndInit();
     }
+    private void ClearUstChart()
+    {
+      foreach (var legend in chartSts.Legends)
+        legend.Visible = false;
 
+      chartSts.Diagram?.Series.Clear();
+      chartSts.Titles.Clear();
+      chartSts.Legend?.Items.Clear();
+      chartSts.Legends.Clear();
+      chartSts.Diagram = null;
+    }
     private void AfterTaskEndCalcUst4LocNum(Task obj)
     {
       this.usrControl.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)(() =>
       {
         tcMain.SelectedIndex = 1;
-        chartSts.Diagram?.Series.Clear();
-        chartSts.Diagram = null;
-        chartSts.Titles.Clear();
 
         //Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
         //dsQc.Sts.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
@@ -707,14 +729,20 @@ namespace Viz.WrkModule.Qc
           return;
         }
 
-        var strTitle = $"Лок. №: {LocNum}     УСТ общее: {Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum)}";
-        CreateTrendUst(strTitle, dsQc.UstTrendQuality);
+        double ustAll = Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
+        //double ustDff =
+
+        var strTitle = $"Лок. №: {LocNum}     УСТ общее: {ustAll}";
+        CreateTrendUst(strTitle, dsQc.UstTrendQuality, "Уровень соответствия технологии (УСТ)");
+        strTitle = string.Empty;
+        CreateTrendUst(strTitle, dsQc.UstTrendDff, "Коэфф наполнения данных (КНД)");
 
         gcProtCalcUst.ItemsSource = ProtCalcUst;
 
         LabelHeaderResUstGrp = "УСТ общее:";
         LabelResUstGrp = null;
-        ResUstGrp = Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
+        ResUstGrp = ustAll;
+
         EndWaitPgb();
         IsControlEnabled = true;
         CommandManager.InvalidateRequerySuggested();
@@ -724,8 +752,8 @@ namespace Viz.WrkModule.Qc
     public void TaskCalcUstGrp(Object state)
     {
       dsQc.UstTrendQuality.Rows.Clear();
-      LabelHeaderResUstGrp = LabelResUstGrp = null;
-      ResUstGrp = null;
+      LabelHeaderResUstGrp = LabelResUstGrp = LabelResUstDff = null;
+      ResUstGrp = ResUstDff = null;
 
       switch ((ModuleConst.TypeUstGrp)TypeUstId)
       {
@@ -990,6 +1018,7 @@ namespace Viz.WrkModule.Qc
 
     public void CalcUst4LocNum()
     {
+      ClearUstChart();
       IsControlEnabled = false;
       StartWaitPgb();
       dsQc.ProtCalcUst.Rows.Clear();
@@ -1040,8 +1069,8 @@ namespace Viz.WrkModule.Qc
       dsQc.ProtCalcUst.Rows.Clear();
       gcProtCalcUst.ItemsSource = null;
 
-      chartSts.Diagram = null;
-      chartSts.Titles.Clear();
+      ClearUstChart();
+
       IsControlEnabled = false;
       StartWaitPgb();
       var task = Task.Factory.StartNew(TaskCalcUstGrp, null).ContinueWith(AfterTaskEndCalcUstGrp);

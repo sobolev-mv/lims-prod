@@ -27,6 +27,7 @@ namespace Viz.WrkModule.Qc.Db.DataSets
     public AgTypDataTable AgTypNzp { get; private set; }
     public ResultFcastAllDataTable ResultFcastAll { get; private set; }
     public ProtCalcUstDataTable ProtCalcUst { get; private set; }
+    public UstTrendDffDataTable UstTrendDff { get; private set; }
 
     public DsQc() : base()
     {
@@ -88,6 +89,9 @@ namespace Viz.WrkModule.Qc.Db.DataSets
 
       this.ProtCalcUst = new ProtCalcUstDataTable("ProtCalcUst");
       this.Tables.Add(this.ProtCalcUst);
+
+      this.UstTrendDff = new UstTrendDffDataTable("UstTrendDff");
+      this.Tables.Add(this.UstTrendDff);
 
     }
   }
