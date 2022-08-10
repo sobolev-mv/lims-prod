@@ -17,6 +17,7 @@ using Viz.WrkModule.Qc.Db.DataSets;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Input;
+using System.Windows.Media;
 using DevExpress.Xpf.Ribbon;
 using Smv.Utils;
 using Viz.DbApp.Psi;
@@ -70,7 +71,7 @@ namespace Viz.WrkModule.Qc
     public virtual string LabelHeaderResUstGrp { get; set; }
     public virtual string LabelResUstGrp { get; set; }
     public virtual double? ResUstDff { get; set; } = null;
-    public virtual string LabelResUstDff { get; set; }
+    public virtual string LabelHeaderResUstDff { get; set; }
     public virtual Boolean IsEnableCbAgTyp { get; set; }
     public virtual Boolean IsEnableCbAgr { get; set; }
     public virtual Boolean IsEnableCbBrg { get; set; }
@@ -622,8 +623,8 @@ namespace Viz.WrkModule.Qc
     /*Для выполнения операции в другом потоке*/
     private void StartWaitPgb()
     {
-      this.pgbWait.StyleSettings = new ProgressBarMarqueeStyleSettings();
-      (this.pgbWait.StyleSettings as ProgressBarMarqueeStyleSettings).AccelerateRatio = 10;
+      pgbWait.StyleSettings = new ProgressBarMarqueeStyleSettings();
+      (((ProgressBarMarqueeStyleSettings)pgbWait.StyleSettings)).AccelerateRatio = 10;
     }
 
     private void EndWaitPgb()
@@ -634,7 +635,7 @@ namespace Viz.WrkModule.Qc
     private void TaskCalcUst4LocNum(Object state)
     {
       dsQc.UstTrendQuality.Rows.Clear();
-      LabelHeaderResUstGrp = LabelResUstGrp = LabelResUstDff = null;
+      LabelHeaderResUstGrp = LabelResUstGrp = LabelHeaderResUstDff = null;
       ResUstGrp = ResUstDff = null;
       Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.UstTrendQuality.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
@@ -643,16 +644,17 @@ namespace Viz.WrkModule.Qc
 
     }
 
-    private void CreateTrendUst(string strTitle, DataTable dataSourceTrend, string strLegend)
+    private void CreateTrendUst(string strTitle, DataTable dataSourceTrend, string strLegend, Color trendColor)
     {
       chartSts.BeginInit();
 
-      chartSts.Titles.Add(new Title()
-                          {
-                            Content = strTitle,
-                            HorizontalAlignment = HorizontalAlignment.Center
-                          }
-                         );
+      if (!string.IsNullOrEmpty(strTitle))
+        chartSts.Titles.Add(new Title()
+                                {
+                                  Content = strTitle,
+                                  HorizontalAlignment = HorizontalAlignment.Center
+                                }
+                           );
 
       if (chartSts.Legends.Count == 0)
         chartSts.Legends.Add(new Legend
@@ -663,42 +665,57 @@ namespace Viz.WrkModule.Qc
                                  }
                             );
 
-      chartSts.Diagram ??= new XYDiagram2D
-      {
-        AxisY = new AxisY2D
+      if (chartSts.Diagram == null)
+        chartSts.Diagram = new XYDiagram2D
         {
-          GridLinesVisible = true,
-          GridLinesMinorVisible = true,
-          VisualRange = new DevExpress.Xpf.Charts.Range
+          AxisY = new AxisY2D
           {
-            MinValue = 0,
-            MaxValue = 1
+            GridLinesVisible = true,
+            GridLinesMinorVisible = true,
+            VisualRange = new DevExpress.Xpf.Charts.Range
+            {
+              MinValue = 0,
+              MaxValue = 1
+            }
+          },
+          AxisX = new AxisX2D()
+          {
+            GridLinesVisible = true,
+            GridLinesMinorVisible = true,
+            VisualRange = new DevExpress.Xpf.Charts.Range()
           }
-        },
-        AxisX = new AxisX2D()
+        };
+
+      //LineSeries2D s;
+      //s.Points[0].Brush 
+
+      var colorizer = new DevExpress.Xpf.Charts.RangeSegmentColorizer
+      {
+        RangeStops = new DoubleCollection() { 0, 2 },
+        Palette = new DevExpress.Xpf.Charts.CustomPalette
         {
-          GridLinesVisible = true,
-          GridLinesMinorVisible = true,
-          VisualRange = new DevExpress.Xpf.Charts.Range()
-        }
+          Colors = { trendColor }
+        },
+        ShowInLegend = false
+      };
+      
+      var lineSeries2D = new LineSeries2D
+      {
+        Label = new SeriesLabel
+        {
+          FontSize = 16
+        },
+        LabelsVisibility = true,
+        ValueScaleType = ScaleType.Numerical,
+        MarkerVisible = true,
+        ValueDataMember = "RatioSts",
+        ArgumentDataMember = "NameGroup",
+        DataSource = dataSourceTrend,
+        DisplayName = strLegend,
+        SegmentColorizer = colorizer
       };
 
-      chartSts.Diagram.Series.Add(new LineSeries2D
-                                      {
-                                        Label = new SeriesLabel
-                                        {
-                                          FontSize = 16
-                                        },
-                                        LabelsVisibility = true,
-                                        ValueScaleType = ScaleType.Numerical,
-                                        MarkerVisible = true,
-                                        ValueDataMember = "RatioSts",
-                                        ArgumentDataMember = "NameGroup",
-                                        DataSource = dataSourceTrend,
-                                        DisplayName = strLegend
-      }
-      );
-
+      chartSts.Diagram.Series.Add(lineSeries2D);
       chartSts.EndInit();
     }
     private void ClearUstChart()
@@ -730,18 +747,20 @@ namespace Viz.WrkModule.Qc
         }
 
         double ustAll = Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
-        //double ustDff =
+        double ustDff = Db.Utils.GetDff4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
 
-        var strTitle = $"Лок. №: {LocNum}     УСТ общее: {ustAll}";
-        CreateTrendUst(strTitle, dsQc.UstTrendQuality, "Уровень соответствия технологии (УСТ)");
-        strTitle = string.Empty;
-        CreateTrendUst(strTitle, dsQc.UstTrendDff, "Коэфф наполнения данных (КНД)");
+        
+        CreateTrendUst(null, dsQc.UstTrendQuality, "Уровень соблюдения технологии (УСТ)", Colors.Red);
+        var strTitle = $"Лок. №: {LocNum}     УСТ общий: {ustAll}     КНД общий: {ustDff}";
+        CreateTrendUst(strTitle, dsQc.UstTrendDff, "Коэфф наполнения данных (КНД)", Colors.Blue);
 
         gcProtCalcUst.ItemsSource = ProtCalcUst;
 
-        LabelHeaderResUstGrp = "УСТ общее:";
+        LabelHeaderResUstGrp = "УСТ общий:";
+        LabelHeaderResUstDff = "КНД общий:";
         LabelResUstGrp = null;
         ResUstGrp = ustAll;
+        ResUstDff = ustDff;
 
         EndWaitPgb();
         IsControlEnabled = true;
@@ -752,7 +771,7 @@ namespace Viz.WrkModule.Qc
     public void TaskCalcUstGrp(Object state)
     {
       dsQc.UstTrendQuality.Rows.Clear();
-      LabelHeaderResUstGrp = LabelResUstGrp = LabelResUstDff = null;
+      LabelHeaderResUstGrp = LabelResUstGrp = LabelHeaderResUstDff = null;
       ResUstGrp = ResUstDff = null;
 
       switch ((ModuleConst.TypeUstGrp)TypeUstId)

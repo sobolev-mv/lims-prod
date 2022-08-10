@@ -94,6 +94,38 @@ namespace Viz.WrkModule.Qc.Db
       return Convert.ToDouble(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
 
+    public static double GetDff4LocNum(string typeSts, string locNum)
+    {
+      const string stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_UST_DFF where TYPE_CLC = :PTYPECLC and LOCNUM = :PLOCNUM ORDER BY ID" ;
+      var lstPrm = new List<OracleParameter>();
+
+      var prm = new OracleParameter
+      {
+        ParameterName = "PTYPECLC",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Size = typeSts.Length,
+        Value = typeSts
+      };
+      lstPrm.Add(prm);
+
+      prm = new OracleParameter
+      {
+        ParameterName = "PLOCNUM",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Size = locNum.Length,
+        Value = locNum
+      };
+      lstPrm.Add(prm);
+
+      return Convert.ToDouble(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
+    }
+
+
+
     public static void CalcParam4LocNum(string typeSts, string locNum)
     {
       Odac.ExecuteNonQuery("delete from VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
