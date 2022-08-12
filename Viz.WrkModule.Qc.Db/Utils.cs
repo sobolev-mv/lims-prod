@@ -300,6 +300,13 @@ namespace Viz.WrkModule.Qc.Db
       return Convert.ToDouble(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
 
+    public static double GetDff4Grp()
+    {
+      const string stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_UST_DFF";
+      return Convert.ToDouble(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, null));
+    }
+
+
     public static double GetSts999(string typeSts)
     {
      

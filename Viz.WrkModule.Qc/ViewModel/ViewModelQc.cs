@@ -47,7 +47,8 @@ namespace Viz.WrkModule.Qc
     private DataRow paramDataRow = null;
     private int prevMasterRowHandle = -1;
     private Int64 paramIdKeyVal;
-    private double tmpDouble;
+    private double tmpUstGrpDouble;
+    private double tmpDffGrpDouble;
 
     private readonly bool accCmdEditReference;
 
@@ -71,7 +72,7 @@ namespace Viz.WrkModule.Qc
     public virtual string LabelHeaderResUstGrp { get; set; }
     public virtual string LabelResUstGrp { get; set; }
     public virtual double? ResUstDff { get; set; } = null;
-    public virtual string LabelHeaderResUstDff { get; set; }
+    //public virtual string LabelHeaderResUstDff { get; set; }
     public virtual Boolean IsEnableCbAgTyp { get; set; }
     public virtual Boolean IsEnableCbAgr { get; set; }
     public virtual Boolean IsEnableCbBrg { get; set; }
@@ -635,7 +636,7 @@ namespace Viz.WrkModule.Qc
     private void TaskCalcUst4LocNum(Object state)
     {
       dsQc.UstTrendQuality.Rows.Clear();
-      LabelHeaderResUstGrp = LabelResUstGrp = LabelHeaderResUstDff = null;
+      LabelHeaderResUstGrp = LabelResUstGrp = null;
       ResUstGrp = ResUstDff = null;
       Db.Utils.CalcParam4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
       dsQc.UstTrendQuality.LoadData(ModuleConst.CS_TypeClcParamVld, LocNum);
@@ -749,15 +750,16 @@ namespace Viz.WrkModule.Qc
         double ustAll = Db.Utils.GetUst4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
         double ustDff = Db.Utils.GetDff4LocNum(ModuleConst.CS_TypeClcParamVld, LocNum);
 
-        
-        CreateTrendUst(null, dsQc.UstTrendQuality, "Уровень соблюдения технологии (УСТ)", Colors.Red);
+        //Важен порядок отрисовки трендов!
+        CreateTrendUst(null, dsQc.UstTrendDff, "Коэфф наполнения данных (КНД)", Colors.Blue);
         var strTitle = $"Лок. №: {LocNum}     УСТ общий: {ustAll}     КНД общий: {ustDff}";
-        CreateTrendUst(strTitle, dsQc.UstTrendDff, "Коэфф наполнения данных (КНД)", Colors.Blue);
+        CreateTrendUst(strTitle, dsQc.UstTrendQuality, "Уровень соблюдения технологии (УСТ)", Colors.Red);
+       
+        
 
         gcProtCalcUst.ItemsSource = ProtCalcUst;
 
         LabelHeaderResUstGrp = "УСТ общий:";
-        LabelHeaderResUstDff = "КНД общий:";
         LabelResUstGrp = null;
         ResUstGrp = ustAll;
         ResUstDff = ustDff;
@@ -771,7 +773,7 @@ namespace Viz.WrkModule.Qc
     public void TaskCalcUstGrp(Object state)
     {
       dsQc.UstTrendQuality.Rows.Clear();
-      LabelHeaderResUstGrp = LabelResUstGrp = LabelHeaderResUstDff = null;
+      LabelHeaderResUstGrp = LabelResUstGrp = null;
       ResUstGrp = ResUstDff = null;
 
       switch ((ModuleConst.TypeUstGrp)TypeUstId)
@@ -792,8 +794,10 @@ namespace Viz.WrkModule.Qc
           return;
       }
       
-      tmpDouble = Db.Utils.GetUst4AgTypAgr(ModuleConst.CS_TypeClcParamVld);
-      
+      tmpUstGrpDouble = Db.Utils.GetUst4AgTypAgr(ModuleConst.CS_TypeClcParamVld);
+      tmpDffGrpDouble = Db.Utils.GetDff4Grp();
+
+
     }
 
     private void AfterTaskEndCalcUstGrp(Task obj)
@@ -802,7 +806,8 @@ namespace Viz.WrkModule.Qc
       {
         tcMain.SelectedIndex = 1;
         CreateLabelResUstGrp();
-        ResUstGrp = tmpDouble;
+        ResUstGrp = tmpUstGrpDouble;
+        ResUstDff = tmpDffGrpDouble;
         gcProtCalcUst.ItemsSource = ProtCalcUst;
         EndWaitPgb();
         IsControlEnabled = true;
