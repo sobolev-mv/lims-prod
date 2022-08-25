@@ -50,6 +50,12 @@ namespace Viz.WrkModule.Qc.Db.DataSets
         col = new DataColumn("FactVal", typeof(string), null, MappingType.Element);
         this.Columns.Add(col);
 
+        col = new DataColumn("Agr", typeof(string), null, MappingType.Element);
+        this.Columns.Add(col);
+
+        col = new DataColumn("AnnealingLot", typeof(string), null, MappingType.Element);
+        this.Columns.Add(col);
+
         this.Constraints.Add(new UniqueConstraint("Pk_" + tblName, new[] { this.Columns["LocNum"], this.Columns["GroupId"], this.Columns["ParamId"] }, true));
 
         adapter.TableMappings.Clear();
@@ -62,6 +68,8 @@ namespace Viz.WrkModule.Qc.Db.DataSets
         dtm.ColumnMappings.Add("IS_EXT", "IsExt");
         dtm.ColumnMappings.Add("IS_CLCN", "IsClcN");
         dtm.ColumnMappings.Add("FACT_VAL", "FactVal");
+        dtm.ColumnMappings.Add("AGR", "Agr");
+        dtm.ColumnMappings.Add("ANNEALINGLOT", "AnnealingLot");
 
         adapter.TableMappings.Add(dtm);
 
@@ -69,7 +77,7 @@ namespace Viz.WrkModule.Qc.Db.DataSets
         adapter.SelectCommand = new OracleCommand
         {
           Connection = Odac.DbConnection,
-          CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL FROM VIZ_PRN.V_QMF_STS_PROTCALC",
+          CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC",
           CommandType = CommandType.Text
         };
 
@@ -78,14 +86,14 @@ namespace Viz.WrkModule.Qc.Db.DataSets
       public int LoadData()
       {
         adapter.SelectCommand.Parameters.Clear();
-        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL FROM VIZ_PRN.V_QMF_STS_PROTCALC";
+        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
         return Odac.LoadDataTable(this, adapter, true, null);
       }
 
       public int LoadData(string agTyp)
       {
         adapter.SelectCommand.Parameters.Clear();
-        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL FROM VIZ_PRN.V_QMF_STS_PROTCALC WHERE AGTYP = :PAGTYP";
+        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC WHERE AGTYP = :PAGTYP";
 
         var lstPrm = new List<Object>(){ agTyp };
         
@@ -106,7 +114,7 @@ namespace Viz.WrkModule.Qc.Db.DataSets
       public int LoadData4WorkShop()
       {
         adapter.SelectCommand.Parameters.Clear();
-        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL FROM VIZ_PRN.V_QMF_STS_PROTCALC WHERE IS_PROCAGTYP = 'Y'";
+        adapter.SelectCommand.CommandText = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC WHERE IS_PROCAGTYP = 'Y'";
         return Odac.LoadDataTable(this, adapter, true, null);
       }
 
