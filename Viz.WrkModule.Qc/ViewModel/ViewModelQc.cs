@@ -775,29 +775,32 @@ namespace Viz.WrkModule.Qc
       dsQc.UstTrendQuality.Rows.Clear();
       LabelHeaderResUstGrp = LabelResUstGrp = null;
       ResUstGrp = ResUstDff = null;
+      string tmpAgTyp;
+
 
       switch ((ModuleConst.TypeUstGrp)TypeUstId)
       {
         case ModuleConst.TypeUstGrp.Agregate:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, Agr, Brig);
           dsQc.ProtCalcUst.LoadData(AgTyp);
+          tmpAgTyp = AgTyp;
           break;
         case ModuleConst.TypeUstGrp.AgTyp:
           Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, null, 0);
           dsQc.ProtCalcUst.LoadData(AgTyp);
+          tmpAgTyp = AgTyp;
           break;
         case ModuleConst.TypeUstGrp.WorkShop:
           Db.Utils.CalcParam4WorkShop(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo);
           dsQc.ProtCalcUst.LoadData4WorkShop();
+          tmpAgTyp = null;
           break;
         default:
           return;
       }
       
       tmpUstGrpDouble = Db.Utils.GetUst4AgTypAgr(ModuleConst.CS_TypeClcParamVld);
-      tmpDffGrpDouble = Db.Utils.GetDff4Grp();
-
-
+      tmpDffGrpDouble = Db.Utils.GetDff4Grp(tmpAgTyp);
     }
 
     private void AfterTaskEndCalcUstGrp(Task obj)

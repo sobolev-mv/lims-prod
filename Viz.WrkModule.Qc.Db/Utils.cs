@@ -96,6 +96,9 @@ namespace Viz.WrkModule.Qc.Db
 
     public static double GetDff4LocNum(string typeSts, string locNum)
     {
+      //вызывается что б отключить фильтрацию по группам
+      DbApp.Psi.DbVar.SetNum(0, 0);
+
       const string stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_UST_DFF where TYPE_CLC = :PTYPECLC and LOCNUM = :PLOCNUM ORDER BY ID" ;
       var lstPrm = new List<OracleParameter>();
 
@@ -300,9 +303,19 @@ namespace Viz.WrkModule.Qc.Db
       return Convert.ToDouble(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
 
-    public static double GetDff4Grp()
+    public static double GetDff4Grp(string agTyp)
     {
-      const string stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_UST_DFF";
+      string stmtSql;
+
+      if (string.IsNullOrEmpty(agTyp))
+      {
+        stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_UST_DFF_WS";
+      }
+      else
+      {
+        DbApp.Psi.DbVar.SetNum(GetGroupId4AgTyp(agTyp), 1);
+        stmtSql = "select RATIO_CLC from VIZ_PRN.V_QMF_UST_DFF";
+      }
       return Convert.ToDouble(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, null));
     }
 
@@ -591,6 +604,26 @@ namespace Viz.WrkModule.Qc.Db
 
       return Convert.ToString(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
+
+    public static int GetGroupId4AgTyp(string agTyp)
+    {
+      const string stmtSql = "select ID from VIZ_PRN.QMF_PARAM_GROUP where AGTYP = :PAGTYP";
+      var lstPrm = new List<OracleParameter>();
+
+      var prm = new OracleParameter
+      {
+        ParameterName = "PAGTYP",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Size = agTyp.Length,
+        Value = agTyp
+      };
+      lstPrm.Add(prm);
+
+      return Convert.ToInt32(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
+    }
+
 
   }
 }
