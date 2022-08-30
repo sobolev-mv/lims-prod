@@ -150,6 +150,43 @@ namespace Viz.WrkModule.Qc.Db.DataSets
           SourceVersion = DataRowVersion.Original
         };
         adapter.UpdateCommand.Parameters.Add(param);
+
+        //Delete Command
+        adapter.DeleteCommand = new OracleCommand
+        {
+          Connection = Odac.DbConnection,
+          CommandText = "DELETE FROM VIZ_PRN.QMF_INFLUENCE WHERE (PARAM_ID = :Original_PARAM_ID) AND (INDICATOR_ID = :Original_INDICATOR_ID)",
+          CommandType = CommandType.Text,
+          PassParametersByName = true,
+          UpdatedRowSource = UpdateRowSource.None
+        };
+
+        param = new OracleParameter
+        {
+          DbType = DbType.Int64,
+          OracleDbType = OracleDbType.Int64,
+          Direction = ParameterDirection.Input,
+          IsNullable = false,
+          ParameterName = "Original_PARAM_ID",
+          SourceColumn = "PARAM_ID",
+          SourceColumnNullMapping = false,
+          SourceVersion = DataRowVersion.Original
+        };
+        adapter.DeleteCommand.Parameters.Add(param);
+
+        param = new OracleParameter
+        {
+          DbType = DbType.Int64,
+          OracleDbType = OracleDbType.Int64,
+          Direction = ParameterDirection.Input,
+          IsNullable = false,
+          ParameterName = "Original_INDICATOR_ID",
+          SourceColumn = "INDICATOR_ID",
+          SourceColumnNullMapping = false,
+          SourceVersion = DataRowVersion.Original
+        };
+        adapter.DeleteCommand.Parameters.Add(param);
+
       }
 
       public int LoadData()
