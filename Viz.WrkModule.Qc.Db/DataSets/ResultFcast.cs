@@ -47,7 +47,7 @@ namespace Viz.WrkModule.Qc.Db.DataSets
         col = new DataColumn("CfCastQ", typeof(double), null, MappingType.Element);
         this.Columns.Add(col);
 
-        this.Constraints.Add(new UniqueConstraint("Pk_" + tblName, new[] { this.Columns["LocNum"] }, true));
+        this.Constraints.Add(new UniqueConstraint("Pk_" + tblName, new[] { this.Columns["LocNum"], this.Columns["NameInd"] }, true));
 
         adapter.TableMappings.Clear();
         var dtm = new System.Data.Common.DataTableMapping("VIZ_PRN.V_QMF_RESULT_LFCASTQ", tblName);
