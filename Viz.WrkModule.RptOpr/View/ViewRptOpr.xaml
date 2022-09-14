@@ -309,7 +309,7 @@
     </dxl:LayoutGroup>
 
     <dxl:LayoutGroup Name="L1Grp_10008" Header="Мониторинг обрези УО" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="7">
-      <dxl:LayoutItem Label="Период расчета квартилей:" IsRequired="True">
+      <dxl:LayoutItem Name="b_16019" Label="Период расчета квартилей:" IsRequired="True">
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
           <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBeginQuart}" Mask="MM.yyyy" MaskUseAsDisplayFormat="True">
             <dxe:DateEdit.StyleSettings>

@@ -46,7 +46,8 @@
       SgpAndPsRepSGp = 16015,
       TrimAlongUo = 16016,
       MonitorTrimUoShift = 16017,
-      AooMetSleeve = 16018
+      AooMetSleeve = 16018,
+      AllowMonitorTrimUoShift = 16019
     }
 
     public const string ScriptsFolder = "\\Scripts";

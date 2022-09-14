@@ -755,7 +755,7 @@ namespace Viz.WrkModule.RptOpr
             //this.lg.Collapsed += LayoutGroupCollapsed;
           }
           else
-            lg.Visibility = Visibility.Hidden;
+            lg.Visibility = Visibility.Collapsed;
 
         }
       }
@@ -768,7 +768,7 @@ namespace Viz.WrkModule.RptOpr
           if (Permission.GetPermissionForModuleUif2(i, ModuleConst.ModuleId))
             uie.Visibility = Visibility.Visible;
           else
-            uie.Visibility = Visibility.Hidden;
+            uie.Visibility = Visibility.Collapsed;
         }
       }
 
@@ -780,7 +780,7 @@ namespace Viz.WrkModule.RptOpr
           if (Permission.GetPermissionForModuleUif2(i, ModuleConst.ModuleId))
             btn.Visibility = Visibility.Visible;
           else
-            btn.Visibility = Visibility.Hidden;
+            btn.Visibility = Visibility.Collapsed;
         }
       }
 
