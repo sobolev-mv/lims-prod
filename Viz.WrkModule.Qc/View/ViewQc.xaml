@@ -71,6 +71,8 @@
     </dxb:BarEditItem>
     <dxb:BarButtonItem Name="btnStartClcGrp" Content="Расч." Command="{Binding CalcUstGrpCommand}" LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/Effects-32x32.png" Hint="Расчитать х-тики качества для групп." />
     <dxb:BarButtonItem Name="btnExportProtCalc" Content="Прот." Command="{Binding ExportProtCalcUstGrpCommand}"  LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/ExportToExcel-32x32.png" Hint="Выгрузить протокол расчета." />
+    <dxb:BarButtonItem Name="btnRptGnrUst" Content="Общий УСТ" Command="{Binding RptGnrUstCommand}" LargeGlyph="pack://application:,,,/Viz.WrkModule.Qc;Component/Images/RadarWithMarkers_32x32.png" Hint="Отчет: Общий УСТ." />
+
     <dxb:BarEditItem Name="beiParamInFq" EditValue="{Binding ParamInFq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding CaptionParamInFq}" Hint="Лок №, Стенд. пратия, Список стендов. партий" EditWidth="250" IsEnabled="{Binding IsEnableParamInFq}">
       <dxb:BarEditItem.EditSettings>
         <dxe:TextEditSettings TextWrapping="Wrap"/>
@@ -128,6 +130,9 @@
       </dxr:RibbonPageGroup>
       <dxr:RibbonPageGroup Name="rpgUstAdditional" Caption="Общее" AllowCollapse="False">
         <dxb:BarButtonItemLink BarItemName="btnExportProtCalc" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
+      </dxr:RibbonPageGroup>
+      <dxr:RibbonPageGroup Name="rpgUstRpt" Caption="Отчетность" AllowCollapse="False">
+        <dxb:BarButtonItemLink BarItemName="btnRptGnrUst" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
       </dxr:RibbonPageGroup>
       <dxr:RibbonPageGroup Name="rpgQuit1" AllowCollapse="False">
         <dxb:BarButtonItemLink BarItemName="btnQuitxyz" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />

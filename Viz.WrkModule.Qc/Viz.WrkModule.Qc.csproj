@@ -67,6 +67,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\DtoRptGnrUstParamInput.cs" />
     <Compile Include="ModuleConst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -83,6 +84,10 @@
     </Compile>
     <Compile Include="QcContract.cs" />
     <Compile Include="ViewModel\ViewModelQc.cs" />
+    <Compile Include="ViewModel\ViewModelRptGnrUstParamInput.cs" />
+    <Compile Include="View\ViewRptGnrUstParamInput.xaml.cs">
+      <DependentUpon>ViewRptGnrUstParamInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ViewQc.xaml.cs">
       <DependentUpon>ViewQc.xaml</DependentUpon>
     </Compile>
@@ -117,6 +122,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\ViewRptGnrUstParamInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\ViewQc.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -144,6 +153,10 @@
   <ItemGroup>
     <Resource Include="Images\ExportToExcel-32x32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RadarWithMarkers_32x32.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

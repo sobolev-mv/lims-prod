@@ -1,0 +1,94 @@
+﻿<dx:DXWindow x:Class="Viz.WrkModule.Qc.ViewRptGnrUstParamInput"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+xmlns:dxl="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
+xmlns:conv="clr-namespace:Smv.XAML.Convertors;assembly=Smv.Prj.Core"
+xmlns:system="clr-namespace:System;assembly=mscorlib"
+Name="WinRptGnrUstParamInput"  WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" Title="Входные параметры отчета Общий УСТ" Height="282" Width="572" >
+  <dx:DXWindow.Resources>
+    <conv:BooleanToFilterColor x:Key="BooleanToFilterColor"/>
+  </dx:DXWindow.Resources>
+  <dxl:LayoutControl x:Name="LayoutRoot" StretchContentVertically="False" Orientation="Vertical">
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal">
+      <dxl:LayoutItem Label="Толщина:" LabelPosition="Left" VerticalAlignment="Center" HorizontalAlignment="Left">
+        <dxe:ComboBoxEdit Name="CbeFinalThickness" Width="130" EditValue="{Binding DtoParam.FinalThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsTextEditable="False" SelectedIndex="0" ItemsSource="{Binding DtoParam.DtThickness}" DisplayMember="TextDispaly" ValueMember="Thickness" SelectedItem="{Binding DtoParam.FinalThicknessItem}" />
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Path=DtoParam.IsKesiAvg, Converter={StaticResource BooleanToFilterColor}}">
+      <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,1,0,1">
+        <dxe:CheckEdit IsChecked="{Binding DtoParam.IsKesiAvg}" />
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label="КЭСИ ср от:" Margin="0,1,0,1" LabelPosition="Left" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding DtoParam.IsKesiAvg}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.KesiAvgMin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="d" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label=" до " Margin="0,1,3,1" LabelPosition="Left" HorizontalAlignment="Left" IsEnabled="{Binding DtoParam.IsKesiAvg}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.KesiAvgMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="d" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Path=DtoParam.IsKesiWorst, Converter={StaticResource BooleanToFilterColor}}">
+      <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,1,0,1">
+        <dxe:CheckEdit IsChecked="{Binding DtoParam.IsKesiWorst}"/>
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label="КЭСИ мин от:" Margin="0,1,0,1" LabelPosition="Left" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding DtoParam.IsKesiWorst}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.KesiWorstMin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="d" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label=" до " Margin="0,1,0,1" LabelPosition="Left" HorizontalAlignment="Left" IsEnabled="{Binding DtoParam.IsKesiWorst}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.KesiWorstMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="d" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Path=DtoParam.IsP1750, Converter={StaticResource BooleanToFilterColor}}">
+      <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,1,0,1">
+        <dxe:CheckEdit IsChecked="{Binding DtoParam.IsP1750}" />
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label="P1,7/50 от:" LabelPosition="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,1,0,1" IsEnabled="{Binding DtoParam.IsP1750}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.P1750Min, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label=" до " LabelPosition="Left" HorizontalAlignment="Left" Margin="0,1,0,1" IsEnabled="{Binding DtoParam.IsP1750}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.P1750Max, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Path=DtoParam.IsDefectTolowCat, Converter={StaticResource BooleanToFilterColor}}">
+      <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,1,0,1">
+        <dxe:CheckEdit IsChecked="{Binding DtoParam.IsDefectTolowCat}" />
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label="Перевод в низк. кат.(2,3,4) по деф:" Margin="0,1,0,1" IsEnabled="{Binding DtoParam.IsDefectTolowCat}" LabelPosition="Left" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" EditValue="{Binding DtoParam.DefectTolowCat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Path=DtoParam.IsDefectTo2Sort, Converter={StaticResource BooleanToFilterColor}}">
+      <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,1,0,1">
+        <dxe:CheckEdit IsChecked="{Binding DtoParam.IsDefectTo2Sort}" />
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label="Перевод в 2 сорт по деф:" LabelPosition="Left" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding DtoParam.IsDefectTo2Sort}">
+        <dxe:TextEdit Width="130" HorizontalContentAlignment="Right" Margin="0,1,0,1" EditValue="{Binding DtoParam.DefectTo2Sort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{Binding Path=DtoParam.IsAdgIn, Converter={StaticResource BooleanToFilterColor}}">
+      <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,1,0,1">
+        <dxe:CheckEdit IsChecked="{Binding DtoParam.IsAdgIn}" />
+      </dxl:LayoutItem>
+      <dxl:LayoutItem Label="Адгезия внутр:" Margin="0,1,0,1" LabelPosition="Left" VerticalAlignment="Center" HorizontalAlignment="Left" IsEnabled="{Binding DtoParam.IsAdgIn}">
+        <dxe:ComboBoxEdit Name="CbeAdgIn"  Width="130" IsTextEditable="False" SeparatorString=",">
+          <dxe:ComboBoxEdit.StyleSettings>
+            <dxe:CheckedComboBoxStyleSettings/>
+          </dxe:ComboBoxEdit.StyleSettings>
+          <dxe:ComboBoxEditItem Content="A"/>
+          <dxe:ComboBoxEditItem Content="B"/>
+          <dxe:ComboBoxEditItem Content="C"/>
+          <dxe:ComboBoxEditItem Content="D"/>
+          <dxe:ComboBoxEditItem Content="E"/>
+          <dxe:ComboBoxEditItem Content="F"/>
+          <dxe:ComboBoxEditItem Content="O"/>
+        </dxe:ComboBoxEdit>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+
+    <dxl:LayoutGroup View="Group" HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Bottom">
+      <Button Width="70" Height="25" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" Margin="0,0,0,0" Content="Ok" IsDefault="True" Command="{Binding CloseOkWindowCommand}" />
+      <Button Width="70" Height="25" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" Margin="3,0,0,0" IsCancel="True" Content="Отмена" />
+    </dxl:LayoutGroup>
+  </dxl:LayoutControl>
+</dx:DXWindow>

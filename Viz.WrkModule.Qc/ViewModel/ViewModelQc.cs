@@ -21,6 +21,7 @@ using System.Windows.Media;
 using DevExpress.Xpf.Ribbon;
 using Smv.Utils;
 using Viz.DbApp.Psi;
+using Viz.WrkModule.Qc.Dto;
 
 
 namespace Viz.WrkModule.Qc
@@ -30,6 +31,7 @@ namespace Viz.WrkModule.Qc
     #region Fields
 
     private readonly UserControl usrControl;
+    private readonly Window mainWindow;
     private readonly RibbonControl rcMain;
     private readonly BarManager bmMain;
     private readonly DsQc dsQc = new DsQc();
@@ -899,6 +901,8 @@ namespace Viz.WrkModule.Qc
     public ViewModelQc(UserControl control, Object mainWindow)
     {
       usrControl = control;
+      this.mainWindow = mainWindow as Window;
+
       rcMain = LogicalTreeHelper.FindLogicalNode(mainWindow as Window, "rcMain") as RibbonControl;
       rcMain.SelectedPageChanged += RibbonSelectedPageChanged;
       bmMain = LogicalTreeHelper.FindLogicalNode(mainWindow as Window, "bmMain") as BarManager;
@@ -1176,9 +1180,24 @@ namespace Viz.WrkModule.Qc
     {
       return true;
     }
+    public void RptGnrUst()
+    {
+      var dtoRpt = new DtoRptGnrUstParamInput()
+      {
+        DtThickness = dsQc.Thickness,
+        FinalThickness = 0
+      };
+
+      var wnd = new ViewRptGnrUstParamInput(this.mainWindow, dtoRpt);
+      wnd.ShowDialog();
+    }
+    public bool CanRptGnrUst()
+    {
+      return CanCalcUstGrp();
+    }
 
     #endregion
 
-    }
+  }
 
   }
