@@ -11,6 +11,8 @@ using System.Threading;
 using System.Windows.Threading;
 using DevExpress.Xpf.Core;
 using Microsoft.Win32;
+using Smv.Xls;
+using System.Diagnostics;
 
 namespace Smv.Utils
 {
@@ -107,6 +109,25 @@ namespace Smv.Utils
         return string.Empty;
       return File.ReadAllText(ofd.FileName, encoding).Replace(" ", "").Replace("\r\n", " ").Trim().Replace(" ", delimiter);
     }
+
+    public static string GetFullPathRptFile(string fileName, string rptNameFolder = "Отчеты Lims")
+    {
+      //Проверяем существует ли папка, если нет создаем
+      if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + rptNameFolder))
+        Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + rptNameFolder);
+
+      if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + rptNameFolder + "\\" + Path.GetFileName(fileName)))
+        File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + rptNameFolder + "\\" + Path.GetFileName(fileName));
+
+      return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + rptNameFolder + "\\" + Path.GetFileName(fileName);
+    }
+
+    public static void OpenRptFolderOnTargetFile(string fileName, string rptNameFolder = "Отчеты Lims")
+    {
+      //System.Diagnostics.Process.Start("explorer.exe", @"/root," + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @",/select," + System.IO.Path.GetFileName(prm.DestXlsFile));
+      Process.Start("explorer.exe", @"/e,/select," + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + rptNameFolder + "\\" + Path.GetFileName(fileName));
+    }
+
   }
 
   public static class Sound

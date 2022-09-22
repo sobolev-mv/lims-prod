@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Effects;
 
-namespace Viz.WrkModule.Qc.Dto
+namespace Viz.WrkModule.Qc.Db.Dto
 {
   public class DtoRptGnrUstParamInput
   {
+    public DateTime DateFrom { get; set; }
+    public DateTime DateTo { get; set; }
     public double ?FinalThickness { get; set; }
     public string FinalThicknessSql => Convert.ToString(this.FinalThicknessItem.Row["TextSql"]);
     public DataRowView FinalThicknessItem { get; set; }
@@ -28,7 +30,7 @@ namespace Viz.WrkModule.Qc.Dto
     public Boolean IsDefectTo2Sort { get; set; }
     public string DefectTo2Sort { get; set; }
     public Boolean IsAdgIn { get; set; }
-    public string AdgIn { get; set; }
+    public string AdgInSql { get; set; }
     public DataTable DtThickness { get; set; }
   }
 }

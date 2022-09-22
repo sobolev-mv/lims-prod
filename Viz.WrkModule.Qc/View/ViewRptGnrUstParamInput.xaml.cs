@@ -12,7 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DevExpress.Xpf.Core;
 using DevExpress.Mvvm.POCO;
-using Viz.WrkModule.Qc.Dto;
+using Viz.WrkModule.Qc.Db.Dto;
+
 
 namespace Viz.WrkModule.Qc
 {

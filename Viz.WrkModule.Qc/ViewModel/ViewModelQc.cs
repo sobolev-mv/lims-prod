@@ -21,7 +21,8 @@ using System.Windows.Media;
 using DevExpress.Xpf.Ribbon;
 using Smv.Utils;
 using Viz.DbApp.Psi;
-using Viz.WrkModule.Qc.Dto;
+using Viz.WrkModule.Qc.Db.Dto;
+
 
 
 namespace Viz.WrkModule.Qc
@@ -841,6 +842,42 @@ namespace Viz.WrkModule.Qc
       }
     }
 
+    public void TaskGenRptGnrUst(Object state)
+    {
+      var dtoRpt = state as DtoRptGnrUstParamInput;
+
+      switch ((ModuleConst.TypeUstGrp)TypeUstId)
+      {
+        case ModuleConst.TypeUstGrp.Agregate:
+          //Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, Agr, Brig);
+          //dsQc.ProtCalcUst.LoadData(AgTyp);
+          break;
+        case ModuleConst.TypeUstGrp.AgTyp:
+          //Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, null, 0);
+          //dsQc.ProtCalcUst.LoadData(AgTyp);
+          break;
+        case ModuleConst.TypeUstGrp.WorkShop:
+          Db.Reports.GnrUst(dtoRpt);
+          break;
+        default:
+          return;
+      }
+
+      //tmpUstGrpDouble = Db.Utils.GetUst4AgTypAgr(ModuleConst.CS_TypeClcParamVld);
+      //tmpDffGrpDouble = Db.Utils.GetDff4Grp(tmpAgTyp);
+    }
+
+    private void AfterTaskEndGenRptGnrUst(Task obj)
+    {
+      this.usrControl.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)(() =>
+      {
+        tcMain.SelectedIndex = 1;
+        EndWaitPgb();
+        IsControlEnabled = true;
+        CommandManager.InvalidateRequerySuggested();
+      }));
+    }
+    
     public void TaskCalcForecastQualityCoil(Object state)
     {
       Db.Utils.CalcForecastQualityCoil(ParamInFq, TypeIndFqId);
@@ -1185,11 +1222,18 @@ namespace Viz.WrkModule.Qc
       var dtoRpt = new DtoRptGnrUstParamInput()
       {
         DtThickness = dsQc.Thickness,
-        FinalThickness = 0
+        DateFrom = this.DateFrom,
+        DateTo = this.DateTo
       };
-
+      
       var wnd = new ViewRptGnrUstParamInput(this.mainWindow, dtoRpt);
-      wnd.ShowDialog();
+      if (!wnd.ShowDialog().GetValueOrDefault())
+        return;
+      
+      IsControlEnabled = false;
+      StartWaitPgb();
+      var task = Task.Factory.StartNew(TaskGenRptGnrUst, dtoRpt).ContinueWith(AfterTaskEndGenRptGnrUst);
+      
     }
     public bool CanRptGnrUst()
     {

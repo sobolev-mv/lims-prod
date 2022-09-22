@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Viz.WrkModule.Qc.Dto;
+using Viz.WrkModule.Qc.Db.Dto;
 using System.Windows;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.LayoutControl;
@@ -35,7 +35,7 @@ namespace Viz.WrkModule.Qc
 
     private void WinClose(object sender, EventArgs e)
     {
-      DtoParam.AdgIn = cbeAdgIn.DisplayText;
+      DtoParam.AdgInSql = cbeAdgIn.DisplayText;
     }
     #endregion
 
