@@ -7,7 +7,7 @@ xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
 xmlns:dxl="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
 xmlns:conv="clr-namespace:Smv.XAML.Convertors;assembly=Smv.Prj.Core"
 xmlns:system="clr-namespace:System;assembly=mscorlib"
-Name="WinRptGnrUstParamInput"  WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" Title="Входные параметры отчета Общий УСТ" Height="282" Width="572" >
+Name="WinRptGnrUstParamInput"  WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" Title="Входные параметры отчета Общий УСТ" Height="293" Width="572" >
   <dx:DXWindow.Resources>
     <conv:BooleanToFilterColor x:Key="BooleanToFilterColor"/>
   </dx:DXWindow.Resources>
