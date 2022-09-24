@@ -39,10 +39,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Devart.Data, Version=5.0.2938.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+    <Reference Include="Devart.Data, Version=5.0.2333.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Devart.Data.Oracle, Version=10.0.0.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+    <Reference Include="Devart.Data.Oracle, Version=9.10.909.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
