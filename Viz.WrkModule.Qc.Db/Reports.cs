@@ -18,15 +18,99 @@ using DevExpress.XtraSpreadsheet.Model;
 
 namespace Viz.WrkModule.Qc.Db
 {
-  public static class Reports
+  public static class ReportsGeneralUst
   {
     public const string GnrUstSource = "\\Xlt\\Viz.WrkModule.Qc-GnrUst.xltx";
     public const string GnrUstDest = "Viz.WrkModule.Qc-GnrUst.xlsx";
 
-    public static void GnrUst(DtoRptGnrUstParamInput dtoRpt)
+    private static void CreateProtocol4GeneralUstWs(Workbook workBook)
     {
-      const string stmtSql = "VIZ_PRN.QMF_CALC_CORE.GenRptGnrUst4WorkShop";
+      //Здесь будем грузить протокол
+      var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[0];
+      const string stmtSqlProt =
+        "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
 
+      var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
+      if (odr != null)
+      {
+        int flds = odr.FieldCount;
+        int row = 3;
+
+        while (odr.Read())
+        {
+          var rangeFrom = workSheet.Range.FromLTRB(0, row, 9, row);
+          var rangeTo = workSheet.Range.FromLTRB(0, row + 1, 9, row + 1);
+          rangeTo.CopyFrom(rangeFrom, PasteSpecial.All);
+
+          workSheet[row, 0].Value = odr.GetString(0);
+          workSheet[row, 1].Value = odr.GetInt32(1);
+          workSheet[row, 2].Value = odr.GetString(2);
+          workSheet[row, 3].Value = odr.GetInt32(3);
+          workSheet[row, 4].Value = odr.GetString(4);
+          workSheet[row, 5].Value = odr.GetInt32(5);
+          workSheet[row, 6].Value = odr.GetInt32(6);
+          workSheet[row, 7].Value = odr.GetString(7);
+          workSheet[row, 8].Value = odr.GetString(8);
+          workSheet[row, 9].Value = odr.GetString(9);
+          row++;
+        }
+
+        odr.Close();
+        odr.Dispose();
+      }
+
+    }
+    
+    private static void CreateProtocol4GeneralUstAgTyp(Workbook workBook, string agTyp)
+    {
+      //Здесь будем грузить протокол
+      var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[0];
+      const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT " +
+                                 "FROM VIZ_PRN.V_QMF_STS_PROTCALC WHERE GROUP_ID = :PGID";
+
+      var lstPrm = new List<OracleParameter>();
+      var prm = new OracleParameter
+      {
+        ParameterName = "PGID",
+        DbType = DbType.Int32,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.Integer,
+        Value = Db.Utils.GetGroupIdAgTyp(agTyp)
+      };
+      lstPrm.Add(prm);
+
+      var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, lstPrm, null);
+      if (odr != null)
+      {
+        int flds = odr.FieldCount;
+        int row = 3;
+
+        while (odr.Read())
+        {
+          var rangeFrom = workSheet.Range.FromLTRB(0, row, 9, row);
+          var rangeTo = workSheet.Range.FromLTRB(0, row + 1, 9, row + 1);
+          rangeTo.CopyFrom(rangeFrom, PasteSpecial.All);
+
+          workSheet[row, 0].Value = odr.GetString(0);
+          workSheet[row, 1].Value = odr.GetInt32(1);
+          workSheet[row, 2].Value = odr.GetString(2);
+          workSheet[row, 3].Value = odr.GetInt32(3);
+          workSheet[row, 4].Value = odr.GetString(4);
+          workSheet[row, 5].Value = odr.GetInt32(5);
+          workSheet[row, 6].Value = odr.GetInt32(6);
+          workSheet[row, 7].Value = odr.GetString(7);
+          workSheet[row, 8].Value = odr.GetString(8);
+          workSheet[row, 9].Value = odr.GetString(9);
+          row++;
+        }
+
+        odr.Close();
+        odr.Dispose();
+      }
+
+    }
+    private static void CreateDtoObjOnDb(DtoRptGnrUstParamInput dtoRpt)
+    {
       Odac.ExecuteNonQuery("delete from VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
 
       Odac.DbConnection.Open();
@@ -49,7 +133,8 @@ namespace Viz.WrkModule.Qc.Db
         ["IS_DEFECT_TO2SORT"] = dtoRpt.IsDefectTo2Sort ? 1 : 0,
         ["DEFECT_TO2SORT"] = dtoRpt.DefectTo2Sort,
         ["IS_ADGIN"] = dtoRpt.IsAdgIn ? 1 : 0,
-        ["ADGIN_SQL"] = dtoRpt.AdgInSql
+        ["ADGIN_SQL"] = dtoRpt.AdgInSql,
+        ["AGTYP"] = dtoRpt.AgTyp
       };
       Odac.DbConnection.Close();
 
@@ -64,15 +149,39 @@ namespace Viz.WrkModule.Qc.Db
       };
       lstPrm.Add(prm);
 
+      const string stmtSql = "VIZ_PRN.QMF_CALC_CORE.GenRptGnrUst4WorkShop";
       Odac.ExecuteNonQuery(stmtSql, CommandType.StoredProcedure, false, lstPrm);
+    }
 
+    private static Workbook CreateAndLoadWorkBook()
+    {
       var src = Etc.StartPath + GnrUstSource;
-      var dst = Etc.GetFullPathRptFile(GnrUstDest);
-
       var workBook = new Workbook();
       workBook.LoadDocument(src, DocumentFormat.Xltx);
-      var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[0];
 
+      return workBook;
+    }
+
+    private static void SaveWorkBook(Workbook workBook)
+    {
+      var dst = Etc.GetFullPathRptFile(GnrUstDest);
+
+      workBook.SaveDocument(dst, DocumentFormat.Xlsx);
+      workBook.Dispose();
+      Etc.OpenRptFolderOnTargetFile(GnrUstDest);
+    }
+
+
+    public static void CreateGeneralUstWs(DtoRptGnrUstParamInput dtoRpt)
+    {
+      CreateDtoObjOnDb(dtoRpt);
+
+      var workBook = CreateAndLoadWorkBook();
+      workBook.Worksheets[2].Visible = false;
+
+      CreateProtocol4GeneralUstWs(workBook);
+
+      var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[1];
       workSheet[4, 1].Value = dtoRpt.DateFrom;
       workSheet[4, 2].Value = dtoRpt.DateTo;
       workSheet[5, 1].Value = dtoRpt.FinalThicknessSql;
@@ -86,8 +195,8 @@ namespace Viz.WrkModule.Qc.Db
       workSheet[10, 1].Value = dtoRpt.IsDefectTo2Sort ? dtoRpt.DefectTo2Sort : string.Empty;
       workSheet[11, 1].Value = dtoRpt.IsAdgIn ? dtoRpt.AdgInSql : string.Empty;
 
-      const string sqlStmt1 = "select NAMEGROUP, RATIO_GROUP from VIZ_PRN.V_QMF_RPTGRNDFF_WS";
-      var odr = Odac.GetOracleReader(sqlStmt1, CommandType.Text, false, null, null);
+      const string sqlStmtDff = "select NAMEGROUP, RATIO_GROUP from VIZ_PRN.V_QMF_RPTGRNDFF_WS";
+      var odr = Odac.GetOracleReader(sqlStmtDff, CommandType.Text, false, null, null);
       if (odr != null)
       {
         int flds = odr.FieldCount;
@@ -99,12 +208,13 @@ namespace Viz.WrkModule.Qc.Db
           workSheet[row, 2].Value = odr.GetDouble(1);
           row++;
         }
+
         odr.Close();
         odr.Dispose();
       }
 
-      const string sqlStmt2 = "select NAMEGROUP, RATIO_GROUP from VIZ_PRN.V_QMF_RPTGRNUST_WS";
-      odr = Odac.GetOracleReader(sqlStmt2, CommandType.Text, false, null, null);
+      const string sqlStmtUst = "select NAMEGROUP, RATIO_GROUP from VIZ_PRN.V_QMF_RPTGRNUST_WS";
+      odr = Odac.GetOracleReader(sqlStmtUst, CommandType.Text, false, null, null);
       if (odr != null)
       {
         int flds = odr.FieldCount;
@@ -116,22 +226,47 @@ namespace Viz.WrkModule.Qc.Db
           workSheet[row, 1].Value = odr.GetDouble(1);
           row++;
         }
+
         odr.Close();
         odr.Dispose();
       }
 
-      var valUstAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNUST_WS", CommandType.Text, false, null));
-      var valDffAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNDFF_WS", CommandType.Text, false, null));
+      var valUstAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNUST_WS",
+        CommandType.Text, false, null));
+      var valDffAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNDFF_WS",
+        CommandType.Text, false, null));
       var charTitle = $"ЦХП, УСТ -  {valUstAll:n2}; КНД - {valDffAll:n2}";
       workSheet.Charts[0].Title.SetValue(charTitle);
 
-
-
-
-      workBook.SaveDocument(dst, DocumentFormat.Xlsx);
-      workBook.Dispose();
-      Etc.OpenRptFolderOnTargetFile(GnrUstDest);
+      SaveWorkBook(workBook);
     }
 
+    public static void CreateGeneralUstAgTyp(DtoRptGnrUstParamInput dtoRpt)
+    {
+      CreateDtoObjOnDb(dtoRpt);
+
+      var workBook = CreateAndLoadWorkBook();
+      workBook.Worksheets[1].Visible = false;
+
+      CreateProtocol4GeneralUstAgTyp(workBook, dtoRpt.AgTyp);
+
+
+      var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[2];
+      workSheet[4, 1].Value = dtoRpt.DateFrom;
+      workSheet[4, 2].Value = dtoRpt.DateTo;
+      workSheet[5, 1].Value = dtoRpt.FinalThicknessSql;
+      workSheet[6, 1].Value = dtoRpt.IsKesiAvg ? dtoRpt.KesiAvgMin : (int?)null;
+      workSheet[6, 2].Value = dtoRpt.IsKesiAvg ? dtoRpt.KesiAvgMax : (int?)null;
+      workSheet[7, 1].Value = dtoRpt.IsKesiWorst ? dtoRpt.KesiWorstMin : (int?)null;
+      workSheet[7, 2].Value = dtoRpt.IsKesiWorst ? dtoRpt.KesiWorstMax : (int?)null;
+      workSheet[8, 1].Value = dtoRpt.IsP1750 ? dtoRpt.P1750Min : (double?)null;
+      workSheet[8, 2].Value = dtoRpt.IsP1750 ? dtoRpt.P1750Max : (double?)null;
+      workSheet[9, 1].Value = dtoRpt.IsDefectTolowCat ? dtoRpt.DefectTolowCat : string.Empty;
+      workSheet[10, 1].Value = dtoRpt.IsDefectTo2Sort ? dtoRpt.DefectTo2Sort : string.Empty;
+      workSheet[11, 1].Value = dtoRpt.IsAdgIn ? dtoRpt.AdgInSql : string.Empty;
+      workSheet[12, 1].Value = Utils.GetNameAgTyp(dtoRpt.AgTyp);
+
+      SaveWorkBook(workBook);
+    }
   }
 }

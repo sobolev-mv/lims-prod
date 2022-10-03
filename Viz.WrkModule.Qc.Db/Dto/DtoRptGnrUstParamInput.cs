@@ -32,5 +32,7 @@ namespace Viz.WrkModule.Qc.Db.Dto
     public Boolean IsAdgIn { get; set; }
     public string AdgInSql { get; set; }
     public DataTable DtThickness { get; set; }
+    public string AgTyp { get; set; }
+
   }
 }

@@ -379,6 +379,25 @@ namespace Viz.WrkModule.Qc.Db
       return Convert.ToString(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
     }
 
+    public static int GetGroupIdAgTyp(string agTyp)
+    {
+      const string stmtSql = "select ID from VIZ_PRN.QMF_PARAM_GROUP where AGTYP = :PAGTYP";
+      var lstPrm = new List<OracleParameter>();
+
+      var prm = new OracleParameter
+      {
+        ParameterName = "PAGTYP",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Size = agTyp.Length,
+        Value = agTyp
+      };
+      lstPrm.Add(prm);
+
+      return Convert.ToInt32(Odac.ExecuteScalar(stmtSql, CommandType.Text, false, lstPrm));
+    }
+    
     public static string GetNameAgregate(string agTyp, string agr)
     {
       const string stmtSql = "select NAME from VIZ_PRN.QMF_AGREGATE where AGTYP = :PAGTYP  AND AGR = :PAGR";

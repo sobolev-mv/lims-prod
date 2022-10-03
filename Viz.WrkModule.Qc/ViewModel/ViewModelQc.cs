@@ -853,11 +853,11 @@ namespace Viz.WrkModule.Qc
           //dsQc.ProtCalcUst.LoadData(AgTyp);
           break;
         case ModuleConst.TypeUstGrp.AgTyp:
-          //Db.Utils.CalcParam4AgTypAgr(ModuleConst.CS_TypeClcParamVld, DateFrom, DateTo, AgTyp, null, 0);
-          //dsQc.ProtCalcUst.LoadData(AgTyp);
+          Db.ReportsGeneralUst.CreateGeneralUstAgTyp(dtoRpt);
           break;
         case ModuleConst.TypeUstGrp.WorkShop:
-          Db.Reports.GnrUst(dtoRpt);
+          dtoRpt.AgTyp = null;
+          Db.ReportsGeneralUst.CreateGeneralUstWs(dtoRpt);
           break;
         default:
           return;
@@ -1223,7 +1223,8 @@ namespace Viz.WrkModule.Qc
       {
         DtThickness = dsQc.Thickness,
         DateFrom = this.DateFrom,
-        DateTo = this.DateTo
+        DateTo = this.DateTo,
+        AgTyp = this.AgTyp
       };
       
       var wnd = new ViewRptGnrUstParamInput(this.mainWindow, dtoRpt);
