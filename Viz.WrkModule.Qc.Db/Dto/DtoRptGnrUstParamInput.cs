@@ -33,6 +33,7 @@ namespace Viz.WrkModule.Qc.Db.Dto
     public string AdgInSql { get; set; }
     public DataTable DtThickness { get; set; }
     public string AgTyp { get; set; }
+    public string Agr { get; set; }
 
   }
 }
