@@ -264,6 +264,7 @@ namespace Viz.WrkModule.Qc.Db
     public static void CreateGeneralUstAgregate(DtoRptGnrUstParamInput dtoRpt)
     {
       CreateDtoObjOnDb(dtoRpt);
+      //Odac.ExecuteNonQuery("INSERT INTO VIZ_PRN.QMF_CLC_DEBUG SELECT * FROM VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
 
       var workBook = CreateAndLoadWorkBook();
       workBook.Worksheets[1].Visible = workBook.Worksheets[2].Visible = false;
@@ -272,15 +273,50 @@ namespace Viz.WrkModule.Qc.Db
       var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
       CreateProtocol(workBook, odr);
       
-
       var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[3];
       CreateCreteria4AllReports(dtoRpt, workSheet);
       workSheet[12, 1].Value = dtoRpt.Agr;
 
+      const string sqlStmtDff = "select BRIG, RATIO_BRIG from VIZ_PRN.V_QMF_RPTGRNDFF_AGR";
+      odr = Odac.GetOracleReader(sqlStmtDff, CommandType.Text, false, null, null);
+      if (odr != null)
+      {
+        int flds = odr.FieldCount;
+        int row = 17;
 
+        while (odr.Read())
+        {
+          var rangeFrom = workSheet.Range.FromLTRB(0, row, 2, row);
+          var rangeTo = workSheet.Range.FromLTRB(0, row + 1, 2, row + 1);
+          rangeTo.CopyFrom(rangeFrom, PasteSpecial.All);
 
+          workSheet[row, 0].Value = odr.GetString(0);
+          workSheet[row, 2].Value = odr.GetDouble(1);
+          row++;
+        }
 
+        odr.Close();
+        odr.Dispose();
+      }
 
+      const string sqlStmtUst = "select BRIG, RATIO_BRIG from VIZ_PRN.V_QMF_RPTGRNUST_AGR";
+      odr = Odac.GetOracleReader(sqlStmtUst, CommandType.Text, false, null, null);
+      if (odr != null)
+      {
+        int flds = odr.FieldCount;
+        int row = 17;
+
+        while (odr.Read())
+        {
+          workSheet[row, 0].Value = odr.GetString(0);
+          workSheet[row, 1].Value = odr.GetDouble(1);
+          row++;
+        }
+
+        odr.Close();
+        odr.Dispose();
+      }
+      
       SaveWorkBook(workBook);
     }
 
