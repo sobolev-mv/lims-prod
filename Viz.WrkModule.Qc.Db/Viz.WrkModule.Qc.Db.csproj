@@ -124,6 +124,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Dto\DtoRptGnrUstParamInput.cs" />
+    <Compile Include="Dto\DtoRptListMatUstParamInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

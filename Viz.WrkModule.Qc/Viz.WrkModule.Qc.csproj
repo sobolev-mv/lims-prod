@@ -84,11 +84,15 @@
     <Compile Include="QcContract.cs" />
     <Compile Include="ViewModel\ViewModelQc.cs" />
     <Compile Include="ViewModel\ViewModelRptGnrUstParamInput.cs" />
+    <Compile Include="ViewModel\ViewModelRptListMatUstParamInput.cs" />
     <Compile Include="View\ViewRptGnrUstParamInput.xaml.cs">
       <DependentUpon>ViewRptGnrUstParamInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ViewQc.xaml.cs">
       <DependentUpon>ViewQc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ViewRptListMatUstParamInput.xaml.cs">
+      <DependentUpon>ViewRptListMatUstParamInput.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -129,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\ViewRptListMatUstParamInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ModuleGlyph-32x32.png" />
@@ -155,7 +163,9 @@
   <ItemGroup>
     <Resource Include="Images\RadarWithMarkers_32x32.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\ListMatUst-32x32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

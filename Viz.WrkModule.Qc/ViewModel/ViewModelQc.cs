@@ -1244,6 +1244,25 @@ namespace Viz.WrkModule.Qc
       return CanCalcUstGrp();
     }
 
+    public void RptListMatUst()
+    {
+      var dtoRpt = new DtoRptListMatUstParamInput();
+      
+      var wnd = new ViewRptListMatUstParamInput(this.mainWindow, dtoRpt);
+      if (!wnd.ShowDialog().GetValueOrDefault())
+        return;
+
+      /*
+      IsControlEnabled = false;
+      StartWaitPgb();
+      var task = Task.Factory.StartNew(TaskGenRptGnrUst, dtoRpt).ContinueWith(AfterTaskEndGenRptGnrUst);
+      */
+    }
+    public bool CanRptListMatUst()
+    {
+      return true;
+    }
+
     #endregion
 
   }
