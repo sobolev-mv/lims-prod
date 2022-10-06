@@ -17,9 +17,9 @@ using System.Security.Cryptography;
 using DevExpress.XtraSpreadsheet.Model;
 using Worksheet = DevExpress.Spreadsheet.Worksheet;
 
-namespace Viz.WrkModule.Qc.Db
+namespace Viz.WrkModule.Qc.Db.Reports
 {
-  public static class ReportsGeneralUst
+  public static class ReportGeneralUst
   {
     public const string GnrUstSource = "\\Xlt\\Viz.WrkModule.Qc-GnrUst.xltx";
     public const string GnrUstDest = "Viz.WrkModule.Qc-GnrUst.xlsx";
@@ -104,6 +104,13 @@ namespace Viz.WrkModule.Qc.Db
       Odac.ExecuteNonQuery(stmtSql, CommandType.StoredProcedure, false, lstPrm);
     }
 
+    private static void CreateChartTitle(Worksheet workSheet, string startHeader, string viewUstAll, string viewDffAll)
+    {
+      var valUstAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN." + viewUstAll, CommandType.Text, false, null));
+      var valDffAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN." + viewDffAll, CommandType.Text, false, null));
+      var charTitle = $"{startHeader}, УСТ -  {valUstAll:n2}; КНД - {valDffAll:n2}";
+      workSheet.Charts[0].Title.SetValue(charTitle);
+    }
     private static Workbook CreateAndLoadWorkBook()
     {
       var src = Etc.StartPath + GnrUstSource;
@@ -143,7 +150,7 @@ namespace Viz.WrkModule.Qc.Db
       CreateDtoObjOnDb(dtoRpt);
 
       var workBook = CreateAndLoadWorkBook();
-      workBook.Worksheets[2].Visible = false;
+      workBook.Worksheets[2].Visible = workBook.Worksheets[3].Visible = false;
       
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
       var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
@@ -189,11 +196,7 @@ namespace Viz.WrkModule.Qc.Db
         odr.Dispose();
       }
 
-      var valUstAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNUST_WS", CommandType.Text, false, null));
-      var valDffAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNDFF_WS", CommandType.Text, false, null));
-      var charTitle = $"ЦХП, УСТ -  {valUstAll:n2}; КНД - {valDffAll:n2}";
-      workSheet.Charts[0].Title.SetValue(charTitle);
-
+      CreateChartTitle(workSheet, "ЦХП", "V_QMF_RPTGRNUST_WS", "V_QMF_RPTGRNDFF_WS");
       SaveWorkBook(workBook);
     }
 
@@ -253,11 +256,7 @@ namespace Viz.WrkModule.Qc.Db
         odr.Dispose();
       }
 
-      var valUstAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNUST_AGTYP", CommandType.Text, false, null));
-      var valDffAll = Convert.ToDouble(Odac.ExecuteScalar("select RATIO_ALL from VIZ_PRN.V_QMF_RPTGRNDFF_AGTYP", CommandType.Text, false, null));
-      var charTitle = $"{Utils.GetNameAgTyp(dtoRpt.AgTyp)}, УСТ -  {valUstAll:n2}; КНД - {valDffAll:n2}";
-      workSheet.Charts[0].Title.SetValue(charTitle);
-      
+      CreateChartTitle(workSheet, Utils.GetNameAgTyp(dtoRpt.AgTyp),"V_QMF_RPTGRNUST_AGTYP", "V_QMF_RPTGRNDFF_AGTYP");
       SaveWorkBook(workBook);
     }
 
@@ -316,7 +315,8 @@ namespace Viz.WrkModule.Qc.Db
         odr.Close();
         odr.Dispose();
       }
-      
+
+      CreateChartTitle(workSheet, dtoRpt.Agr,"V_QMF_RPTGRNUST_AGR", "V_QMF_RPTGRNDFF_AGR");
       SaveWorkBook(workBook);
     }
 

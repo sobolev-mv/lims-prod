@@ -850,16 +850,16 @@ namespace Viz.WrkModule.Qc
       {
         case ModuleConst.TypeUstGrp.Agregate:
           dtoRpt.AgTyp = null;
-          Db.ReportsGeneralUst.CreateGeneralUstAgregate(dtoRpt);
+          Db.Reports.ReportGeneralUst.CreateGeneralUstAgregate(dtoRpt);
           break;
         case ModuleConst.TypeUstGrp.AgTyp:
           dtoRpt.Agr = null;
-          Db.ReportsGeneralUst.CreateGeneralUstAgTyp(dtoRpt);
+          Db.Reports.ReportGeneralUst.CreateGeneralUstAgTyp(dtoRpt);
           break;
         case ModuleConst.TypeUstGrp.WorkShop:
           dtoRpt.AgTyp = null;
           dtoRpt.Agr = null;
-          Db.ReportsGeneralUst.CreateGeneralUstWs(dtoRpt);
+          Db.Reports.ReportGeneralUst.CreateGeneralUstWs(dtoRpt);
           break;
         default:
           return;
