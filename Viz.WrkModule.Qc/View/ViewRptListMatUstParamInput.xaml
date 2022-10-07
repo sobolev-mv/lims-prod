@@ -8,8 +8,18 @@ xmlns:dxl="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
 Name="WinRptGnrUstParamInput"  WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" Title="Входные параметры отчета УСТ,КНДб протокол списка рулонов" Width="519" Height="240"  >
   <dxl:LayoutControl x:Name="LayoutRoot" StretchContentVertically="true" Orientation="Vertical">
     <dxl:LayoutGroup View="Group" Orientation="Horizontal">
-      <dxl:LayoutItem Label="Рулоны:" LabelPosition="Top" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-        <dxe:TextEdit TextWrapping="Wrap" EditValue="{Binding DtoParam.FinalThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+      <dxl:LayoutItem>
+        <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="5" Padding="0">
+          <RadioButton Content="Рулоны" IsChecked="True" Command="{Binding SelectUnitTypeCommand}" CommandParameter="C" />
+          <RadioButton Content="Стендовые партии" Command="{Binding SelectUnitTypeCommand}" CommandParameter="A" />
+        </dxl:FlowLayoutControl>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    <dxl:LayoutGroup View="Group" Orientation="Horizontal">
+      <dxl:LayoutItem Label="Еденица/Список едениц" LabelPosition="Top" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+        <dxe:ButtonEdit IsTextEditable="True" TextWrapping="Wrap" AllowDefaultButton="False" EditValue="{Binding ListMatDelim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+          <dxe:ButtonInfo GlyphKind="Edit" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadListMatFromTxtFileCommand}"/>
+        </dxe:ButtonEdit>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
 

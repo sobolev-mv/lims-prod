@@ -139,6 +139,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Reports\ReportGeneralUst.cs" />
+    <Compile Include="Reports\ReportListMatUst.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -13,16 +13,15 @@ using DevExpress.Spreadsheet;
 using Smv.Data.Oracle;
 using Smv.Utils;
 using Viz.WrkModule.Qc.Db.Dto;
-using System.Security.Cryptography;
-using DevExpress.XtraSpreadsheet.Model;
+using Smv.SpreadSheet;
 using Worksheet = DevExpress.Spreadsheet.Worksheet;
 
 namespace Viz.WrkModule.Qc.Db.Reports
 {
   public static class ReportGeneralUst
   {
-    public const string GnrUstSource = "\\Xlt\\Viz.WrkModule.Qc-GnrUst.xltx";
-    public const string GnrUstDest = "Viz.WrkModule.Qc-GnrUst.xlsx";
+    private const string GnrUstSource = "\\Xlt\\Viz.WrkModule.Qc-GnrUst.xltx";
+    private const string GnrUstDest = "Viz.WrkModule.Qc-GnrUst.xlsx";
 
     private static void CreateProtocol(Workbook workBook, OracleDataReader odrProtocol)
     {
@@ -111,23 +110,6 @@ namespace Viz.WrkModule.Qc.Db.Reports
       var charTitle = $"{startHeader}, УСТ -  {valUstAll:n2}; КНД - {valDffAll:n2}";
       workSheet.Charts[0].Title.SetValue(charTitle);
     }
-    private static Workbook CreateAndLoadWorkBook()
-    {
-      var src = Etc.StartPath + GnrUstSource;
-      var workBook = new Workbook();
-      workBook.LoadDocument(src, DocumentFormat.Xltx);
-
-      return workBook;
-    }
-
-    private static void SaveWorkBook(Workbook workBook)
-    {
-      var dst = Etc.GetFullPathRptFile(GnrUstDest);
-
-      workBook.SaveDocument(dst, DocumentFormat.Xlsx);
-      workBook.Dispose();
-      Etc.OpenRptFolderOnTargetFile(GnrUstDest);
-    }
 
     public static void CreateCreteria4AllReports(DtoRptGnrUstParamInput dtoRpt, Worksheet workSheet)
     {
@@ -149,7 +131,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
     {
       CreateDtoObjOnDb(dtoRpt);
 
-      var workBook = CreateAndLoadWorkBook();
+      var workBook = DxExSpreadSheet.CreateAndLoadWorkBook(GnrUstSource);
       workBook.Worksheets[2].Visible = workBook.Worksheets[3].Visible = false;
       
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
@@ -197,14 +179,14 @@ namespace Viz.WrkModule.Qc.Db.Reports
       }
 
       CreateChartTitle(workSheet, "ЦХП", "V_QMF_RPTGRNUST_WS", "V_QMF_RPTGRNDFF_WS");
-      SaveWorkBook(workBook);
+      DxExSpreadSheet.SaveWorkBook(workBook, GnrUstDest);
     }
 
     public static void CreateGeneralUstAgTyp(DtoRptGnrUstParamInput dtoRpt)
     {
       CreateDtoObjOnDb(dtoRpt);
 
-      var workBook = CreateAndLoadWorkBook();
+      var workBook = DxExSpreadSheet.CreateAndLoadWorkBook(GnrUstSource);
       workBook.Worksheets[1].Visible = workBook.Worksheets[3].Visible = false;
 
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
@@ -257,7 +239,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
       }
 
       CreateChartTitle(workSheet, Utils.GetNameAgTyp(dtoRpt.AgTyp),"V_QMF_RPTGRNUST_AGTYP", "V_QMF_RPTGRNDFF_AGTYP");
-      SaveWorkBook(workBook);
+      DxExSpreadSheet.SaveWorkBook(workBook, GnrUstDest);
     }
 
     public static void CreateGeneralUstAgregate(DtoRptGnrUstParamInput dtoRpt)
@@ -265,7 +247,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
       CreateDtoObjOnDb(dtoRpt);
       //Odac.ExecuteNonQuery("INSERT INTO VIZ_PRN.QMF_CLC_DEBUG SELECT * FROM VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
 
-      var workBook = CreateAndLoadWorkBook();
+      var workBook = DxExSpreadSheet.CreateAndLoadWorkBook(GnrUstSource);
       workBook.Worksheets[1].Visible = workBook.Worksheets[2].Visible = false;
 
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
@@ -317,7 +299,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
       }
 
       CreateChartTitle(workSheet, dtoRpt.Agr,"V_QMF_RPTGRNUST_AGR", "V_QMF_RPTGRNDFF_AGR");
-      SaveWorkBook(workBook);
+      DxExSpreadSheet.SaveWorkBook(workBook, GnrUstDest);
     }
 
 

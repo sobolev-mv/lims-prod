@@ -8,6 +8,7 @@ using Viz.WrkModule.Qc.Db.Dto;
 using System.Windows;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.LayoutControl;
+using Microsoft.Win32;
 
 namespace Viz.WrkModule.Qc
 {
@@ -20,20 +21,18 @@ namespace Viz.WrkModule.Qc
 
     #region Public Property
     public virtual DtoRptListMatUstParamInput DtoParam { get; set; }
+
+    public virtual string ListMatDelim { get; set; }
     #endregion
 
     #region Protected Method
     #endregion
 
     #region Private Method
-    private void WinActivated(object sender, EventArgs e)
+    private string GetStringFromTxtFile()
     {
-      
-    }
-
-    private void WinClose(object sender, EventArgs e)
-    {
-      
+      var ofd = new OpenFileDialog { DefaultExt = ".txt", Filter = "text format (.txt)|*.txt" };
+      return !ofd.ShowDialog().GetValueOrDefault() ? string.Empty : System.IO.File.ReadAllText(ofd.FileName, Encoding.GetEncoding(1251)).Replace(" ", "").Replace("\r\n", " ").Trim().Replace(" ", ",");
     }
     #endregion
 
@@ -44,8 +43,8 @@ namespace Viz.WrkModule.Qc
       this.dlgWindow = dlgWindow;
       this.mainWindow = mainWindow as Window;
       this.DtoParam = dtoParam;
-      this.dlgWindow.Activated += WinActivated;
-      this.dlgWindow.Closed += WinClose;
+
+      DtoParam.UnitType = "C";
     }
 
     #endregion
@@ -54,12 +53,33 @@ namespace Viz.WrkModule.Qc
     public void CloseOkWindow()
     {
       this.dlgWindow.DialogResult = true;
+      DtoParam.ListMatStringDelim = ListMatDelim;
       this.dlgWindow.Close();
     }
     public bool CanCloseOkWindow()
     {
       return true;
     }
+
+    public void LoadListMatFromTxtFile()
+    {
+      ListMatDelim = DtoParam.ListMatStringDelim = GetStringFromTxtFile();
+    }
+    public bool CanLoadListMatFromTxtFile()
+    {
+      return true;
+    }
+
+    public void SelectUnitType(Object parameter)
+    {
+      DtoParam.UnitType = Convert.ToString(parameter);
+    }
+    public bool CanSelectUnitType(Object parameter)
+    {
+      return true;
+    }
+
+
     #endregion
 
   }

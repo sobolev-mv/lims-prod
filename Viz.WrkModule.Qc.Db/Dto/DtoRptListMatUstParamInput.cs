@@ -9,5 +9,6 @@ namespace Viz.WrkModule.Qc.Db.Dto
   public class DtoRptListMatUstParamInput
   {
     public string ListMatStringDelim { get; set; }
+    public string UnitType { get; set; }
   }
 }
