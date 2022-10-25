@@ -16,7 +16,7 @@ Name="WinRptGnrUstParamInput"  WindowStartupLocation="CenterScreen" ShowInTaskba
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
     <dxl:LayoutGroup View="Group" Orientation="Horizontal">
-      <dxl:LayoutItem Label="Еденица/Список едениц" LabelPosition="Top" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+      <dxl:LayoutItem Label="Еденица/Список едениц с разделителем [,] и без пробелов" LabelPosition="Top" VerticalAlignment="Top" HorizontalAlignment="Stretch">
         <dxe:ButtonEdit IsTextEditable="True" TextWrapping="Wrap" AllowDefaultButton="False" EditValue="{Binding ListMatDelim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
           <dxe:ButtonInfo GlyphKind="Edit" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadListMatFromTxtFileCommand}"/>
         </dxe:ButtonEdit>

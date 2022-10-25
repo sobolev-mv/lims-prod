@@ -138,6 +138,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Reports\Report.cs" />
     <Compile Include="Reports\ReportGeneralUst.cs" />
     <Compile Include="Reports\ReportListMatUst.cs" />
     <Compile Include="Utils.cs" />

@@ -16,6 +16,7 @@ using Viz.WrkModule.Qc.Db.Dto;
 using System.Security.Cryptography;
 using DevExpress.XtraSpreadsheet.Model;
 using Worksheet = DevExpress.Spreadsheet.Worksheet;
+using Smv.SpreadSheet;
 
 namespace Viz.WrkModule.Qc.Db.Reports
 {
@@ -27,9 +28,32 @@ namespace Viz.WrkModule.Qc.Db.Reports
 
     public static void CreateListMatUst(DtoRptListMatUstParamInput dtoRpt)
     {
+      var workBook = DxExSpreadSheet.CreateAndLoadWorkBook(GnrUstSource);
+
+      Odac.ExecuteNonQuery("delete from VIZ_PRN.QMF_CLC", CommandType.Text, false, null);
+      DbApp.Psi.DbVar.SetStringList(dtoRpt.ListMatStringDelim, ",");
+
+      var lstPrm = new List<OracleParameter>();
+      var prm = new OracleParameter
+      {
+        ParameterName = "pi_UnitType",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Value = dtoRpt.UnitType,
+        Size = dtoRpt.UnitType.Length
+
+      };
+      lstPrm.Add(prm);
+      Odac.ExecuteNonQuery("VIZ_PRN.QMF_CALC_CORE.GenRptListMatUst", CommandType.StoredProcedure, false, lstPrm);
+
+      const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
+      var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
+      Report.CreateProtocol(workBook, odr, 3);
 
 
 
+      DxExSpreadSheet.SaveWorkBook(workBook, GnrUstDest);
 
     }
   }

@@ -100,7 +100,7 @@ namespace Viz.WrkModule.RptMagLab.Db
         int row = 7;
 
         while (odr.Read()){
-          CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, 1], CurrentWrkSheet.Cells[row, 25]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, 1], CurrentWrkSheet.Cells[row + 1, 25]]);
+          CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, 1], CurrentWrkSheet.Cells[row, 26]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, 1], CurrentWrkSheet.Cells[row + 1, 26]]);
 
           for (int i = 0; i < flds; i++)
             CurrentWrkSheet.Cells[row, i + 1].Value = odr.GetValue(i);

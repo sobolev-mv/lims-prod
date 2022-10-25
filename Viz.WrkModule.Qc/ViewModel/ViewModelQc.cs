@@ -879,7 +879,16 @@ namespace Viz.WrkModule.Qc
         CommandManager.InvalidateRequerySuggested();
       }));
     }
+
+    public void TaskGenListMatUst(Object state)
+    {
+      var dtoRpt = state as DtoRptListMatUstParamInput;
+      Db.Reports.ReportListMatUst.CreateListMatUst(dtoRpt);
+      //tmpUstGrpDouble = Db.Utils.GetUst4AgTypAgr(ModuleConst.CS_TypeClcParamVld);
+      //tmpDffGrpDouble = Db.Utils.GetDff4Grp(tmpAgTyp);
+    }
     
+
     public void TaskCalcForecastQualityCoil(Object state)
     {
       Db.Utils.CalcForecastQualityCoil(ParamInFq, TypeIndFqId);
@@ -1252,11 +1261,10 @@ namespace Viz.WrkModule.Qc
       if (!wnd.ShowDialog().GetValueOrDefault())
         return;
 
-      /*
       IsControlEnabled = false;
       StartWaitPgb();
-      var task = Task.Factory.StartNew(TaskGenRptGnrUst, dtoRpt).ContinueWith(AfterTaskEndGenRptGnrUst);
-      */
+      var task = Task.Factory.StartNew(TaskGenListMatUst, dtoRpt).ContinueWith(AfterTaskEndGenRptGnrUst);
+      
     }
     public bool CanRptListMatUst()
     {

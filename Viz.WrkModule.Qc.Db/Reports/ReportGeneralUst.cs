@@ -23,6 +23,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
     private const string GnrUstSource = "\\Xlt\\Viz.WrkModule.Qc-GnrUst.xltx";
     private const string GnrUstDest = "Viz.WrkModule.Qc-GnrUst.xlsx";
 
+    /*
     private static void CreateProtocol(Workbook workBook, OracleDataReader odrProtocol)
     {
       //Здесь будем грузить протокол
@@ -57,6 +58,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
       }
 
     }
+    */
 
     private static void CreateDtoObjOnDb(DtoRptGnrUstParamInput dtoRpt)
     {
@@ -136,7 +138,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
       
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
       var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
-      CreateProtocol(workBook, odr);
+      Report.CreateProtocol(workBook, odr, 3);
 
       var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[1];
 
@@ -191,7 +193,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
 
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
       var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
-      CreateProtocol(workBook, odr);
+      Report.CreateProtocol(workBook, odr, 3);
       
       var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[2];
       CreateCreteria4AllReports(dtoRpt, workSheet);
@@ -252,7 +254,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
 
       const string stmtSqlProt = "SELECT LOCNUM, GROUP_ID, GROUP_NAME, PARAM_ID, PARAM_NAME, IS_EXT, IS_CLCN, FACT_VAL, AGR, ANNEALINGLOT FROM VIZ_PRN.V_QMF_STS_PROTCALC";
       var odr = Odac.GetOracleReader(stmtSqlProt, CommandType.Text, false, null, null);
-      CreateProtocol(workBook, odr);
+      Report.CreateProtocol(workBook, odr, 3);
       
       var workSheet = workBook.Worksheets.ActiveWorksheet = workBook.Worksheets[3];
       CreateCreteria4AllReports(dtoRpt, workSheet);

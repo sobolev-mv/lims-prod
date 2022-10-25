@@ -93,6 +93,7 @@
     <Compile Include="ResultTargetValue.cs" />
     <Compile Include="SgpAndPs.cs" />
     <Compile Include="ShiftRptFinish.cs" />
+    <Compile Include="StateWhsUo.cs" />
     <Compile Include="Thickness2ndCut.cs" />
     <Compile Include="TrimAlongUo.cs" />
     <Compile Include="WghtAvrWidth.cs" />

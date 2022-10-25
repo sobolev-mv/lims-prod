@@ -14,7 +14,8 @@
       WghtAvrWidth = 10005,
       Equipment = 10006,
       PackUo = 10007,
-      MonitorTrimUoShift = 10008
+      MonitorTrimUoShift = 10008,
+      StateWhsUo = 10009
     }
 
     //Группы 2ур.
@@ -22,7 +23,8 @@
     {
       ShiftRptUo = 13000,
       ReasonSettleMetal = 13001,
-      IsolFinCut2Strann = 13002
+      IsolFinCut2Strann = 13002,
+      StateWhsUoEdit = 13003
     }
 
     //Кнопки запуска отчетов
@@ -94,5 +96,9 @@
     public const string MonitorLngTrimUoShiftRkDest = "\\Viz.WrkModule.RptOpr-MonitorTrimUoShiftRk.xlsx";
     public const string AooMetSleeveSource = "\\Xlt\\Viz.WrkModule.RptOpr-AooMetSleeve.xltx";
     public const string AooMetSleeveDest = "\\Viz.WrkModule.RptOpr-AooMetSleeve.xlsx";
+
+    public const string StateWhsUoSource = "\\Xlt\\Viz.WrkModule.RptOpr-StateWhsUo.xltx";
+    public const string StateWhsUoDest = "\\Viz.WrkModule.RptOpr-StateWhsUo.xlsx";
+
   }
 }

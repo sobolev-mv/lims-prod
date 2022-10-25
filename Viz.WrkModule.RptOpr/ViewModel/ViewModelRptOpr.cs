@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.LayoutControl;
 using Smv.MVVM.Commands;
 using Smv.MVVM.ViewModels;
@@ -87,6 +88,10 @@ namespace Viz.WrkModule.RptOpr
     //private string typeUm = "R";
     private decimal rkTotal;
     private decimal rkLng;
+
+    //Поля для отчета "Состояние складов СГП УО" 
+    private DateTime dateStateView;
+    private GridControl gcStateWhsUo;
     #endregion
 
     #region Public Property
@@ -652,6 +657,21 @@ namespace Viz.WrkModule.RptOpr
       }
     }
 
+    public DateTime DateStateView
+    {
+      get { return dateStateView; }
+      set
+      {
+        if (value == dateStateView) return;
+        dateStateView = value;
+        OnPropertyChanged("DateStateView");
+      }
+    }
+
+    public DataTable StateWhsUo
+    {
+      get { return dsRptOpr.StateWhsUo; }
+    }
 
     #endregion
 
@@ -739,10 +759,10 @@ namespace Viz.WrkModule.RptOpr
       param = Param;
       rpt = new XlsInstanceBackgroundReport();
       usrControl = control;
-      DateBegin = DateEnd = DateIncomplProd1 = DateIncomplProd2 = DateRangeBeginAvoF2 = DateRangeEndAvoF2 = DateRangeBeginUoF2 = DateRangeEndUoF2 = DateTime.Today;
+      DateBegin = DateEnd = DateIncomplProd1 = DateIncomplProd2 = DateRangeBeginAvoF2 = DateRangeEndAvoF2 = DateRangeBeginUoF2 = DateRangeEndUoF2 = DateStateView = DateTime.Today;
       TeamFinishApr = "1";
       TypeShiftFinishApr = "Д";
-      
+      gcStateWhsUo = LogicalTreeHelper.FindLogicalNode(usrControl, "GcStateWhsUo") as GridControl;
 
       //Группы 1-уровня
       foreach (int i in Enum.GetValues(typeof(ModuleConst.AccL1Gr))){
@@ -808,6 +828,10 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> selectTypeUmCommand;
     private DelegateCommand<Object> monitorDefLngTrimCommand;
     private DelegateCommand<Object> aooMetSleeveCommand;
+    private DelegateCommand<Object> stateWhsUoViewCommand;
+    private DelegateCommand<Object> stateWhsUoSaveCommand;
+    private DelegateCommand<Object> stateWhsUoDeleteCommand;
+    private DelegateCommand<Object> stateWhsUoCommand;
 
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
@@ -1352,6 +1376,61 @@ namespace Viz.WrkModule.RptOpr
       if (barEditItem != null) barEditItem.IsVisible = true;
     }
     private bool CanExecuteAooMetSleeve(Object parameter)
+    {
+      return true;
+    }
+    
+    public ICommand StateWhsUoViewCommand => stateWhsUoViewCommand ?? (stateWhsUoViewCommand = new DelegateCommand<Object>(ExecuteStateWhsUoView, CanExecuteStateWhsUoView));
+    private void ExecuteStateWhsUoView(Object parameter)
+    {
+      dsRptOpr.StateWhsUo.LoadData(DateStateView);
+    }
+    private bool CanExecuteStateWhsUoView(Object parameter)
+    {
+      return true;
+    }
+    
+    public ICommand StateWhsUoSaveCommand => stateWhsUoSaveCommand ?? (stateWhsUoSaveCommand = new DelegateCommand<Object>(ExecuteStateWhsUoSave, CanExecuteStateWhsUoSave));
+    private void ExecuteStateWhsUoSave(Object parameter)
+    {
+      (gcStateWhsUo.View as TableView)?.UpdateRow();
+      dsRptOpr.StateWhsUo.SaveData();
+    }
+    private bool CanExecuteStateWhsUoSave(Object parameter)
+    {
+      return true;
+    }
+    
+    public ICommand StateWhsUoDeleteCommand => stateWhsUoDeleteCommand ?? (stateWhsUoDeleteCommand = new DelegateCommand<Object>(ExecuteStateWhsUoDelete, CanExecuteStateWhsUoDelete));
+    private void ExecuteStateWhsUoDelete(Object parameter)
+    {
+      (gcStateWhsUo.View as TableView)?.DeleteRow(gcStateWhsUo.View.FocusedRowHandle);
+      dsRptOpr.StateWhsUo.SaveData();
+    }
+    private bool CanExecuteStateWhsUoDelete(Object parameter)
+    {
+      return dsRptOpr.StateWhsUo.Rows.Count > 0;
+    }
+
+    public ICommand StateWhsUoCommand => stateWhsUoCommand ?? (stateWhsUoCommand = new DelegateCommand<Object>(ExecuteStateWhsUo, CanExecuteStateWhsUo));
+    private void ExecuteStateWhsUo(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.StateWhsUoSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.StateWhsUoDest;
+
+      var rptParam = new StateWhsUoRptParam(src, dst)
+      {
+        DateBegin = new DateTime(DateStateView.Year, DateStateView.Month, 1)
+      };
+
+      var sp = new StateWhsUo();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteStateWhsUo(Object parameter)
     {
       return true;
     }

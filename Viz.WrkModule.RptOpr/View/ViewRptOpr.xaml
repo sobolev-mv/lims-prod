@@ -6,6 +6,7 @@
              xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon" 
              xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxl="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"                       
              xmlns:ruc="clr-namespace:Smv.RibbonUserUI;assembly=Smv.Prj.Core"
              xmlns:conv="clr-namespace:Smv.XAML.Convertors;assembly=Smv.Prj.Core"                       
@@ -42,7 +43,7 @@
       <dxl:LayoutGroup Name="L2Grp_13000">
         <dxl:LayoutItem Label="Лог:"  HorizontalAlignment="Left" Padding="0,0,20,0">
           <dxe:CheckEdit EditValue="{Binding IsLogInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </dxl:LayoutItem>        
+        </dxl:LayoutItem>
         <dxl:LayoutItem Label="Дата:"  HorizontalAlignment="Left">
           <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
         </dxl:LayoutItem>
@@ -175,7 +176,7 @@
               <dxe:ComboBoxEdit Width="150" EditValue="{Binding IdtargetNextProcF1}" IsTextEditable="False" IsEnabled="{Binding IsGroupParam1F1}" ItemsSource="{Binding LstTrgtNextProc}" DisplayMember="StrDlg" ValueMember="Id" SelectedItem="{Binding SelTargetNextProcItemF1}"/>
             </dxl:LayoutItem>
           </dxl:LayoutGroup>
-        </dxl:LayoutGroup>  
+        </dxl:LayoutGroup>
       </dxl:LayoutGroup>
     </dxl:LayoutGroup>
     <dxl:LayoutGroup Name="L1Grp_10003" Header="Причины осевшего металла на УО" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="2">
@@ -328,7 +329,7 @@
             <dxe:TextEdit Width="50" HorizontalContentAlignment="Right" EditValue="{Binding RkLng, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n4" MaskUseAsDisplayFormat="True" MaskBeepOnError="True"/>
           </dxl:LayoutItem>
         </dxl:FlowLayoutControl>
-        </dxl:LayoutItem>
+      </dxl:LayoutItem>
 
       <dxl:LayoutItem  IsRequired="True">
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
@@ -344,12 +345,64 @@
             </dxe:ComboBoxEdit>
           </dxl:LayoutItem>
           <Button Name="b_16017" Content="Мониторинг обрези за смену УО"  HorizontalAlignment="Left" Command="{Binding MonitorDefLngTrimCommand}" />
-
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
 
+    <dxl:LayoutGroup Name="L1Grp_10009" Header="Состояние складов УО" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="2">
+      <dxl:LayoutGroup Header="Просмотр СГП" Orientation="Vertical">
+        <dxl:LayoutItem Label="Состояние СГП на 08:00 первого числа:" IsRequired="True">
+          <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
+            <dxe:DateEdit Width="90" IsTextEditable="False" Mask="MM.yyyy" MaskUseAsDisplayFormat="True" EditValue="{Binding DateStateView}">
+              <dxe:DateEdit.StyleSettings>
+                <dxe:DateEditPickerStyleSettings/>
+              </dxe:DateEdit.StyleSettings>
+            </dxe:DateEdit>
+            <Button Content="Просмотр состояние СГП"  HorizontalAlignment="Left" Command="{Binding StateWhsUoViewCommand}"/>
+            <Button Content="Отчет"  HorizontalAlignment="Left" Command="{Binding StateWhsUoCommand}" />
+          </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Name="L2Grp_13003"  Label="Редактировать состояние СГП на 08:00 первого числа:" IsRequired="True">
+          <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
+            <Button Content="Сохранить изменения состояние СГП"  HorizontalAlignment="Left" Command="{Binding StateWhsUoSaveCommand}"/>
+            <Button Content="Удалить запись"  HorizontalAlignment="Left" Command="{Binding StateWhsUoDeleteCommand}"/>
+          </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
 
+        <dxg:GridControl Name="GcStateWhsUo"  ShowBorder="true" Height="250" ItemsSource="{Binding StateWhsUo}">
+          <dxg:GridControl.View>
+            <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" AllowGrouping="False" AllowEditing="{Binding ElementName=L2Grp_13003, Path=IsVisible}" NewItemRowPosition="Bottom"/>
+          </dxg:GridControl.View>
+          <dxg:GridControl.Columns>
+            <dxg:GridColumn FieldName="DateState" Header="Месяц,год" MinWidth="90" Width="90">
+              <dxg:GridColumn.EditSettings>
+                <dxe:DateEditSettings Mask="MM.yyyy" MaskUseAsDisplayFormat="True">
+                  <dxe:DateEditSettings.StyleSettings>
+                    <dxe:DateEditPickerStyleSettings/>
+                  </dxe:DateEditSettings.StyleSettings>
+                </dxe:DateEditSettings>
+              </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="Thickness" Header="Толщина" MinWidth="100" Width="100" Visible="True">
+              <dxg:GridColumn.EditSettings>
+                <dxe:ComboBoxEditSettings IsTextEditable="False" Mask="n2" MaskUseAsDisplayFormat="True">
+                  <dxe:ComboBoxEditSettings.Items>
+                    <sys:Double>0.23</sys:Double>
+                    <sys:Double>0.27</sys:Double>
+                    <sys:Double>0.30</sys:Double>
+                    <sys:Double>0.35</sys:Double>
+                  </dxe:ComboBoxEditSettings.Items>
+                </dxe:ComboBoxEditSettings>
+              </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="Sort1" Header="1 Сорт" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings DisplayFormat=n3}" />
+            <dxg:GridColumn FieldName="Cat3" Header="3 Кат" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings DisplayFormat=n3}" />
+            <dxg:GridColumn FieldName="Np" Header="NP" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings DisplayFormat=n3}" />
+            <dxg:GridColumn FieldName="Sort23" Header="2,3 Сорт" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings DisplayFormat=n3}" />
+          </dxg:GridControl.Columns>
+        </dxg:GridControl>
+      </dxl:LayoutGroup>
+    </dxl:LayoutGroup>
 
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>
