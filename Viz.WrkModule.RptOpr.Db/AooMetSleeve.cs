@@ -67,7 +67,7 @@ namespace Viz.WrkModule.RptOpr.Db
       Boolean Result = false;
 
       try{
-        CurrentWrkSheet.Cells[1, 11].Value = $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}";
+        CurrentWrkSheet.Cells[1, 12].Value = $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}";
 
         const string sqlStmt0 = "VIZ_PRN.AOO_MET_SLEEVE.PREMT_SLEEVE";
         Odac.ExecuteNonQuery(sqlStmt0, CommandType.StoredProcedure, false, null);
@@ -80,7 +80,7 @@ namespace Viz.WrkModule.RptOpr.Db
           int row = 4;
 
           const int firstExcelColumn = 1;
-          const int lastExcelColumn = 11;
+          const int lastExcelColumn = 12;
 
           while (odr.Read()){
             CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, firstExcelColumn], CurrentWrkSheet.Cells[row + 1, lastExcelColumn]]);
