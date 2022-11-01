@@ -4,20 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{306D0929-6EE7-45BF-ABBF-92A08F222A08}</ProjectGuid>
+    <ProjectGuid>{630B421D-100F-4EBD-86C0-BC747A9359C6}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Viz.WrkModule.Thp</RootNamespace>
-    <AssemblyName>Viz.WrkModule.Thp</AssemblyName>
+    <RootNamespace>Viz.WrkModule.RptOtk</RootNamespace>
+    <AssemblyName>Viz.WrkModule.RptOtk</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,15 +40,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DevExpress.Mvvm.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Printing.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
@@ -56,11 +48,7 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.Xpf.Grid.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Xpf.LayoutControl.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
@@ -81,17 +69,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\ViewThp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="Convertors.cs" />
     <Compile Include="ModuleConst.cs" />
-    <Compile Include="ThpContract.cs" />
-    <Compile Include="ViewModel\ViewModelThp.cs" />
-    <Compile Include="View\ViewThp.xaml.cs">
-      <DependentUpon>ViewThp.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="RptOtkContract.cs" />
+    <Compile Include="ViewModel\ViewModelRptOtk.cs" />
+    <Compile Include="View\ViewRptOtk.xaml.cs">
+      <DependentUpon>ViewRptOtk.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -119,11 +101,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\View-32x32.png" />
+    <Resource Include="Images\close-32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\close-32x32.png" />
-    <Resource Include="Images\ModuleGlyph-32x32.ico" />
+    <Resource Include="Images\NoFilter-128x128.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Smv.Prj.Core\Smv.Prj.Core.csproj">
@@ -131,30 +112,28 @@
       <Name>Smv.Prj.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Viz.WrkModule.Thp.Db\Viz.WrkModule.Thp.Db.csproj">
-      <Project>{14511bf3-c3ad-4c66-8809-3538930e3075}</Project>
-      <Name>Viz.WrkModule.Thp.Db</Name>
+    <ProjectReference Include="..\Viz.DbApp.Psi\Viz.DbApp.Psi.csproj">
+      <Project>{5e522dd5-f6a1-4b67-85d6-b182a4c69012}</Project>
+      <Name>Viz.DbApp.Psi</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Viz.WrkModule.RptOtk.Db\Viz.WrkModule.RptOtk.Db.csproj">
+      <Project>{41e884c7-b0c0-49f5-b8f1-d384a663252a}</Project>
+      <Name>Viz.WrkModule.RptOtk.Db</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\save-32x32.png" />
+    <Resource Include="Images\ModuleGlyph-32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\empty-16x16.png" />
-    <Resource Include="Images\NotEmpty-16x16.png" />
+    <Resource Include="Images\BarImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SaveToDb-16x16.png" />
+    <Resource Include="Images\RptCheck-16x16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\OpenFromDb-16x16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\post-16x16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\add-16x16.png" />
+    <Resource Include="Images\Help-32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -166,5 +145,12 @@
   -->
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="View\ViewRptOtk.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>
