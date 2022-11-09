@@ -92,6 +92,15 @@ namespace Viz.WrkModule.RptOpr
     //Поля для отчета "Состояние складов СГП УО" 
     private DateTime dateStateView;
     private GridControl gcStateWhsUo;
+
+    //Поля для отчета "Сменный рапорт ПУ" 
+    private DataRowView selFinishRoll;
+    private string teamFinishRoll;
+    private string shiftMasterFinishRoll;
+    private string topWorkerFinishRoll;
+    private string typeShiftFinishRoll;
+    //private Boolean isLogInfoRoll;
+    //private int? finishRollId;
     #endregion
 
     #region Public Property
@@ -673,6 +682,89 @@ namespace Viz.WrkModule.RptOpr
       get { return dsRptOpr.StateWhsUo; }
     }
 
+    //Свойства для отчета "Сменный рапорт ПУ"
+    public DataRowView SelFinishRollItem
+    {
+      get { return selFinishRoll; }
+      set
+      {
+        if (Equals(value, selFinishRoll)) return;
+        selFinishRoll = value;
+        OnPropertyChanged("SelFinishRoll");
+      }
+    }
+
+    public string TeamFinishRoll
+    {
+      get { return teamFinishRoll; }
+      set
+      {
+        if (Equals(value, teamFinishRoll)) return;
+        teamFinishRoll = value;
+        OnPropertyChanged("TeamFinishRoll");
+      }
+    }
+
+    public string ShiftMasterFinishRoll
+    {
+      get { return shiftMasterFinishRoll; }
+      set
+      {
+        if (Equals(value, shiftMasterFinishRoll)) return;
+        shiftMasterFinishRoll = value;
+        OnPropertyChanged("ShiftMasterFinishRoll");
+      }
+    }
+
+    public string TopWorkerFinishRoll
+    {
+      get { return topWorkerFinishRoll; }
+      set
+      {
+        if (Equals(value, topWorkerFinishRoll)) return;
+        topWorkerFinishRoll = value;
+        OnPropertyChanged("TopWorkerFinishRoll");
+      }
+    }
+
+    public string TypeShiftFinishRoll
+    {
+      get { return typeShiftFinishRoll; }
+      set
+      {
+        if (Equals(value, typeShiftFinishRoll)) return;
+        typeShiftFinishRoll = value;
+        OnPropertyChanged("TypeShiftFinishRoll");
+      }
+    }
+
+    /*
+    public Boolean IsLogInfoRoll
+    {
+      get { return isLogInfoRoll; }
+      set
+      {
+        if (Equals(value, isLogInfoRoll)) return;
+        isLogInfoRoll = value;
+        OnPropertyChanged("IsLogInfoRoll");
+      }
+    }
+    */
+
+    public DataTable LstFinishRoll => dsRptOpr.LstFinishRoll;
+    
+    /*
+    public int? FinishRollId
+    {
+      get { return finishRollId; }
+      set
+      {
+        if (Equals(value, finishRollId)) return;
+        finishRollId = value;
+        OnPropertyChanged("FinishRollId");
+      }
+    }
+    */
     #endregion
 
     #region Private Method
@@ -715,8 +807,21 @@ namespace Viz.WrkModule.RptOpr
             DateBeginQuart = DbUtils.GetDateBeginQuart(3);
             DateEndQuart = DbUtils.GetDateEndQuart(3);
             break;
+          case 8:
+            LgExpanded8();
+            break;
+
         }
       }
+    }
+    private void LgExpanded8()
+    {
+      //if (dsRptOpr.LstFinishApr.Rows.Count == 0)
+        //dsRptOpr.LstFinishApr.LoadData(18);
+
+      var cbe = LogicalTreeHelper.FindLogicalNode(usrControl, "cbeLstFinishRoll") as ComboBoxEdit;
+      if (cbe != null)
+        cbe.SelectedIndex = 0;
     }
 
     private void LgExpanded0()
@@ -760,8 +865,8 @@ namespace Viz.WrkModule.RptOpr
       rpt = new XlsInstanceBackgroundReport();
       usrControl = control;
       DateBegin = DateEnd = DateIncomplProd1 = DateIncomplProd2 = DateRangeBeginAvoF2 = DateRangeEndAvoF2 = DateRangeBeginUoF2 = DateRangeEndUoF2 = DateStateView = DateTime.Today;
-      TeamFinishApr = "1";
-      TypeShiftFinishApr = "Д";
+      TeamFinishApr = TeamFinishRoll = "1";
+      TypeShiftFinishApr = TypeShiftFinishRoll = "Д";
       gcStateWhsUo = LogicalTreeHelper.FindLogicalNode(usrControl, "GcStateWhsUo") as GridControl;
 
       //Группы 1-уровня
@@ -805,6 +910,8 @@ namespace Viz.WrkModule.RptOpr
       }
 
       //DxInfo.ShowDxBoxInfo("Внимание", "Файлы созданных отчетов будут находиться в папке Документы (Мои документы)!", MessageBoxImage.Information);
+      dsRptOpr.LstFinishRoll.LoadData(24);
+      
     }
     #endregion Constructor
 
@@ -832,6 +939,7 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> stateWhsUoSaveCommand;
     private DelegateCommand<Object> stateWhsUoDeleteCommand;
     private DelegateCommand<Object> stateWhsUoCommand;
+    private DelegateCommand<Object> shiftRptRollCommand;
 
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
@@ -1435,7 +1543,45 @@ namespace Viz.WrkModule.RptOpr
       return true;
     }
 
+    public ICommand ShiftRptRollCommand => shiftRptRollCommand ?? (shiftRptRollCommand = new DelegateCommand<Object>(ExecuteShiftRptRoll, CanExecuteShiftRptRoll));
 
+    private void ExecuteShiftRptRoll(Object parameter)
+    {
+      string src = Etc.StartPath + ModuleConst.ShiftRptRollSource;
+      string dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.ShiftRptRollDest;
+
+      string rollUnit = Convert.ToString(SelFinishRollItem.Row["StrSql"]);
+      string rollLabel = Convert.ToString(SelFinishRollItem.Row["StrDlg"]);
+
+      var rptParam = new ShiftRptRollRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        Roll = rollUnit,
+        RollLabel = rollLabel,
+        TeamRoll = TeamFinishRoll,
+        ShiftMasterRoll = ShiftMasterFinishRoll,
+        TopWorkerRoll = TopWorkerFinishRoll,
+        ShiftTypeRoll = TypeShiftFinishRoll
+      };
+
+      var sp = new ShiftRptRoll()
+      {
+        //IdReport = (int)ModuleConst.AccRunControl.ShiftRptUo,
+        //ConnectToTargetDb = DbSelector.ConnectToTargetDb,
+        //GetCurrentDbAlias = DbSelector.GetCurrentDbAlias
+      };
+
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteShiftRptRoll(Object parameter)
+    {
+      return true;
+    }
 
     #endregion
   }

@@ -14,6 +14,7 @@ namespace Viz.WrkModule.RptOpr.Db.DataSets
     public PatternDataTable LstTypeProd { get; private set; }
     public PatternDataTable LstThickness { get; private set; }
     public PatternDataTable LstSort { get; private set; }
+    public PatternDataTable LstFinishRoll { get; private set; }
     public StateWhsUoDataTable StateWhsUo { get; private set; }
 
     public DsRptOpr() : base()
@@ -34,6 +35,9 @@ namespace Viz.WrkModule.RptOpr.Db.DataSets
 
       this.LstSort = new PatternDataTable("LstSort");
       this.Tables.Add(this.LstSort);
+
+      this.LstFinishRoll = new PatternDataTable("LstFinishRoll");
+      this.Tables.Add(this.LstFinishRoll);
 
       this.StateWhsUo = new StateWhsUoDataTable("StateWhsUo");
       this.Tables.Add(this.StateWhsUo);

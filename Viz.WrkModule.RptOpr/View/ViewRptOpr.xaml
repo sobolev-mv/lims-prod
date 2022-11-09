@@ -404,5 +404,48 @@
       </dxl:LayoutGroup>
     </dxl:LayoutGroup>
 
+    <dxl:LayoutGroup Name="L1Grp_10010" Header="Сменный рапорт прокатного участка" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="8">
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Лог:"  HorizontalAlignment="Left" Padding="0,0,20,0">
+          <dxe:CheckEdit EditValue="{Binding IsLogInfoRoll, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Дата:"  HorizontalAlignment="Left">
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Бригада:" HorizontalAlignment="Left" >
+          <dxe:ComboBoxEdit Width="40" IsTextEditable="False" EditValue="{Binding TeamFinishRoll}">
+            <dxe:ComboBoxEdit.Items>
+              <sys:String>1</sys:String>
+              <sys:String>2</sys:String>
+              <sys:String>3</sys:String>
+              <sys:String>4</sys:String>
+            </dxe:ComboBoxEdit.Items>
+          </dxe:ComboBoxEdit>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Смена:" HorizontalAlignment="Left" >
+          <dxe:ComboBoxEdit Width="40" IsTextEditable="False" EditValue="{Binding TypeShiftFinishRoll}">
+            <dxe:ComboBoxEdit.Items>
+              <sys:String>Д</sys:String>
+              <sys:String>Н</sys:String>
+            </dxe:ComboBoxEdit.Items>
+          </dxe:ComboBoxEdit>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Агрегат:" HorizontalAlignment="Left" >
+          <dxe:ComboBoxEdit Name="cbeLstFinishRoll" Width="100" EditValue="{Binding FinishRollId}" IsTextEditable="False" ItemsSource="{Binding LstFinishRoll}" DisplayMember="StrDlg" ValueMember="Id" SelectedItem="{Binding SelFinishRollItem}" SelectedIndex="0"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="См. мастер:" HorizontalAlignment="Left">
+          <dxe:TextEdit Width="125" EditValue="{Binding ShiftMasterFinishRoll, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Ст. рабочий:" HorizontalAlignment="Left" >
+          <dxe:TextEdit Width="125" EditValue="{Binding TopWorkerFinishRoll, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left">
+          <Button Content="Сменный рапорт ПУ" HorizontalAlignment="Left" Command="{Binding ShiftRptRollCommand}"/>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+    </dxl:LayoutGroup>
+
+
+
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>

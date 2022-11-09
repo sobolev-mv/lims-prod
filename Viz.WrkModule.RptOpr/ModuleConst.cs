@@ -15,7 +15,8 @@
       Equipment = 10006,
       PackUo = 10007,
       MonitorTrimUoShift = 10008,
-      StateWhsUo = 10009
+      StateWhsUo = 10009,
+      ShiftRptRoll = 10010
     }
 
     //Группы 2ур.
@@ -53,12 +54,12 @@
     }
 
     public const string ScriptsFolder = "\\Scripts";
-    public const string ShiftRptFinishAprLaserSource = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptFinishLaser.xltx";
-    public const string ShiftRptFinishAprLaserDest = "\\Viz.WrkModule.RptOpr-ShiftRptFinishLaser.xlsx";
-    public const string ShiftRptFinishApr12Source = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptFinishApr12.xltx";
-    public const string ShiftRptFinishApr12Dest = "\\Viz.WrkModule.RptOpr-ShiftRptFinishApr12.xlsx";
-    public const string ShiftRptFinishAprOtherSource = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptFinishOther.xltx";
-    public const string ShiftRptFinishAprOtherDest = "\\Viz.WrkModule.RptOpr-ShiftRptFinishOther.xlsx";
+    //public const string ShiftRptFinishAprLaserSource = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptFinishLaser.xltx";
+    //public const string ShiftRptFinishAprLaserDest = "\\Viz.WrkModule.RptOpr-ShiftRptFinishLaser.xlsx";
+    //public const string ShiftRptFinishApr12Source = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptFinishApr12.xltx";
+    //public const string ShiftRptFinishApr12Dest = "\\Viz.WrkModule.RptOpr-ShiftRptFinishApr12.xlsx";
+    //public const string ShiftRptFinishAprOtherSource = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptFinishOther.xltx";
+    //public const string ShiftRptFinishAprOtherDest = "\\Viz.WrkModule.RptOpr-ShiftRptFinishOther.xlsx";
     public const string ProcLaserAndAprSource = "\\Xlt\\Viz.WrkModule.RptOpr-ProcLaserAndApr.xltx";
     public const string ProcLaserAndAprDest = "\\Viz.WrkModule.RptOpr-ProcLaserAndApr.xlsx";
     public const string ReasonSettleMetalSource = "\\Xlt\\Viz.WrkModule.RptOpr-ReasonSettleMetal.xltx";
@@ -99,6 +100,9 @@
 
     public const string StateWhsUoSource = "\\Xlt\\Viz.WrkModule.RptOpr-StateWhsUo.xltx";
     public const string StateWhsUoDest = "\\Viz.WrkModule.RptOpr-StateWhsUo.xlsx";
+
+    public const string ShiftRptRollSource = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptRoll.xltx";
+    public const string ShiftRptRollDest = "\\Viz.WrkModule.RptOpr-ShiftRptRoll.xlsx";
 
   }
 }
