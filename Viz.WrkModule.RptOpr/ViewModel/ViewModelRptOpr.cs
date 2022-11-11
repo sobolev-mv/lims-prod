@@ -99,8 +99,6 @@ namespace Viz.WrkModule.RptOpr
     private string shiftMasterFinishRoll;
     private string topWorkerFinishRoll;
     private string typeShiftFinishRoll;
-    //private Boolean isLogInfoRoll;
-    //private int? finishRollId;
     #endregion
 
     #region Public Property
@@ -737,34 +735,7 @@ namespace Viz.WrkModule.RptOpr
         OnPropertyChanged("TypeShiftFinishRoll");
       }
     }
-
-    /*
-    public Boolean IsLogInfoRoll
-    {
-      get { return isLogInfoRoll; }
-      set
-      {
-        if (Equals(value, isLogInfoRoll)) return;
-        isLogInfoRoll = value;
-        OnPropertyChanged("IsLogInfoRoll");
-      }
-    }
-    */
-
     public DataTable LstFinishRoll => dsRptOpr.LstFinishRoll;
-    
-    /*
-    public int? FinishRollId
-    {
-      get { return finishRollId; }
-      set
-      {
-        if (Equals(value, finishRollId)) return;
-        finishRollId = value;
-        OnPropertyChanged("FinishRollId");
-      }
-    }
-    */
     #endregion
 
     #region Private Method
