@@ -99,6 +99,10 @@ namespace Viz.WrkModule.RptOpr
     private string shiftMasterFinishRoll;
     private string topWorkerFinishRoll;
     private string typeShiftFinishRoll;
+
+    //Поля для отчета "Устраненные дефекты на АВО"
+    private string locNum;
+
     #endregion
 
     #region Public Property
@@ -736,6 +740,19 @@ namespace Viz.WrkModule.RptOpr
       }
     }
     public DataTable LstFinishRoll => dsRptOpr.LstFinishRoll;
+
+    //Поля для отчета "Устраненные дефекты на АВО"
+    
+    public string LocNum
+    {
+      get { return locNum; }
+      set
+      {
+        if (Equals(value, locNum)) return;
+        locNum = value;
+        OnPropertyChanged("LocNum");
+      }
+    }
     #endregion
 
     #region Private Method
@@ -911,6 +928,7 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> stateWhsUoDeleteCommand;
     private DelegateCommand<Object> stateWhsUoCommand;
     private DelegateCommand<Object> shiftRptRollCommand;
+    private DelegateCommand<Object> eliminateDefAvoCommand;
 
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
@@ -1535,13 +1553,8 @@ namespace Viz.WrkModule.RptOpr
         ShiftTypeRoll = TypeShiftFinishRoll
       };
 
-      var sp = new ShiftRptRoll()
-      {
-        //IdReport = (int)ModuleConst.AccRunControl.ShiftRptUo,
-        //ConnectToTargetDb = DbSelector.ConnectToTargetDb,
-        //GetCurrentDbAlias = DbSelector.GetCurrentDbAlias
-      };
-
+      var sp = new ShiftRptRoll();
+ 
       var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
 
       if (!res) return;
@@ -1553,7 +1566,32 @@ namespace Viz.WrkModule.RptOpr
     {
       return true;
     }
+    
+    public ICommand EliminateDefAvoCommand => eliminateDefAvoCommand ?? (eliminateDefAvoCommand = new DelegateCommand<Object>(ExecuteEliminateDefAvo, CanExecuteEliminateDefAvo));
 
+    private void ExecuteEliminateDefAvo(Object parameter)
+    {
+      string src = Etc.StartPath + ModuleConst.EliminateDefAvoSource;
+      string dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.EliminateDefAvoDest;
+      
+      var rptParam = new EliminateDefAvoRptParam(src, dst)
+      {
+        LocNum = this.LocNum
+      };
+
+      var sp = new EliminateDefAvo();
+
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteEliminateDefAvo(Object parameter)
+    {
+      return true;
+    }
     #endregion
   }
 }

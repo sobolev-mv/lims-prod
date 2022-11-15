@@ -443,8 +443,16 @@
       </dxl:LayoutGroup>
     </dxl:LayoutGroup>
 
-
-
+    <dxl:LayoutGroup Name="L1Grp_10011" Header="Устраненные дефекты на АВО" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="8">
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Лок №:" HorizontalAlignment="Left">
+          <dxe:TextEdit Width="200" EditValue="{Binding LocNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left">
+          <Button Content="Устр. дефекты на АВО" HorizontalAlignment="Left" Command="{Binding EliminateDefAvoCommand}"/>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+    </dxl:LayoutGroup>
 
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>

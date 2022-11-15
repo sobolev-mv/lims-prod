@@ -16,7 +16,8 @@
       PackUo = 10007,
       MonitorTrimUoShift = 10008,
       StateWhsUo = 10009,
-      ShiftRptRoll = 10010
+      ShiftRptRoll = 10010,
+      EliminateDefAvo = 10011
     }
 
     //Группы 2ур.
@@ -103,6 +104,10 @@
 
     public const string ShiftRptRollSource = "\\Xlt\\Viz.WrkModule.RptOpr-ShiftRptRoll.xltx";
     public const string ShiftRptRollDest = "\\Viz.WrkModule.RptOpr-ShiftRptRoll.xlsx";
+    
+    public const string EliminateDefAvoSource = "\\Xlt\\Viz.WrkModule.RptOpr-EliminateDefAvo.xltx";
+    public const string EliminateDefAvoDest = "\\Viz.WrkModule.RptOpr-EliminateDefAvo.xlsx";
+
 
   }
 }
