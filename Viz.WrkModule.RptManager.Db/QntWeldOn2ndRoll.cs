@@ -71,7 +71,9 @@ namespace Viz.WrkModule.RptManager.Db
         var dtEnd = DbVar.GetDateBeginEnd(false, true);
         currentWrkSheet.Cells[1, 4].Value = "с " + $"{dtBegin:dd.MM.yyyy HH:mm:ss}" + " по " + $"{dtEnd:dd.MM.yyyy HH:mm:ss}";
 
-        const string stmtSql5 = "SELECT * FROM VIZ_PRN.V_QNTWELDON2NDROLL";
+        Odac.ExecuteNonQuery("VIZ_PRN.QNTWELDON2NDROLL.Prepare", CommandType.StoredProcedure, false, null);
+
+        const string stmtSql5 = "SELECT * FROM VIZ_PRN.TMP_QNTWELDON2NDROLL";
         odr = Odac.GetOracleReader(stmtSql5, CommandType.Text, false, null, null);
        
         if (odr != null){
