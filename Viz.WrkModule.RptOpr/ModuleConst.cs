@@ -17,7 +17,8 @@
       MonitorTrimUoShift = 10008,
       StateWhsUo = 10009,
       ShiftRptRoll = 10010,
-      EliminateDefAvo = 10011
+      EliminateDefAvo = 10011,
+      HistCoilProc = 10012
     }
 
     //Группы 2ур.
@@ -108,6 +109,7 @@
     public const string EliminateDefAvoSource = "\\Xlt\\Viz.WrkModule.RptOpr-EliminateDefAvo.xltx";
     public const string EliminateDefAvoDest = "\\Viz.WrkModule.RptOpr-EliminateDefAvo.xlsx";
 
-
+    public const string HistCoilProcSource = "\\Xlt\\Viz.WrkModule.RptOpr-HistCoilProc.xltx";
+    public const string HistCoilProcDest = "\\Viz.WrkModule.RptOpr-HistCoilProc.xlsx";
   }
 }

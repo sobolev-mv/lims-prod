@@ -70,6 +70,7 @@
     <Compile Include="DbUtils.cs" />
     <Compile Include="DiffCert.cs" />
     <Compile Include="EliminateDefAvo.cs" />
+    <Compile Include="HistCoilProc.cs" />
     <Compile Include="IsolFinCut2Strann.cs" />
     <Compile Include="MonitorDefLngTrimUo.cs" />
     <Compile Include="OutOfServiceMillRolls.cs" />

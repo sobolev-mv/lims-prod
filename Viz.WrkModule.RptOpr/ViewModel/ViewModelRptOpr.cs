@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -102,6 +103,9 @@ namespace Viz.WrkModule.RptOpr
 
     //Поля для отчета "Устраненные дефекты на АВО"
     private string locNum;
+
+    //Поля для отчета "История обработки рулонов"
+    private string listAnLot;
 
     #endregion
 
@@ -753,6 +757,18 @@ namespace Viz.WrkModule.RptOpr
         OnPropertyChanged("LocNum");
       }
     }
+
+    //Поля для отчета "История обработки рулонов"
+    public string ListAnLot
+    {
+      get { return listAnLot; }
+      set
+      {
+        if (Equals(value, listAnLot)) return;
+        listAnLot = value;
+        OnPropertyChanged("ListAnLot");
+      }
+    }
     #endregion
 
     #region Private Method
@@ -904,6 +920,7 @@ namespace Viz.WrkModule.RptOpr
     #endregion Constructor
 
     #region Command
+    private DelegateCommand<Object> loadFromTxtFileCommand;
     private DelegateCommand<Object> shiftRptFinishCommand;
     private DelegateCommand<Object> procLaserAndAprCommand;
     private DelegateCommand<Object> reasonSettleMetalCommand;
@@ -929,6 +946,21 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> stateWhsUoCommand;
     private DelegateCommand<Object> shiftRptRollCommand;
     private DelegateCommand<Object> eliminateDefAvoCommand;
+    private DelegateCommand<Object> histCoilProcCommand;
+    public ICommand LoadFromTxtFileCommand
+    {
+      get { return loadFromTxtFileCommand ?? (loadFromTxtFileCommand = new DelegateCommand<Object>(ExecuteLoadFromTxtFile, CanExecuteLoadFromTxtFile)); }
+    }
+
+    private void ExecuteLoadFromTxtFile(Object parameter)
+    {
+      this.ListAnLot = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
+    }
+
+    private bool CanExecuteLoadFromTxtFile(Object parameter)
+    {
+      return true;
+    }
 
     public ICommand ShiftRptFinishCommand => shiftRptFinishCommand ?? (shiftRptFinishCommand = new DelegateCommand<Object>(ExecuteShiftRptFinish, CanExecuteShiftRptFinish));
 
@@ -1592,6 +1624,33 @@ namespace Viz.WrkModule.RptOpr
     {
       return true;
     }
+        
+    public ICommand HistCoilProcCommand => histCoilProcCommand ?? (histCoilProcCommand = new DelegateCommand<Object>(ExecuteHistCoilProc, CanExecuteHistCoilProc));
+
+    private void ExecuteHistCoilProc(Object parameter)
+    {
+      string src = Etc.StartPath + ModuleConst.HistCoilProcSource;
+      string dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.HistCoilProcDest;
+
+      var rptParam = new HistCoilProcRptParam(src, dst)
+      {
+        ListAnLot = this.ListAnLot
+      };
+
+      var sp = new HistCoilProc();
+
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteHistCoilProc(Object parameter)
+    {
+      return true;
+    }
+
     #endregion
   }
 }

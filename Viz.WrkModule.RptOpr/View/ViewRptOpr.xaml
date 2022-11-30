@@ -454,5 +454,18 @@
       </dxl:LayoutGroup>
     </dxl:LayoutGroup>
 
+    <dxl:LayoutGroup Name="L1Grp_10012" Header="История обработки рулонов" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True">
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Список стендовых партий" HorizontalAlignment="Stretch">
+          <dxe:ButtonEdit IsTextEditable="True" Padding="2,0,0,0" AllowDefaultButton="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" EditValue="{Binding ListAnLot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <dxe:ButtonInfo GlyphKind="Regular" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadFromTxtFileCommand}" />
+          </dxe:ButtonEdit>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+      <dxl:LayoutItem HorizontalAlignment="Left">
+        <Button Content="История обр. рулонов" HorizontalAlignment="Left" Command="{Binding HistCoilProcCommand}"/>
+      </dxl:LayoutItem>
+    </dxl:LayoutGroup>
+    
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>
