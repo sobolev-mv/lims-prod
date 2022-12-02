@@ -88,6 +88,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="QiUo1.cs" />
     <Compile Include="QualityIndsUo1.cs" />
     <Compile Include="ReasonOfStripBreakageRmArea.cs" />
     <Compile Include="ReasonSettleMetal.cs" />

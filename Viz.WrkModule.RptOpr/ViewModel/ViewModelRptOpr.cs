@@ -947,6 +947,8 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> shiftRptRollCommand;
     private DelegateCommand<Object> eliminateDefAvoCommand;
     private DelegateCommand<Object> histCoilProcCommand;
+    private DelegateCommand<Object> qiUo1Command;
+
     public ICommand LoadFromTxtFileCommand
     {
       get { return loadFromTxtFileCommand ?? (loadFromTxtFileCommand = new DelegateCommand<Object>(ExecuteLoadFromTxtFile, CanExecuteLoadFromTxtFile)); }
@@ -1650,7 +1652,32 @@ namespace Viz.WrkModule.RptOpr
     {
       return true;
     }
+    
+    public ICommand QiUo1Command => qiUo1Command ?? (qiUo1Command = new DelegateCommand<Object>(ExecuteQiUo1, CanExecuteQiUo1));
 
+    private void ExecuteQiUo1(Object parameter)
+    {
+      string src = Etc.StartPath + ModuleConst.QiUo1Source;
+      string dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.QiUo1ProcDest;
+
+      var rptParam = new QiUo1RptParam(src, dst)
+      {
+        ListAnLot = this.ListAnLot
+      };
+
+      var sp = new QiUo1();
+
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteQiUo1(Object parameter)
+    {
+      return true;
+    }
     #endregion
   }
 }

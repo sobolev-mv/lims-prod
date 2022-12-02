@@ -111,5 +111,9 @@
 
     public const string HistCoilProcSource = "\\Xlt\\Viz.WrkModule.RptOpr-HistCoilProc.xltx";
     public const string HistCoilProcDest = "\\Viz.WrkModule.RptOpr-HistCoilProc.xlsx";
+
+    public const string QiUo1Source = "\\Xlt\\Viz.WrkModule.RptOpr-QiUo1.xltx";
+    public const string QiUo1ProcDest = "\\Viz.WrkModule.RptOpr-QiUo1.xlsx";
+
   }
 }
