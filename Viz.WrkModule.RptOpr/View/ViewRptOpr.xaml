@@ -454,7 +454,7 @@
       </dxl:LayoutGroup>
     </dxl:LayoutGroup>
 
-    <dxl:LayoutGroup Name="L1Grp_10012" Header="История обработки рулонов" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True">
+    <dxl:LayoutGroup Name="L1Grp_10012" Header="История обработки рулонов, Качеств. показатели УО1" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True">
       <dxl:LayoutGroup>
         <dxl:LayoutItem Label="Список стендовых партий" HorizontalAlignment="Stretch">
           <dxe:ButtonEdit IsTextEditable="True" Padding="2,0,0,0" AllowDefaultButton="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" EditValue="{Binding ListAnLot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

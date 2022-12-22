@@ -96,6 +96,11 @@ namespace Viz.WrkModule.MagLab
       row[1] = "1-MPG200D";
       mesDeviceTable.Rows.Add(row);
 
+      row = mesDeviceTable.NewRow();
+      row[0] = 5;
+      row[1] = "УИ5099-1";
+      mesDeviceTable.Rows.Add(row);
+
       mesDeviceTable.AcceptChanges();
     }
 

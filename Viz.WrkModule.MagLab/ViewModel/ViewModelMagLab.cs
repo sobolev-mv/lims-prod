@@ -649,7 +649,7 @@ namespace Viz.WrkModule.MagLab
       dsMagLab.MlData.MesDevice = (int)MlMeasureDevice.Ui5099; //Установка УИ5099
     }
 
-    private void MeasureListApMk4a(DataRow SampleRow, int Utype)
+    private void MeasureListApMk4a(DataRow SampleRow, MlMeasureDevice device, int Utype)
     {
       decimal? sLen = null;
       decimal? sWid = null;
@@ -678,7 +678,7 @@ namespace Viz.WrkModule.MagLab
       dc.Caption = ;
       */
 
-      Window vLstAp = new ViewMeasureListAp(Utype, dsMagLab.MlMk4ap, null, sLen, sWid, sDen, currentMd, (int)MlMeasureDevice.Mk4A, dsMagLab.MlMesurCof);
+      Window vLstAp = new ViewMeasureListAp(Utype, dsMagLab.MlMk4ap, null, sLen, sWid, sDen, currentMd, (int)device, dsMagLab.MlMesurCof);
       if (!vLstAp.ShowDialog().GetValueOrDefault())
         return;
 
@@ -1216,22 +1216,26 @@ namespace Viz.WrkModule.MagLab
       switch(currentMeasureUnit){
         case 1:
           if (SelectedMeasureDevice == (int)MlMeasureDevice.Mk4A)
-            MeasureListApMk4a(currentSampleDataRow, currentMeasureUnit);
+            MeasureListApMk4a(currentSampleDataRow, MlMeasureDevice.Mk4A, currentMeasureUnit);
           else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D)
             MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D, currentMeasureUnit);
           else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D1)
             MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D1, currentMeasureUnit);
+          else if (SelectedMeasureDevice == (int)MlMeasureDevice.Ui50991)
+            MeasureListApMk4a(currentSampleDataRow, MlMeasureDevice.Ui50991, currentMeasureUnit);
           else
             DXMessageBox.Show(Application.Current.Windows[0], "Для выбранного устройства возможен только ручной ввод данных.", "Измерения", MessageBoxButton.OK, MessageBoxImage.Information);
 
           break;
         case 2:
           if (SelectedMeasureDevice == (int)MlMeasureDevice.Mk4A)
-            MeasureListApMk4a(currentSampleDataRow, currentMeasureUnit);
+            MeasureListApMk4a(currentSampleDataRow, MlMeasureDevice.Mk4A, currentMeasureUnit);
           else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D)
             MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D, currentMeasureUnit);
           else if (SelectedMeasureDevice == (int)MlMeasureDevice.Mpg200D1)
             MeasureListApMpg200D(currentSampleDataRow, MlMeasureDevice.Mpg200D1, currentMeasureUnit);
+          else if (SelectedMeasureDevice == (int)MlMeasureDevice.Ui50991)
+            MeasureListApMk4a(currentSampleDataRow, MlMeasureDevice.Ui50991, currentMeasureUnit);
           else
             DXMessageBox.Show(Application.Current.Windows[0], "Для выбранного устройства возможен только ручной ввод данных.", "Измерения", MessageBoxButton.OK, MessageBoxImage.Information);
 

@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
+using Devart.Common;
 using Devart.Data.Oracle;
 using Smv.Data.Oracle;
 using Viz.DbApp.Psi;
@@ -54,6 +55,8 @@ namespace Viz.WrkModule.RptManager.Db
         //Marshal.ReleaseComObject(prm.WorkBook);
         Marshal.ReleaseComObject(prm.ExcelApp);
         wrkSheet = null;
+        //Smv.Utils.Etc.WriteToEndTxtFile(@"c:\PdbScl313c.log", $"{DateTime.Now:dd.MM.yyyy HH:mm} prm.ExcelApp.Quit().", Encoding.GetEncoding("windows-1251"));
+
         prm.WorkBook = null;
         prm.ExcelApp = null;
         GC.Collect();
@@ -68,12 +71,16 @@ namespace Viz.WrkModule.RptManager.Db
       DateTime? dtBeginParam = null;
  
       try{
+        //Smv.Utils.Etc.WriteToEndTxtFile(@"c:\PdbScl313c.log",$"{DateTime.Now:dd.MM.yyyy HH:mm} Start RunRpt.", Encoding.GetEncoding("windows-1251"));
+
         DbVar.SetRangeDate(prm.DateBegin, DateTime.Now, 1);
         dtBeginExcel = DbVar.GetDateBeginEnd(true, true);
         dtBeginParam = DbVar.GetDateBeginEnd(true, false);
 
         CurrentWrkSheet.Cells[2, 1].Value = $"Незавершенное производство УО на {dtBeginExcel:dd.MM.yyyy HH:mm}";
         DbVar.SetString($"{dtBeginParam:dd.MM.yyyy HH:mm}");
+
+        Smv.Utils.Etc.WriteToEndTxtFile(@"c:\PdbScl313c.log", $"{DateTime.Now:dd.MM.yyyy HH:mm} Before run SqlStmt SELECT.", Encoding.GetEncoding("windows-1251"));
 
         const string sqlStmt = "SELECT * FROM VIZ_PRN.PDB_SCL_NZP";
         odr = Odac.GetOracleReader(sqlStmt, CommandType.Text, false, null, null);
@@ -95,6 +102,8 @@ namespace Viz.WrkModule.RptManager.Db
             row++;
           }
         }
+
+        //Smv.Utils.Etc.WriteToEndTxtFile(@"c:\PdbScl313c.log", $"{DateTime.Now:dd.MM.yyyy HH:mm} After exec SqlStmt SELECT.", Encoding.GetEncoding("windows-1251"));
 
         CurrentWrkSheet.Cells[1, 1].Select();
         Result = true;
