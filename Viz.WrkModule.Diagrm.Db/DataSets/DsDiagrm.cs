@@ -93,8 +93,17 @@ namespace Viz.WrkModule.Diagrm.Db.DataSets
       {
         const string SqlStmt = "SELECT S.PV_NAME, NVL(S.ALT_DESC, PD.DESCRIPTION) DESCRIPTION, S.XTYPE " +
                                "FROM VIZ_PRN.DG_SERIES S " +
-                               "LEFT JOIN VIZ.PAM_DDDESCRIPTION PD ON (PD.PV_NAME = S.PV_NAME) AND (PD.LNGCODE = 'ru') " +   
-                               "WHERE (S.GROUP_ID = :GID) " +
+                               "LEFT JOIN( " +
+                               "select pd.* " +
+                               "from VIZ.PAM_DDDESCRIPTION pd " +
+                               "inner join ( " +
+                               "select PV_NAME, max(PV_VERSION) VER " +
+                               "from VIZ.PAM_DDDESCRIPTION " +
+                               "where LNGCODE = 'ru' " +
+                               "group by PV_NAME " +
+                               ") d1 on(d1.PV_NAME = pd.PV_NAME) and(pd.PV_VERSION = d1.VER) " +
+                               ") PD on(PD.PV_NAME = S.PV_NAME) and(pd.LNGCODE = 'ru') " +
+                               "WHERE(S.GROUP_ID = :GID) " +
                                "ORDER BY S.SRT";
 
         adapter.SelectCommand.Parameters.Clear();
