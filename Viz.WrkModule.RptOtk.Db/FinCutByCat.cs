@@ -83,7 +83,7 @@ namespace Viz.WrkModule.RptOtk.Db
           CurrentWrkSheet = prm.ExcelApp.ActiveSheet;
           DbVar.SetString(prmSql1[iSheet], prmSql2[iSheet]);
 
-          CurrentWrkSheet.Cells[1, 1].Value = $"Категории металла по первичной порезке" + hdrSheet[iSheet] + "за 2020, 2021 " + ", " + curYear + " год";
+          CurrentWrkSheet.Cells[1, 1].Value = $"Категории металла по первичной порезке {hdrSheet[iSheet]} за {curYear - 2}, {curYear - 1}, {curYear} год";
 
           //Заполняем шапку по месяцам
           for (var iMonth = 1; iMonth < 13; iMonth++)
