@@ -42,14 +42,20 @@
     <Reference Include="Devart.Data, Version=5.0.2938.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Oracle\Devart.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Devart.Data.Oracle, Version=10.0.0.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Oracle\Devart.Data.Oracle.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Docs.v22.1, Version=22.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Office.v22.1.Core, Version=22.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Spreadsheet.v22.1.Core, Version=22.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Docs.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -160,6 +166,7 @@
     <ProjectReference Include="..\Smv.Prj.Core\Smv.Prj.Core.csproj">
       <Project>{6d17ac21-b5c2-4ace-9d29-cd99c4f82286}</Project>
       <Name>Smv.Prj.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Viz.DbApp.Psi\Viz.DbApp.Psi.csproj">
       <Project>{5e522dd5-f6a1-4b67-85d6-b182a4c69012}</Project>

@@ -43,10 +43,12 @@
     <Reference Include="Devart.Data, Version=5.0.2938.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Oracle\Devart.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Devart.Data.Oracle, Version=10.0.0.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Devart\dotConnect\Oracle\Devart.Data.Oracle.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
