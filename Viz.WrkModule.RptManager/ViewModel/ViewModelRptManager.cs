@@ -1254,6 +1254,7 @@ namespace Viz.WrkModule.RptManager
     private DelegateCommand<Object> monitorDef2CatCommand;
     private DelegateCommand<Object> kpaRollingCommand;
     private DelegateCommand<Object> monitorDefCommand;
+    private DelegateCommand<Object> monitorDef2s34cCommand;
     private DelegateCommand<Object> lider2CatCommand;
     private DelegateCommand<Object> defects1StRollCommand;
     private DelegateCommand<Object> monitorDefLngTrimCommand;
@@ -2366,7 +2367,33 @@ namespace Viz.WrkModule.RptManager
     {
       return true;
     }
-    
+
+    public ICommand MonitorDef2s34cCommand => monitorDef2s34cCommand ?? (monitorDef2s34cCommand = new DelegateCommand<Object>(ExecuteMonitorDef2s34cCommand, CanExecuteMonitorDef2s34cCommand));
+    private void ExecuteMonitorDef2s34cCommand(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.MonitorDef2s34cSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MonitorDef2s34cDest;
+
+      var rptParam = new MonitorDef2s34cRptParam(src, dst)
+      {
+        DateBegin = this.DateBeginQuart,
+        DateEnd = this.DateEndQuart
+      };
+
+      DbUtils.SaveDateQuart(1, this.DateBeginQuart, this.DateEndQuart);
+
+      var sp = new MonitorDef2s34c();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteMonitorDef2s34cCommand(Object parameter)
+    {
+      return true;
+    }
+
     public ICommand Lider2CatCommand => lider2CatCommand ?? (lider2CatCommand = new DelegateCommand<Object>(ExecuteLider2CatCommand, CanExecuteLider2CatCommand));
     private void ExecuteLider2CatCommand(Object parameter)
     {
@@ -2414,6 +2441,7 @@ namespace Viz.WrkModule.RptManager
     {
       return true;
     }
+    
 
     public ICommand MonitorDefLngTrimCommand => monitorDefLngTrimCommand ?? (monitorDefLngTrimCommand = new DelegateCommand<Object>(ExecuteMonitorDefLngTrimCommand, CanExecuteMonitorDefLngTrimCommand));
     private void ExecuteMonitorDefLngTrimCommand(Object parameter)

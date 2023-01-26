@@ -415,7 +415,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
         <Button Content="Отчет" HorizontalAlignment="Left" Command="{Binding PartOf1SortCommand}"/>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
-    <dxl:LayoutGroup Name="Lg172001_608" Header="Мониторинг дефектов" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="6">
+    <dxl:LayoutGroup Name="Lg172001_608" Header="Мониторинг дефектов, 2K,3,4 Сорт" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="6">
       <dxl:LayoutItem Label="Период расчета квартилей:" IsRequired="True">
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
           <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBeginQuart}" Mask="MM.yyyy" MaskUseAsDisplayFormat="True">
@@ -430,6 +430,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
           </dxe:DateEdit>
           <Button Content="Мониторинг 2К"  HorizontalAlignment="Left"  Command="{Binding MonitorDef2CatCommand}"/>
           <Button Content="Мониторинг"  HorizontalAlignment="Left"  Command="{Binding MonitorDefCommand}"/>
+          <Button Content="Мониторинг 2С и 3,4 Кат"  HorizontalAlignment="Left" Command="{Binding MonitorDef2s34cCommand}" />
           <Button Content="Лидеры 2К"  HorizontalAlignment="Left"  Command="{Binding Lider2CatCommand}"/>
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>

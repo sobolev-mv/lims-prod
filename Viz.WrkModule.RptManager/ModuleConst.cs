@@ -150,7 +150,10 @@
 
     public const string MonitorDefSource = "\\Xlt\\Viz.WrkModule.RptManager-MonitorDef.xltx";
     public const string MonitorDefDest = "\\Viz.WrkModule.RptManager-MonitorDef.xlsx";
-
+    
+    public const string MonitorDef2s34cSource = "\\Xlt\\Viz.WrkModule.RptManager-MonitorDef2s34c.xltx";
+    public const string MonitorDef2s34cDest = "\\Viz.WrkModule.RptManager-MonitorDef2s34c.xlsx";
+    
     public const string Lider2CatSource = "\\Xlt\\Viz.WrkModule.RptManager-Lider2Cat.xltx";
     public const string Lider2CatDest = "\\Viz.WrkModule.RptManager-Lider2Cat.xlsx";
 
@@ -168,6 +171,7 @@
 
     public const string MonitorDefCrossTrimRkSource = "\\Xlt\\Viz.WrkModule.RptManager-MonitorDefCrossTrimRk.xltx";
     public const string MonitorDefCrossTrimRkDest = "\\Viz.WrkModule.RptManager-MonitorDefCrossTrimRk.xlsx";
+
 
   }
 

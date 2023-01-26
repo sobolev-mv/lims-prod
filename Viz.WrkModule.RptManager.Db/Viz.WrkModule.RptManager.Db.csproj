@@ -89,6 +89,7 @@
     <Compile Include="LoadProdTargets.cs" />
     <Compile Include="MonitorDef.cs" />
     <Compile Include="MonitorDef2Cat.cs" />
+    <Compile Include="MonitorDef2s34c.cs" />
     <Compile Include="MonitorDefCrossTrim.cs" />
     <Compile Include="MonitorDefLngTrim.cs" />
     <Compile Include="PartOf1Sort.cs" />
