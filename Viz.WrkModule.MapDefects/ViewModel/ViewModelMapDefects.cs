@@ -12,6 +12,9 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
 using DevExpress.Xpf.Core;
+using DevExpress.Mvvm.UI.Native;
+using DevExpress.Data.Linq.Helpers;
+using System.Windows.Documents;
 
 namespace Viz.WrkModule.MapDefects
 {
@@ -34,6 +37,7 @@ namespace Viz.WrkModule.MapDefects
 
     private readonly Canvas cnv1;
     private readonly Canvas cnv2;
+    private readonly Canvas cnv3;
     private readonly Db.DataSets.DsMapDef dsMapDef = new Db.DataSets.DsMapDef();
     private decimal scaleY;
     private decimal scaleX;
@@ -167,7 +171,7 @@ namespace Viz.WrkModule.MapDefects
       };
       Canvas.SetLeft(lbl, xMin);
       Canvas.SetTop(lbl, yMin - 17);
-      cnv1.Children.Add(lbl);
+      cnv.Children.Add(lbl);
     }
 
     private void PaintCoilRuleBackward(double Kx, int WgtUnit, double xMin, double xMax, double yMin, double WgtCoil, int nRnd)
@@ -271,9 +275,294 @@ namespace Viz.WrkModule.MapDefects
       return vb;
     }
 
+    private void DrawHeaderPageAll(Canvas cnv, string locNum, double xMin, decimal coilThick, double coilWidth, double coilWgt, decimal coilLen, string coilBrg, string coilCntr)
+    {
+      var hlbl = new Label
+      {
+        Content = "Лок № PSI: " + findLocNumText,
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 13,
+        FontWeight = FontWeights.Bold
+      };
+      Canvas.SetLeft(hlbl, xMin);
+      Canvas.SetTop(hlbl, 25);
+      cnv.Children.Add(hlbl);
+
+
+      hlbl = new Label
+      {
+        Content = "ПОВЕРХНОСТЬ РУЛОНА С АВО",
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 16,
+        FontWeight = FontWeights.Bold
+      };
+      Canvas.SetLeft(hlbl, 250);
+      Canvas.SetTop(hlbl, 21);
+      cnv.Children.Add(hlbl);
+      
+      hlbl = new Label
+      {
+        Content = "Дата обработки и агрегат: " + Db.MapDefectsAction.GetStrannDateTimeCoil(locNum),
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 13,
+        FontWeight = FontWeights.Bold
+      };
+      Canvas.SetLeft(hlbl, 600);
+      Canvas.SetTop(hlbl, 25);
+      cnv.Children.Add(hlbl);
+
+      hlbl = new Label
+      {
+        Content = "Ст.прт: " + Db.MapDefectsAction.GetMapDefInfo(findLocNumText) + "  " +
+                  "Толщ: " + coilThick.ToString("n2") + "мм    " + "Ширина: " + coilWidth.ToString("n0") + "мм  " +
+                  "Масса: " + (coilWgt / 1000).ToString("n3") + "т" + "  " +
+                  "Длина: " + (coilLen / 1000).ToString("n3") + "м" + "  " +
+                  "Бр №" + coilBrg + "  " + "Контролер ОТК: " + coilCntr,
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 13,
+        FontWeight = FontWeights.Bold
+      };
+      Canvas.SetLeft(hlbl, xMin);
+      Canvas.SetTop(hlbl, 43);
+      cnv.Children.Add(hlbl);
+    }
+
+    private void DrawHeaderAdd(Canvas cnv)
+    {
+      var hlbl = new Label
+      {
+        Content = "Дата__________________________АПР №_________Бригада №________Контролер ОТК__________________________________" +
+                  "      Ширина______________________мм  Масса_________________тн",
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 13,
+        FontWeight = FontWeights.Bold
+      };
+      Canvas.SetLeft(hlbl, 20);
+      Canvas.SetTop(hlbl, 100);
+      cnv.Children.Add(hlbl);
+    }
+
+    private int DrawCoilSurf1(Canvas cnv, double xMin, double xMax, double yMin, double yMax, double kx, double ky, int roundDgt, double yForward, double coilWgt, List<double> lstSf)
+    {
+      var plCoil = new Polyline();
+      plCoil.Points.Add(new Point(xMin, yMin));
+      plCoil.Points.Add(new Point(xMax, yMin));
+      plCoil.Points.Add(new Point(xMax, yMax));
+      plCoil.Points.Add(new Point(xMin, yMax));
+      plCoil.Points.Add(new Point(xMin, yMin));
+      plCoil.Stroke = Brushes.Black;
+      plCoil.StrokeThickness = 2;
+      cnv.Children.Add(plCoil);
+
+      //рисуем весовую линейку первой стороны 
+      this.PaintCoilRuleForward(cnv, kx, 500, xMin, xMax, yMin, coilWgt, roundDgt);
+
+      //здесь начинается сама отрисовка дефектов первой стороны  
+      int zIdx = 1;
+      double oldX = xMax;
+
+      foreach (DataRow rowZone in this.dsMapDef.LstDefZones.Rows)
+      {
+
+        double zoneFrom = Convert.ToDouble(rowZone["ZoneFrom"]);
+        double zoneTo = Convert.ToDouble(rowZone["ZoneTo"]);
+        this.dsMapDef.MapDef.DefaultView.RowFilter = "ZoneFrom=" +
+                                                     zoneFrom.ToString(
+                                                       System.Globalization.CultureInfo.InvariantCulture) +
+                                                     " AND ZoneTo=" + zoneTo.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+
+        var line = new Line
+        {
+          X1 = xMax - Math.Round(zoneTo * kx, roundDgt),
+          Y1 = yMin,
+          X2 = xMax - Math.Round(zoneTo * kx, roundDgt),
+          Y2 = yMax + yForward * zIdx,
+          Stroke = Brushes.Black,
+          StrokeThickness = 1
+        };
+        cnv.Children.Add(line);
+        lstSf.Add(line.X1);
+
+        var lbl = new Label
+        {
+          Content = zIdx.ToString(System.Globalization.CultureInfo.InvariantCulture) +
+                    GetLabelDefect(this.dsMapDef.MapDef.DefaultView),
+          Foreground = Brushes.Black,
+          FontFamily = new FontFamily("Arial"),
+          FontSize = 10,
+          FontWeight = FontWeights.Bold
+        };
+        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, roundDgt) + 1);
+        Canvas.SetTop(lbl, yMax + yForward * zIdx - 13);
+        cnv.Children.Add(lbl);
+
+        int idBrush = 1;
+        foreach (DataRowView drv in this.dsMapDef.MapDef.DefaultView)
+        {
+          string strCat = Convert.ToString(drv.Row["Cat"]);
+          string fehlerTyp = Convert.ToString(drv.Row["FehlerTyp"]);
+          int rid = Convert.ToInt32(drv.Row["Rid"]);
+
+          //double yPos1 = Convert.ToDouble(this.dsMapDef.MapDef.DefaultView[0].Row["YposvOn"]);
+          //double yPos2 = Convert.ToDouble(this.dsMapDef.MapDef.DefaultView[0].Row["YposbIs"]);
+
+          if ((fehlerTyp == "034") || (fehlerTyp == "038") || (strCat == "3") || (strCat == "б/к") || (strCat == "5") || (strCat == "4"))
+          {
+            //Здесь рисуем поперечный основной дефект
+            double yPos1 = Convert.ToDouble(drv.Row["YposvOn"]);
+            double yPos2 = Convert.ToDouble(drv.Row["YposbIs"]);
+
+            var rect = new Rectangle()
+            {
+              Height = Math.Round((yPos2 - yPos1) * ky, roundDgt),
+              Width = oldX - (xMax - Math.Round(zoneTo * kx, roundDgt)),
+              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, roundDgt), oldX - (xMax - Math.Round(zoneTo * kx, roundDgt))),
+              Stroke = this.GetBrush(idBrush),
+              StrokeThickness = 1
+            };
+            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, roundDgt));
+            Canvas.SetTop(rect, yMax - Math.Round(yPos1 * ky, roundDgt) - Math.Round((yPos2 - yPos1) * ky, roundDgt));
+            cnv.Children.Add(rect);
+          }
+          idBrush++;
+        }
+        
+        oldX = xMax - Math.Round(zoneTo * kx, roundDgt);
+        zIdx++;
+        
+      }
+
+      //Делаем подпись начала
+      var hlbl = new Label
+      {
+        Content = "Начало",
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 10,
+        FontWeight = FontWeights.Bold,
+        RenderTransform = new RotateTransform(90),
+      };
+      Canvas.SetLeft(hlbl, xMax + 14);
+      Canvas.SetTop(hlbl, yMin);
+      cnv.Children.Add(hlbl);
+
+      return zIdx;
+    }
+
+    private void PaintCoilRuleForwardXAxis(Canvas cnv, double Kx, int wgtUnit, double xMin, double xMax, double yMin, double wgtCoil, int roundDgt)
+    {
+      Label lbl = null;
+      double xRuleUnit = Math.Round(wgtUnit * Kx, roundDgt);
+      int rulePartQnt = Convert.ToInt32(wgtCoil / wgtUnit);
+
+      for (int i = 1; i < rulePartQnt; i++)
+      {
+        cnv.Children.Add(new Line
+          {
+            X1 = xMax - xRuleUnit * i,
+            Y1 = yMin - 7,
+            X2 = xMax - xRuleUnit * i,
+            Y2 = yMin,
+            Stroke = Brushes.Black,
+            StrokeThickness = 1
+          }
+        );
+
+        lbl = new Label
+        {
+          Content = ((i * wgtUnit * 0.001)).ToString("n1"),
+          Foreground = Brushes.Black,
+          FontFamily = new FontFamily("Arial"),
+          FontSize = 11,
+        };
+
+        Canvas.SetLeft(lbl, (xMax - xRuleUnit * i) + 2);
+        Canvas.SetTop(lbl, yMin + 2);
+        cnv.Children.Add(lbl);
+      }
+
+      lbl = new Label
+      {
+        Content = (wgtCoil / 1000).ToString("n3"),
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 11,
+      };
+      Canvas.SetLeft(lbl, xMin);
+      Canvas.SetTop(lbl, yMin + 2);
+      cnv.Children.Add(lbl);
+    }
+
+    private void PaintCoilRuleYAxis(Canvas cnv, int yAxisUnit, double xMin, double xMax, double yMin, double yMax, int roundDgt)
+    {
+      var dashes = new DoubleCollection
+      { 2, 2 };
+      
+      int rulePartQnt = Convert.ToInt32(120 / yAxisUnit);
+      double yUnit = Math.Round((yMax - yMin) / rulePartQnt, roundDgt);
+      
+      for (int i = 1; i <= rulePartQnt; i++)
+      {
+        cnv.Children.Add(new Line
+          {
+            X1 = xMin,
+            Y1 = yMax - yUnit * i,
+            X2 = xMin + 7,
+            Y2 = yMax - yUnit * i,
+            Stroke = Brushes.Black,
+            StrokeThickness = 1
+          }
+        );
+
+        cnv.Children.Add(new Line
+          {
+            X1 = xMin + 8,
+            Y1 = yMax - yUnit * i,
+            X2 = xMax,
+            Y2 = yMax - yUnit * i,
+            Stroke = Brushes.LightGray,
+            StrokeThickness = 1,
+            StrokeDashArray = dashes
+        }
+
+        );
+
+        var lbl = new Label
+        {
+          Content = ((i * yAxisUnit).ToString("d")),
+          Foreground = Brushes.Black,
+          FontFamily = new FontFamily("Arial"),
+          FontSize = 11,
+        };
+
+        Canvas.SetLeft(lbl, xMin + 2);
+        Canvas.SetTop(lbl, yMax - yUnit * i);
+        cnv.Children.Add(lbl);
+      }
+
+      /*
+      lbl = new Label
+      {
+        Content = (wgtCoil / 1000).ToString("n3"),
+        Foreground = Brushes.Black,
+        FontFamily = new FontFamily("Arial"),
+        FontSize = 11,
+      };
+      Canvas.SetLeft(lbl, xMin);
+      Canvas.SetTop(lbl, yMin + 2);
+      cnv.Children.Add(lbl);
+      */
+    }
+
+
     private void BuildMapDef()
     {
-      
       if (Db.MapDefectsAction.IsMatLocked(findLocNumText))
       {
         Smv.Utils.DxInfo.ShowDxBoxInfo("Материал", "Показ дефектов невозможен!", MessageBoxImage.Error);
@@ -283,6 +572,7 @@ namespace Viz.WrkModule.MapDefects
       //Списки для запоминания координаты X дефекта каждой из поверхностей
       var lstSf1 = new List<double> { };
       var lstSf2 = new List<double> { };
+      var lstSf3 = new List<double> { };
 
       var rm = new Random();
       Int64 zdn = rm.Next(10000000, 99999999);
@@ -309,139 +599,45 @@ namespace Viz.WrkModule.MapDefects
 
       cnv1.Children.Clear();
       cnv2.Children.Clear();
+      cnv3.Children.Clear();
       cnv1.LayoutTransform = null;
 
       //Здесь проверяем широкий ли это монитор
-      double sreenWidth = cnv1.ActualWidth;
-      if (cnv1.ActualWidth > 1280)
-        sreenWidth = 1280;
+      double screenWidth = cnv1.ActualWidth;
 
-      const int nrnd = 6; //кол-во знаков после зяпятой при округлении
+      if (cnv1.ActualWidth > 1280)
+        screenWidth = 1280;
+
+      const int roundDgt = 6; //кол-во знаков после зяпятой при округлении
       const double xMin = 20;
       const double yMin = 90;
-      double xMax = Math.Round(sreenWidth - sreenWidth / 4, nrnd);
+      double xMax = Math.Round(screenWidth - screenWidth / 4, roundDgt);
       const double yMax = 190;
       const double yForward = 15; //высота на которую увеличивется растояние по y для описания дефектов
-      double kx = Math.Round((xMax - xMin) / coilWgt, nrnd); //масштабирование
-      double ky = Math.Round((yMax - yMin) / coilWidth, nrnd); //масштабирование
+      double kx = Math.Round((xMax - xMin) / coilWgt, roundDgt); //масштабирование
+      double ky = Math.Round((yMax - yMin) / coilWidth, roundDgt); //масштабирование
+
+      decimal coilThick = Db.MapDefectsAction.GetTolsCoil(realLocId, "STRANN");
+      decimal coilLen = Db.MapDefectsAction.GetLenCoil(realLocId, "STRANN");
+      string coilBrg = Db.MapDefectsAction.GetBrigada(realLocId);
+      string coilCntr = Db.MapDefectsAction.GetController(realLocId);
 
       //Здесь рисуем заголовок с необходимыми параметрами рулона на странице 1
-      var hlbl = new Label
-      {
-        Content = "Лок № PSI: " + findLocNumText,
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, xMin);
-      Canvas.SetTop(hlbl, 25);
-      cnv1.Children.Add(hlbl);
-
-
-      hlbl = new Label
-      {
-        Content = "ПОВЕРХНОСТЬ РУЛОНА С АВО",
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 16,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, 250);
-      Canvas.SetTop(hlbl, 21);
-      cnv1.Children.Add(hlbl);
-
-
-      hlbl = new Label
-      {
-        Content = "Дата обработки и агрегат: " + Db.MapDefectsAction.GetStrannDateTimeCoil(realLocId),
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, 600);
-      Canvas.SetTop(hlbl, 25);
-      cnv1.Children.Add(hlbl);
-
-
-      decimal tols = Db.MapDefectsAction.GetTolsCoil(realLocId, "STRANN");
-      decimal lenCoil = Db.MapDefectsAction.GetLenCoil(realLocId, "STRANN");
-      string brg = Db.MapDefectsAction.GetBrigada(realLocId);
-      string cntrl = Db.MapDefectsAction.GetController(realLocId);
-
-      hlbl = new Label
-      {
-        Content = "Ст.прт: " + Db.MapDefectsAction.GetMapDefInfo(findLocNumText) + "  " +
-                  "Толщ: " + tols.ToString("n2") + "мм    " + "Ширина: " + coilWidth.ToString("n0") + "мм  " +
-                  "Масса: " + (coilWgt / 1000).ToString("n3") + "т" + "  " +
-                  "Длина: " + (lenCoil / 1000).ToString("n3") + "м" + "  " +
-                  "Бр №" + brg + "  " +
-                  "Контролер ОТК: " + cntrl,
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, xMin);
-      Canvas.SetTop(hlbl, 43);
-      cnv1.Children.Add(hlbl);
+      DrawHeaderPageAll(cnv1, realLocId, xMin, coilThick, coilWidth, coilWgt, coilLen, coilBrg, coilCntr);
 
       //Здесь рисуем заголовок с необходимыми параметрами рулона на странице 2
-      hlbl = new Label
-      {
-        Content = "Лок № PSI: " + findLocNumText,
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, xMin);
-      Canvas.SetTop(hlbl, 25);
-      cnv2.Children.Add(hlbl);
+      DrawHeaderPageAll(cnv2, realLocId, xMin, coilThick, coilWidth, coilWgt, coilLen, coilBrg, coilCntr);
+      DrawHeaderAdd(cnv2);
 
-      hlbl = new Label
-      {
-        Content = "ПОВЕРХНОСТЬ РУЛОНА С АВО",
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 16,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, 250);
-      Canvas.SetTop(hlbl, 21);
-      cnv2.Children.Add(hlbl);
-
-      hlbl = new Label
-      {
-        Content = "Дата обработки и агрегат: " + Db.MapDefectsAction.GetStrannDateTimeCoil(realLocId),
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, 600);
-      Canvas.SetTop(hlbl, 25);
-      cnv2.Children.Add(hlbl);
-
-      hlbl = new Label
-      {
-        Content = "Ст.парт: " + Db.MapDefectsAction.GetMapDefInfo(findLocNumText) + "  " +
-                  "Толщ: " + tols.ToString("n2") + "мм    " + "Ширина: " + coilWidth.ToString("n0") + "мм  " +
-                  "Масса: " + (coilWgt / 1000).ToString("n3") + "т" + "  " +
-                  "Длина: " + (lenCoil / 1000).ToString("n3") + "м" + "  " +
-                  "Бр №" + brg + "  " +
-                  "Контролер ОТК: " + cntrl,
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, xMin);
-      Canvas.SetTop(hlbl, 43);
-      cnv2.Children.Add(hlbl);
+      //Здесь рисуем заголовок с необходимыми параметрами рулона на странице 3
+      DrawHeaderPageAll(cnv3, realLocId, xMin, coilThick, coilWidth, coilWgt, coilLen, coilBrg, coilCntr);
+      DrawHeaderAdd(cnv3);
 
       //рисуем первую сторону рулона
+      int zIdx = DrawCoilSurf1(cnv1, xMin, xMax, yMin, yMax, kx, ky, roundDgt, yForward, coilWgt, lstSf1);
+      int zIdx3 = DrawCoilSurf1(cnv3, xMin, xMax, 140, 140 + (yMax - yMin), kx, ky, roundDgt, yForward, coilWgt, lstSf3);
+
+      /*
       var plCoil = new Polyline();
       plCoil.Points.Add(new Point(xMin, yMin));
       plCoil.Points.Add(new Point(xMax, yMin));
@@ -453,7 +649,7 @@ namespace Viz.WrkModule.MapDefects
       cnv1.Children.Add(plCoil);
 
       //рисуем весовую линейку первой стороны 
-      this.PaintCoilRuleForward(this.cnv1, kx, 500, xMin, xMax, yMin, coilWgt, nrnd);
+      this.PaintCoilRuleForward(this.cnv1, kx, 500, xMin, xMax, yMin, coilWgt, roundDgt);
 
       //здесь начинается сама отрисовка дефектов первой стороны  
       int zIdx = 1;
@@ -473,9 +669,9 @@ namespace Viz.WrkModule.MapDefects
 
         var line = new Line
         {
-          X1 = xMax - Math.Round(zoneTo * kx, nrnd),
+          X1 = xMax - Math.Round(zoneTo * kx, roundDgt),
           Y1 = yMin,
-          X2 = xMax - Math.Round(zoneTo * kx, nrnd),
+          X2 = xMax - Math.Round(zoneTo * kx, roundDgt),
           Y2 = yMax + yForward * zIdx,
           Stroke = Brushes.Black,
           StrokeThickness = 1
@@ -492,7 +688,7 @@ namespace Viz.WrkModule.MapDefects
           FontSize = 10,
           FontWeight = FontWeights.Bold
         };
-        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, nrnd) + 1);
+        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, roundDgt) + 1);
         Canvas.SetTop(lbl, yMax + yForward * zIdx - 13);
         cnv1.Children.Add(lbl);
 
@@ -516,15 +712,15 @@ namespace Viz.WrkModule.MapDefects
 
             var rect = new Rectangle()
             {
-              Height = Math.Round((yPos2 - yPos1) * ky, nrnd),
-              Width = oldX - (xMax - Math.Round(zoneTo * kx, nrnd)),
-              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, nrnd),
-                oldX - (xMax - Math.Round(zoneTo * kx, nrnd))),
+              Height = Math.Round((yPos2 - yPos1) * ky, roundDgt),
+              Width = oldX - (xMax - Math.Round(zoneTo * kx, roundDgt)),
+              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, roundDgt),
+                oldX - (xMax - Math.Round(zoneTo * kx, roundDgt))),
               Stroke = this.GetBrush(idBrush),
               StrokeThickness = 1
             };
-            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, nrnd));
-            Canvas.SetTop(rect, yMax - Math.Round(yPos1 * ky, nrnd) - Math.Round((yPos2 - yPos1) * ky, nrnd));
+            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, roundDgt));
+            Canvas.SetTop(rect, yMax - Math.Round(yPos1 * ky, roundDgt) - Math.Round((yPos2 - yPos1) * ky, roundDgt));
             cnv1.Children.Add(rect);
           }
 
@@ -532,13 +728,13 @@ namespace Viz.WrkModule.MapDefects
         }
 
 
-        oldX = xMax - Math.Round(zoneTo * kx, nrnd);
+        oldX = xMax - Math.Round(zoneTo * kx, roundDgt);
         zIdx++;
 
       }
 
       //Делаем подпись начала
-      hlbl = new Label
+      var hlbl = new Label
       {
         Content = "Начало",
         Foreground = Brushes.Black,
@@ -550,6 +746,7 @@ namespace Viz.WrkModule.MapDefects
       Canvas.SetLeft(hlbl, xMax + 14);
       Canvas.SetTop(hlbl, yMin);
       cnv1.Children.Add(hlbl);
+      */
 
       //Здесь начинаем рисовать вторую сторону рулона
       //zdn = rm.Next(10000000, 99999999);
@@ -563,7 +760,10 @@ namespace Viz.WrkModule.MapDefects
       double yMin2 = yMax + yForward * zIdx + 10;
       double yMax2 = yMin2 + (yMax - yMin);
 
-      plCoil = new Polyline();
+      DrawCoilSurf1(cnv1, xMin, xMax, yMin2, yMax2, kx, ky, roundDgt, yForward, coilWgt, lstSf2);
+
+      /*
+      var plCoil = new Polyline();
       plCoil.Points.Add(new Point(xMin, yMin2));
       plCoil.Points.Add(new Point(xMax, yMin2));
       plCoil.Points.Add(new Point(xMax, yMax2));
@@ -574,9 +774,9 @@ namespace Viz.WrkModule.MapDefects
       cnv1.Children.Add(plCoil);
 
       //рисуем весовую линейку второй стороны 
-      this.PaintCoilRuleForward(this.cnv1, kx, 500, xMin, xMax, yMin2, coilWgt, nrnd);
+      this.PaintCoilRuleForward(this.cnv1, kx, 500, xMin, xMax, yMin2, coilWgt, roundDgt);
 
-      oldX = xMax;
+      double oldX = xMax;
       zIdx = 1; //сбрасываем
 
       foreach (DataRow rowZone in this.dsMapDef.LstDefZones.Rows)
@@ -591,9 +791,9 @@ namespace Viz.WrkModule.MapDefects
 
         var line = new Line
         {
-          X1 = xMax - Math.Round(zoneTo * kx, nrnd),
+          X1 = xMax - Math.Round(zoneTo * kx, roundDgt),
           Y1 = yMin2,
-          X2 = xMax - Math.Round(zoneTo * kx, nrnd),
+          X2 = xMax - Math.Round(zoneTo * kx, roundDgt),
           Y2 = yMax2 + yForward * zIdx,
           Stroke = Brushes.Black,
           StrokeThickness = 1
@@ -611,7 +811,7 @@ namespace Viz.WrkModule.MapDefects
           FontWeight = FontWeights.Bold
         };
 
-        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, nrnd) + 1);
+        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, roundDgt) + 1);
         Canvas.SetTop(lbl, yMax2 + yForward * zIdx - 13);
         cnv1.Children.Add(lbl);
 
@@ -632,28 +832,28 @@ namespace Viz.WrkModule.MapDefects
 
             var rect = new Rectangle()
             {
-              Height = Math.Round((yPos2 - yPos1) * ky, nrnd),
-              Width = oldX - (xMax - Math.Round(zoneTo * kx, nrnd)),
-              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, nrnd),
-                oldX - (xMax - Math.Round(zoneTo * kx, nrnd))),
+              Height = Math.Round((yPos2 - yPos1) * ky, roundDgt),
+              Width = oldX - (xMax - Math.Round(zoneTo * kx, roundDgt)),
+              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, roundDgt),
+                oldX - (xMax - Math.Round(zoneTo * kx, roundDgt))),
               Stroke = this.GetBrush(idBrush),
               StrokeThickness = 1
             };
-            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, nrnd));
+            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, roundDgt));
             //Canvas.SetTop(rect, yMin2 + Math.Round(yPos1*ky, nrnd));
-            Canvas.SetTop(rect, yMax2 - Math.Round(yPos1 * ky, nrnd) - Math.Round((yPos2 - yPos1) * ky, nrnd));
+            Canvas.SetTop(rect, yMax2 - Math.Round(yPos1 * ky, roundDgt) - Math.Round((yPos2 - yPos1) * ky, roundDgt));
             cnv1.Children.Add(rect);
           }
 
           idBrush++;
         }
 
-        oldX = xMax - Math.Round(zoneTo * kx, nrnd);
+        oldX = xMax - Math.Round(zoneTo * kx, roundDgt);
         zIdx++;
       }
 
       //Делаем подпись начала
-      hlbl = new Label
+      var hlbl = new Label
       {
         Content = "Начало",
         Foreground = Brushes.Black,
@@ -665,29 +865,15 @@ namespace Viz.WrkModule.MapDefects
       Canvas.SetLeft(hlbl, xMax + 14);
       Canvas.SetTop(hlbl, yMin2);
       cnv1.Children.Add(hlbl);
+      */
+      
 
-
-      //Далее рисуем заполняемый заголовок н странице 2
-      //Определяем yMin для раскроечного рулона
-      hlbl = new Label
-      {
-        Content =
-          "Дата__________________________АПР №_________Бригада №________Контролер ОТК__________________________________" +
-          "      Ширина______________________мм  Масса_________________тн",
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 13,
-        FontWeight = FontWeights.Bold
-      };
-      Canvas.SetLeft(hlbl, 20);
-      Canvas.SetTop(hlbl, 100);
-      cnv2.Children.Add(hlbl);
+      //Страница 2, Определяем yMin для раскроечного рулона
 
       double yMin3 = 140;
       double yMax3 = yMin3 + (yMax - yMin);
 
-
-      plCoil = new Polyline();
+      var plCoil = new Polyline();
       plCoil.Points.Add(new Point(xMin, yMin3));
       plCoil.Points.Add(new Point(xMax, yMin3));
       plCoil.Points.Add(new Point(xMax, yMax3));
@@ -698,7 +884,7 @@ namespace Viz.WrkModule.MapDefects
       cnv2.Children.Add(plCoil);
 
       //рисуем весовую линейку для раскроечного рулона 
-      this.PaintCoilRuleBackward(kx, 500, xMin, xMax, yMin3, coilWgt, nrnd);
+      this.PaintCoilRuleBackward(kx, 500, xMin, xMax, yMin3, coilWgt, roundDgt);
 
       //рисуем пунктиром дефектные зоны для раскроечного рулона
       foreach (double t in lstSf1)
@@ -732,7 +918,7 @@ namespace Viz.WrkModule.MapDefects
       }
 
       //Делаем подпись конец
-      hlbl = new Label
+      var hlbl = new Label
       {
         Content = "Конец",
         Foreground = Brushes.Black,
@@ -761,7 +947,7 @@ namespace Viz.WrkModule.MapDefects
       cnv2.Children.Add(plCoil);
 
       //рисуем весовую линейку второй стороны 
-      this.PaintCoilRuleForward(cnv2, kx, 500, xMin, xMax, yMin4, coilWgt, nrnd);
+      this.PaintCoilRuleForward(cnv2, kx, 500, xMin, xMax, yMin4, coilWgt, roundDgt);
 
       //Делаем подпись "Начало"
       hlbl = new Label
@@ -780,7 +966,7 @@ namespace Viz.WrkModule.MapDefects
       Db.MapDefectsAction.CreateCutMatData(findLocNumText);
       this.dsMapDef.CutMat.LoadData();
 
-      oldX = xMax;
+      double oldX = xMax;
       zIdx = 1;        //сбрасываем
       int idBrush2 = 1; //сбрасываем
       double xLen = xMax - xMin;
@@ -846,9 +1032,9 @@ namespace Viz.WrkModule.MapDefects
 
         var line = new Line
         {
-          X1 = Math.Round(oldX - xLen * xPart, nrnd),
+          X1 = Math.Round(oldX - xLen * xPart, roundDgt),
           Y1 = yMin4,
-          X2 = Math.Round(oldX - xLen * xPart, nrnd),
+          X2 = Math.Round(oldX - xLen * xPart, roundDgt),
           Y2 = yMax4 + yForward * zIdx,
           Stroke = Brushes.Black,
           StrokeThickness = 1
@@ -863,27 +1049,42 @@ namespace Viz.WrkModule.MapDefects
           FontSize = 10,
           FontWeight = FontWeights.Bold
         };
-        Canvas.SetLeft(lbl, Math.Round(oldX - xLen * xPart, nrnd) + 1);
+        Canvas.SetLeft(lbl, Math.Round(oldX - xLen * xPart, roundDgt) + 1);
         Canvas.SetTop(lbl, yMax4 + yForward * zIdx - 13);
         cnv2.Children.Add(lbl);
 
         var rect = new Rectangle()
         {
-          Height = Math.Round((yEndChaild - yStartChaild) * ky, nrnd),
-          Width = Math.Round(xLen * xPart, nrnd),
-          Fill = GetHatchBrush(idBrush2, Math.Round((yEndAnc - yStartAnc) * ky, nrnd), Math.Round(xLen * xPart, nrnd)),
+          Height = Math.Round((yEndChaild - yStartChaild) * ky, roundDgt),
+          Width = Math.Round(xLen * xPart, roundDgt),
+          Fill = GetHatchBrush(idBrush2, Math.Round((yEndAnc - yStartAnc) * ky, roundDgt), Math.Round(xLen * xPart, roundDgt)),
           Stroke = this.GetBrush(idBrush2),
           StrokeThickness = 1
         };
 
-        Canvas.SetLeft(rect, Math.Round(oldX - xLen * xPart, nrnd));
-        Canvas.SetTop(rect, yMax4 - Math.Round(yStartAnc * ky, nrnd) - Math.Round((yEndChaild - yStartChaild) * ky, nrnd));
+        Canvas.SetLeft(rect, Math.Round(oldX - xLen * xPart, roundDgt));
+        Canvas.SetTop(rect, yMax4 - Math.Round(yStartAnc * ky, roundDgt) - Math.Round((yEndChaild - yStartChaild) * ky, roundDgt));
         cnv2.Children.Add(rect);
 
         idBrush2++;
-        oldX = Math.Round(oldX - xLen * xPart, nrnd);
+        oldX = Math.Round(oldX - xLen * xPart, roundDgt);
         zIdx++;
       }
+
+      /**************************Строим график текстуры на Странице 3********************************************************/
+      double yAxisMax = (140 + (yMax - yMin)) + zIdx3 * yForward + 10; //Конец оси Y
+      double yAxisMin = yAxisMax + 150; //Начало (0) оси Y
+
+      plCoil = new Polyline();
+      plCoil.Points.Add(new Point(xMin, yAxisMax));
+      plCoil.Points.Add(new Point(xMin, yAxisMin));
+      plCoil.Points.Add(new Point(xMax, yAxisMin));
+      plCoil.Stroke = Brushes.Black;
+      plCoil.StrokeThickness = 2;
+      cnv3.Children.Add(plCoil);
+
+      PaintCoilRuleForwardXAxis(cnv3, kx, 500, xMin, xMax, yAxisMin, coilWgt, roundDgt);
+      PaintCoilRuleYAxis(cnv3,20, xMin, xMax, yAxisMax, yAxisMin, roundDgt);
 
     }
     
@@ -1333,6 +1534,7 @@ namespace Viz.WrkModule.MapDefects
       this.usrControl = control;
       this.cnv1 = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Cnvs1") as Canvas;
       this.cnv2 = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Cnvs2") as Canvas;
+      this.cnv3 = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Cnvs3") as Canvas;
       scaleY = 100;
       scaleX = 100;
 

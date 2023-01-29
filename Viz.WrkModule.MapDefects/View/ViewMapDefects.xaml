@@ -83,5 +83,8 @@
     <dxc:DXTabItem Header="Страница 2">
       <Canvas Name="Cnvs2" ClipToBounds="True" SnapsToDevicePixels="True" Background="White"/>
     </dxc:DXTabItem>
+    <dxc:DXTabItem Header="Страница 3">
+      <Canvas Name="Cnvs3" ClipToBounds="True" SnapsToDevicePixels="True" Background="White"/>
+    </dxc:DXTabItem>
   </dxc:DXTabControl>
 </ruc:RibbonUserControl>

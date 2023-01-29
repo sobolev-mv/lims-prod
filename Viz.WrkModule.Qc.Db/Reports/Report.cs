@@ -32,7 +32,7 @@ namespace Viz.WrkModule.Qc.Db.Reports
           workSheet[rowStart, 4].Value = odrProtocol.GetString(4);
           workSheet[rowStart, 5].Value = odrProtocol.GetInt32(5);
           workSheet[rowStart, 6].Value = odrProtocol.GetInt32(6);
-          workSheet[rowStart, 7].Value = odrProtocol.GetString(7);
+          workSheet[rowStart, 7].Value = odrProtocol.GetDouble(7);
           workSheet[rowStart, 8].Value = odrProtocol.GetString(8);
           workSheet[rowStart, 9].Value = odrProtocol.GetString(9);
           rowStart++;
