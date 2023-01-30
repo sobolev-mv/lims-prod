@@ -15,6 +15,7 @@ using DevExpress.Xpf.Core;
 using DevExpress.Mvvm.UI.Native;
 using DevExpress.Data.Linq.Helpers;
 using System.Windows.Documents;
+using System.Security.Policy;
 
 namespace Viz.WrkModule.MapDefects
 {
@@ -546,20 +547,7 @@ namespace Viz.WrkModule.MapDefects
         cnv.Children.Add(lbl);
       }
 
-      /*
-      lbl = new Label
-      {
-        Content = (wgtCoil / 1000).ToString("n3"),
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 11,
-      };
-      Canvas.SetLeft(lbl, xMin);
-      Canvas.SetTop(lbl, yMin + 2);
-      cnv.Children.Add(lbl);
-      */
     }
-
 
     private void BuildMapDef()
     {
@@ -635,7 +623,8 @@ namespace Viz.WrkModule.MapDefects
 
       //рисуем первую сторону рулона
       int zIdx = DrawCoilSurf1(cnv1, xMin, xMax, yMin, yMax, kx, ky, roundDgt, yForward, coilWgt, lstSf1);
-      int zIdx3 = DrawCoilSurf1(cnv3, xMin, xMax, 140, 140 + (yMax - yMin), kx, ky, roundDgt, yForward, coilWgt, lstSf3);
+      int zIdx3 = DrawCoilSurf1(cnv3, xMin, xMax, 140, 140 + (yMax - yMin), kx, ky, roundDgt, yForward, coilWgt,
+        lstSf3);
 
       /*
       var plCoil = new Polyline();
@@ -866,7 +855,7 @@ namespace Viz.WrkModule.MapDefects
       Canvas.SetTop(hlbl, yMin2);
       cnv1.Children.Add(hlbl);
       */
-      
+
 
       //Страница 2, Определяем yMin для раскроечного рулона
 
@@ -967,7 +956,7 @@ namespace Viz.WrkModule.MapDefects
       this.dsMapDef.CutMat.LoadData();
 
       double oldX = xMax;
-      zIdx = 1;        //сбрасываем
+      zIdx = 1; //сбрасываем
       int idBrush2 = 1; //сбрасываем
       double xLen = xMax - xMin;
 
@@ -980,13 +969,14 @@ namespace Viz.WrkModule.MapDefects
         double yStartChaild = Convert.ToDouble(rowCutMat["YstartChaild"]);
         double yEndChaild = Convert.ToDouble(rowCutMat["YendChaild"]);
         double xPart = Convert.ToDouble(rowCutMat["Xpart"]);
-        
+
 
         string strInfo = "[" + Convert.ToString(rowCutMat["MatChild"]) + "]"
                          + ", Сорт: " + Convert.ToString(rowCutMat["Sort"])
                          + ", Категория: " + Convert.ToString(rowCutMat["Cat"])
                          + ", Дефект: " + Convert.ToString(rowCutMat["Def"])
-                         + ", Масса: " + Math.Round((Convert.ToDouble(rowCutMat["Weight"]) / 1000), 3).ToString(CultureInfo.InvariantCulture) + "т"
+                         + ", Масса: " + Math.Round((Convert.ToDouble(rowCutMat["Weight"]) / 1000), 3)
+                           .ToString(CultureInfo.InvariantCulture) + "т"
                          + ", Ширина: " + (yEndChaild - yStartChaild).ToString(CultureInfo.InvariantCulture) + "мм"
                          + ", Статус: " + Convert.ToString(rowCutMat["Status"]);
 
@@ -1057,13 +1047,15 @@ namespace Viz.WrkModule.MapDefects
         {
           Height = Math.Round((yEndChaild - yStartChaild) * ky, roundDgt),
           Width = Math.Round(xLen * xPart, roundDgt),
-          Fill = GetHatchBrush(idBrush2, Math.Round((yEndAnc - yStartAnc) * ky, roundDgt), Math.Round(xLen * xPart, roundDgt)),
+          Fill = GetHatchBrush(idBrush2, Math.Round((yEndAnc - yStartAnc) * ky, roundDgt),
+            Math.Round(xLen * xPart, roundDgt)),
           Stroke = this.GetBrush(idBrush2),
           StrokeThickness = 1
         };
 
         Canvas.SetLeft(rect, Math.Round(oldX - xLen * xPart, roundDgt));
-        Canvas.SetTop(rect, yMax4 - Math.Round(yStartAnc * ky, roundDgt) - Math.Round((yEndChaild - yStartChaild) * ky, roundDgt));
+        Canvas.SetTop(rect,
+          yMax4 - Math.Round(yStartAnc * ky, roundDgt) - Math.Round((yEndChaild - yStartChaild) * ky, roundDgt));
         cnv2.Children.Add(rect);
 
         idBrush2++;
@@ -1074,6 +1066,7 @@ namespace Viz.WrkModule.MapDefects
       /**************************Строим график текстуры на Странице 3********************************************************/
       double yAxisMax = (140 + (yMax - yMin)) + zIdx3 * yForward + 10; //Конец оси Y
       double yAxisMin = yAxisMax + 150; //Начало (0) оси Y
+      double kAxisY = Math.Round((yAxisMin - yAxisMax) / 120, roundDgt); //масштабирование
 
       plCoil = new Polyline();
       plCoil.Points.Add(new Point(xMin, yAxisMax));
@@ -1084,10 +1077,28 @@ namespace Viz.WrkModule.MapDefects
       cnv3.Children.Add(plCoil);
 
       PaintCoilRuleForwardXAxis(cnv3, kx, 500, xMin, xMax, yAxisMin, coilWgt, roundDgt);
-      PaintCoilRuleYAxis(cnv3,20, xMin, xMax, yAxisMax, yAxisMin, roundDgt);
+      PaintCoilRuleYAxis(cnv3, 20, xMin, xMax, yAxisMax, yAxisMin, roundDgt);
+
+      string agrAvo = Db.MapDefectsAction.GetStrannAgrCoil(realLocId);
+      this.dsMapDef.Trend.LoadTextureData(Convert.ToDouble(coilLen), coilWidth, Convert.ToDouble(coilThick), realLocId, agrAvo);
+
+      plCoil = new Polyline
+      {
+        Stroke = Brushes.Blue,
+        StrokeThickness = 2
+      };
+     
+      foreach (DataRow rowTrend in this.dsMapDef.Trend.Rows)
+      {
+        if (Convert.ToDouble(rowTrend[0]) > coilWgt)
+          continue;
+
+        plCoil.Points.Add(new Point(xMax - Math.Round(Convert.ToDouble(rowTrend[0]) * kx, roundDgt), yAxisMin - Math.Round(Convert.ToDouble(rowTrend[1]) * kAxisY, roundDgt)));
+      }
+      cnv3.Children.Add(plCoil);
 
     }
-    
+
     private void BuildMapDefUo()
     {
       //Списки для запоминания координаты X дефекта каждой из поверхностей

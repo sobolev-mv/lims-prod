@@ -290,6 +290,26 @@ namespace Viz.WrkModule.MapDefects.Db
       return Convert.ToDecimal(Odac.ExecuteScalar(stmt, CommandType.Text, false, lstPrm));
     }
 
+    public static string GetStrannAgrCoil(string MatLocId)
+    {
+      //decimal rez;
+      const string stmt = "SELECT ANLAGE FROM VIZ.PRODUCTIONJOURNAL WHERE (MATBEZEICHNUNGOUTPUT = :LOCID) AND (AGTYP = 'STRANN')";
+
+      var lstPrm = new List<OracleParameter>();
+      var prm = new OracleParameter
+      {
+        ParameterName = "LOCID",
+        DbType = DbType.String,
+        Direction = ParameterDirection.Input,
+        OracleDbType = OracleDbType.VarChar,
+        Size = MatLocId.Length,
+        Value = MatLocId
+      };
+      lstPrm.Add(prm);
+
+      return Convert.ToString(Odac.ExecuteScalar(stmt, CommandType.Text, false, lstPrm));
+    }
+    
     public static string GetStrannDateTimeCoil(string MatLocId)
     {
       //decimal rez;
