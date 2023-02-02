@@ -73,7 +73,7 @@
       </dxr:RibbonPageGroup>
     </dxr:RibbonPage>
   </ruc:RibbonUserControl.UserPages>
-  <dxc:DXTabControl>
+  <dxc:DXTabControl Name="PageTab">
     <dxc:DXTabControl.View>
       <dxc:TabControlScrollView HeaderLocation="Left"/>
     </dxc:DXTabControl.View>

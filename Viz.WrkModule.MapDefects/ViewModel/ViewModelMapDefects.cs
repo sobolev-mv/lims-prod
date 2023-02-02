@@ -32,6 +32,7 @@ namespace Viz.WrkModule.MapDefects
 
     #region Fields
     private readonly UserControl usrControl;
+    private readonly DXTabControl dxTabControl;
     private string findLocNumText = null;
     private ObservableCollection<UiRef> coilType;
     private int selectedCoilType = 1;
@@ -107,7 +108,23 @@ namespace Viz.WrkModule.MapDefects
     #region Private Method
     private void SetScaleY()
     {
-      this.cnv1.LayoutTransform = new ScaleTransform(Convert.ToDouble(this.scaleX / 100), Convert.ToDouble(this.scaleY / 100)); 
+      Canvas cnv = null;
+
+      switch (this.dxTabControl.SelectedIndex)
+      {
+        case 0:
+          cnv = cnv1;    
+          break;
+        case 1:
+          cnv = cnv2;
+          break;
+        case 2:
+          cnv = cnv3;
+          break;
+      }
+
+      if (cnv != null)
+        cnv.LayoutTransform = new ScaleTransform(Convert.ToDouble(this.scaleX / 100), Convert.ToDouble(this.scaleY / 100));
     }
 
     private string GetLabelDefect(DataView dvDef)
@@ -500,12 +517,12 @@ namespace Viz.WrkModule.MapDefects
       cnv.Children.Add(lbl);
     }
 
-    private void PaintCoilRuleYAxis(Canvas cnv, int yAxisUnit, double xMin, double xMax, double yMin, double yMax, int roundDgt)
+    private void PaintCoilRuleYAxis(Canvas cnv, int yAxisUnit, int yAxisMaxVal, double xMin, double xMax, double yMin, double yMax, int roundDgt)
     {
       var dashes = new DoubleCollection
       { 2, 2 };
       
-      int rulePartQnt = Convert.ToInt32(120 / yAxisUnit);
+      int rulePartQnt = Convert.ToInt32(yAxisMaxVal / yAxisUnit);
       double yUnit = Math.Round((yMax - yMin) / rulePartQnt, roundDgt);
       
       for (int i = 1; i <= rulePartQnt; i++)
@@ -543,7 +560,7 @@ namespace Viz.WrkModule.MapDefects
         };
 
         Canvas.SetLeft(lbl, xMin + 2);
-        Canvas.SetTop(lbl, yMax - yUnit * i);
+        Canvas.SetTop(lbl, yMax - yUnit * i - 3);
         cnv.Children.Add(lbl);
       }
 
@@ -623,119 +640,8 @@ namespace Viz.WrkModule.MapDefects
 
       //рисуем первую сторону рулона
       int zIdx = DrawCoilSurf1(cnv1, xMin, xMax, yMin, yMax, kx, ky, roundDgt, yForward, coilWgt, lstSf1);
-      int zIdx3 = DrawCoilSurf1(cnv3, xMin, xMax, 140, 140 + (yMax - yMin), kx, ky, roundDgt, yForward, coilWgt,
-        lstSf3);
+      int zIdx3 = DrawCoilSurf1(cnv3, xMin, xMax, 140, 140 + (yMax - yMin), kx, ky, roundDgt, yForward, coilWgt, lstSf3);
 
-      /*
-      var plCoil = new Polyline();
-      plCoil.Points.Add(new Point(xMin, yMin));
-      plCoil.Points.Add(new Point(xMax, yMin));
-      plCoil.Points.Add(new Point(xMax, yMax));
-      plCoil.Points.Add(new Point(xMin, yMax));
-      plCoil.Points.Add(new Point(xMin, yMin));
-      plCoil.Stroke = Brushes.Black;
-      plCoil.StrokeThickness = 2;
-      cnv1.Children.Add(plCoil);
-
-      //рисуем весовую линейку первой стороны 
-      this.PaintCoilRuleForward(this.cnv1, kx, 500, xMin, xMax, yMin, coilWgt, roundDgt);
-
-      //здесь начинается сама отрисовка дефектов первой стороны  
-      int zIdx = 1;
-      double oldX = xMax;
-
-      foreach (DataRow rowZone in this.dsMapDef.LstDefZones.Rows)
-      {
-
-        double zoneFrom = Convert.ToDouble(rowZone["ZoneFrom"]);
-        double zoneTo = Convert.ToDouble(rowZone["ZoneTo"]);
-        this.dsMapDef.MapDef.DefaultView.RowFilter = "ZoneFrom=" +
-                                                     zoneFrom.ToString(
-                                                       System.Globalization.CultureInfo.InvariantCulture) +
-                                                     " AND ZoneTo=" + zoneTo.ToString(System.Globalization.CultureInfo
-                                                       .InvariantCulture);
-
-
-        var line = new Line
-        {
-          X1 = xMax - Math.Round(zoneTo * kx, roundDgt),
-          Y1 = yMin,
-          X2 = xMax - Math.Round(zoneTo * kx, roundDgt),
-          Y2 = yMax + yForward * zIdx,
-          Stroke = Brushes.Black,
-          StrokeThickness = 1
-        };
-        cnv1.Children.Add(line);
-        lstSf1.Add(line.X1);
-
-        var lbl = new Label
-        {
-          Content = zIdx.ToString(System.Globalization.CultureInfo.InvariantCulture) +
-                    GetLabelDefect(this.dsMapDef.MapDef.DefaultView),
-          Foreground = Brushes.Black,
-          FontFamily = new FontFamily("Arial"),
-          FontSize = 10,
-          FontWeight = FontWeights.Bold
-        };
-        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, roundDgt) + 1);
-        Canvas.SetTop(lbl, yMax + yForward * zIdx - 13);
-        cnv1.Children.Add(lbl);
-
-        int idBrush = 1;
-        foreach (DataRowView drv in this.dsMapDef.MapDef.DefaultView)
-        {
-          string strCat = Convert.ToString(drv.Row["Cat"]);
-          string fehlerTyp = Convert.ToString(drv.Row["FehlerTyp"]);
-          int rid = Convert.ToInt32(drv.Row["Rid"]);
-
-          //double yPos1 = Convert.ToDouble(this.dsMapDef.MapDef.DefaultView[0].Row["YposvOn"]);
-          //double yPos2 = Convert.ToDouble(this.dsMapDef.MapDef.DefaultView[0].Row["YposbIs"]);
-
-
-          if ((fehlerTyp == "034") || (fehlerTyp == "038") || (strCat == "3") || (strCat == "б/к") || (strCat == "5") ||
-              (strCat == "4"))
-          {
-            //Здесь рисуем поперечный основной дефект
-            double yPos1 = Convert.ToDouble(drv.Row["YposvOn"]);
-            double yPos2 = Convert.ToDouble(drv.Row["YposbIs"]);
-
-            var rect = new Rectangle()
-            {
-              Height = Math.Round((yPos2 - yPos1) * ky, roundDgt),
-              Width = oldX - (xMax - Math.Round(zoneTo * kx, roundDgt)),
-              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, roundDgt),
-                oldX - (xMax - Math.Round(zoneTo * kx, roundDgt))),
-              Stroke = this.GetBrush(idBrush),
-              StrokeThickness = 1
-            };
-            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, roundDgt));
-            Canvas.SetTop(rect, yMax - Math.Round(yPos1 * ky, roundDgt) - Math.Round((yPos2 - yPos1) * ky, roundDgt));
-            cnv1.Children.Add(rect);
-          }
-
-          idBrush++;
-        }
-
-
-        oldX = xMax - Math.Round(zoneTo * kx, roundDgt);
-        zIdx++;
-
-      }
-
-      //Делаем подпись начала
-      var hlbl = new Label
-      {
-        Content = "Начало",
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 10,
-        FontWeight = FontWeights.Bold,
-        RenderTransform = new RotateTransform(90),
-      };
-      Canvas.SetLeft(hlbl, xMax + 14);
-      Canvas.SetTop(hlbl, yMin);
-      cnv1.Children.Add(hlbl);
-      */
 
       //Здесь начинаем рисовать вторую сторону рулона
       //zdn = rm.Next(10000000, 99999999);
@@ -750,112 +656,6 @@ namespace Viz.WrkModule.MapDefects
       double yMax2 = yMin2 + (yMax - yMin);
 
       DrawCoilSurf1(cnv1, xMin, xMax, yMin2, yMax2, kx, ky, roundDgt, yForward, coilWgt, lstSf2);
-
-      /*
-      var plCoil = new Polyline();
-      plCoil.Points.Add(new Point(xMin, yMin2));
-      plCoil.Points.Add(new Point(xMax, yMin2));
-      plCoil.Points.Add(new Point(xMax, yMax2));
-      plCoil.Points.Add(new Point(xMin, yMax2));
-      plCoil.Points.Add(new Point(xMin, yMin2));
-      plCoil.Stroke = Brushes.Black;
-      plCoil.StrokeThickness = 2;
-      cnv1.Children.Add(plCoil);
-
-      //рисуем весовую линейку второй стороны 
-      this.PaintCoilRuleForward(this.cnv1, kx, 500, xMin, xMax, yMin2, coilWgt, roundDgt);
-
-      double oldX = xMax;
-      zIdx = 1; //сбрасываем
-
-      foreach (DataRow rowZone in this.dsMapDef.LstDefZones.Rows)
-      {
-
-        double zoneFrom = Convert.ToDouble(rowZone["ZoneFrom"]);
-        double zoneTo = Convert.ToDouble(rowZone["ZoneTo"]);
-        this.dsMapDef.MapDef.DefaultView.RowFilter = "ZoneFrom=" +
-                                                     zoneFrom.ToString(
-                                                       System.Globalization.CultureInfo.InvariantCulture) +
-                                                     " AND ZoneTo=" + zoneTo.ToString(System.Globalization.CultureInfo.InvariantCulture);
-
-        var line = new Line
-        {
-          X1 = xMax - Math.Round(zoneTo * kx, roundDgt),
-          Y1 = yMin2,
-          X2 = xMax - Math.Round(zoneTo * kx, roundDgt),
-          Y2 = yMax2 + yForward * zIdx,
-          Stroke = Brushes.Black,
-          StrokeThickness = 1
-        };
-        cnv1.Children.Add(line);
-        lstSf2.Add(line.X1);
-
-        var lbl = new Label
-        {
-          Content = zIdx.ToString(System.Globalization.CultureInfo.InvariantCulture) +
-                    GetLabelDefect(this.dsMapDef.MapDef.DefaultView),
-          Foreground = Brushes.Black,
-          FontFamily = new FontFamily("Arial"),
-          FontSize = 10,
-          FontWeight = FontWeights.Bold
-        };
-
-        Canvas.SetLeft(lbl, xMax - Math.Round(zoneTo * kx, roundDgt) + 1);
-        Canvas.SetTop(lbl, yMax2 + yForward * zIdx - 13);
-        cnv1.Children.Add(lbl);
-
-        int idBrush = 1;
-        foreach (DataRowView drv in this.dsMapDef.MapDef.DefaultView)
-        {
-          string strCat = Convert.ToString(drv.Row["Cat"]);
-          string fehlerTyp = Convert.ToString(drv.Row["FehlerTyp"]);
-          int rid = Convert.ToInt32(drv.Row["Rid"]);
-
-          if ((fehlerTyp == "034") || (fehlerTyp == "038") || (strCat == "3") || (strCat == "б/к") || (strCat == "5") ||
-              (strCat == "4"))
-          {
-
-            //Здесь рисуем поперечный основной дефект
-            double yPos1 = Convert.ToDouble(drv.Row["YposvOn"]);
-            double yPos2 = Convert.ToDouble(drv.Row["YposbIs"]);
-
-            var rect = new Rectangle()
-            {
-              Height = Math.Round((yPos2 - yPos1) * ky, roundDgt),
-              Width = oldX - (xMax - Math.Round(zoneTo * kx, roundDgt)),
-              Fill = GetHatchBrush(idBrush, Math.Round((yPos2 - yPos1) * ky, roundDgt),
-                oldX - (xMax - Math.Round(zoneTo * kx, roundDgt))),
-              Stroke = this.GetBrush(idBrush),
-              StrokeThickness = 1
-            };
-            Canvas.SetLeft(rect, xMax - Math.Round(zoneTo * kx, roundDgt));
-            //Canvas.SetTop(rect, yMin2 + Math.Round(yPos1*ky, nrnd));
-            Canvas.SetTop(rect, yMax2 - Math.Round(yPos1 * ky, roundDgt) - Math.Round((yPos2 - yPos1) * ky, roundDgt));
-            cnv1.Children.Add(rect);
-          }
-
-          idBrush++;
-        }
-
-        oldX = xMax - Math.Round(zoneTo * kx, roundDgt);
-        zIdx++;
-      }
-
-      //Делаем подпись начала
-      var hlbl = new Label
-      {
-        Content = "Начало",
-        Foreground = Brushes.Black,
-        FontFamily = new FontFamily("Arial"),
-        FontSize = 10,
-        FontWeight = FontWeights.Bold,
-        RenderTransform = new RotateTransform(90),
-      };
-      Canvas.SetLeft(hlbl, xMax + 14);
-      Canvas.SetTop(hlbl, yMin2);
-      cnv1.Children.Add(hlbl);
-      */
-
 
       //Страница 2, Определяем yMin для раскроечного рулона
 
@@ -1064,9 +864,16 @@ namespace Viz.WrkModule.MapDefects
       }
 
       /**************************Строим график текстуры на Странице 3********************************************************/
+
+      string agrAvo = Db.MapDefectsAction.GetStrannAgrCoil(realLocId);
+      this.dsMapDef.Trend.LoadTextureData(Convert.ToDouble(coilLen), coilWidth, Convert.ToDouble(coilThick), realLocId, agrAvo);
+
+      if (this.dsMapDef.Trend.Rows.Count == 0)
+        return;
+
       double yAxisMax = (140 + (yMax - yMin)) + zIdx3 * yForward + 10; //Конец оси Y
-      double yAxisMin = yAxisMax + 150; //Начало (0) оси Y
-      double kAxisY = Math.Round((yAxisMin - yAxisMax) / 120, roundDgt); //масштабирование
+      double yAxisMin = yAxisMax + 250; //Начало (0) оси Y
+      double kAxisY = Math.Round((yAxisMin - yAxisMax) / 200, roundDgt); //масштабирование по оси Y
 
       plCoil = new Polyline();
       plCoil.Points.Add(new Point(xMin, yAxisMax));
@@ -1077,10 +884,8 @@ namespace Viz.WrkModule.MapDefects
       cnv3.Children.Add(plCoil);
 
       PaintCoilRuleForwardXAxis(cnv3, kx, 500, xMin, xMax, yAxisMin, coilWgt, roundDgt);
-      PaintCoilRuleYAxis(cnv3, 20, xMin, xMax, yAxisMax, yAxisMin, roundDgt);
+      PaintCoilRuleYAxis(cnv3, 10, 200, xMin, xMax, yAxisMax, yAxisMin, roundDgt);
 
-      string agrAvo = Db.MapDefectsAction.GetStrannAgrCoil(realLocId);
-      this.dsMapDef.Trend.LoadTextureData(Convert.ToDouble(coilLen), coilWidth, Convert.ToDouble(coilThick), realLocId, agrAvo);
 
       plCoil = new Polyline
       {
@@ -1546,6 +1351,8 @@ namespace Viz.WrkModule.MapDefects
       this.cnv1 = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Cnvs1") as Canvas;
       this.cnv2 = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Cnvs2") as Canvas;
       this.cnv3 = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Cnvs3") as Canvas;
+      this.dxTabControl = LogicalTreeHelper.FindLogicalNode(this.usrControl, "PageTab") as DXTabControl;
+
       scaleY = 100;
       scaleX = 100;
 
@@ -1601,6 +1408,11 @@ namespace Viz.WrkModule.MapDefects
       if (printDialog.ShowDialog().GetValueOrDefault() != true) return;
       printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
       printDialog.PrintVisual(this.cnv2, "Print Defects Map2");
+
+      printDialog = new PrintDialog();
+      if (printDialog.ShowDialog().GetValueOrDefault() != true) return;
+      printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
+      printDialog.PrintVisual(this.cnv3, "Print Defects Map3");
     }
 
     private bool CanExecutePrintMapDefects(Object parameter)
