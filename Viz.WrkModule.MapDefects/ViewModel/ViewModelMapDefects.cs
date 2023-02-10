@@ -1340,6 +1340,17 @@ namespace Viz.WrkModule.MapDefects
 
     }
 
+    private void PrintPage(Canvas cnv, string msgPrint)
+    {
+      var printDialog = new PrintDialog();
+
+      if (printDialog.ShowDialog().GetValueOrDefault() == true)
+      {
+        printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
+        //printDialog.PrintQueue.GetPrintCapabilities().
+        printDialog.PrintVisual(cnv, msgPrint);
+      }
+    }
 
 
     #endregion
@@ -1396,23 +1407,25 @@ namespace Viz.WrkModule.MapDefects
 
     private void ExecutePrintMapDefects(Object parameter)
     {
-      var printDialog = new PrintDialog();
-
-      if (printDialog.ShowDialog().GetValueOrDefault() == true){
-        printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-        //printDialog.PrintQueue.GetPrintCapabilities().
-        printDialog.PrintVisual(this.cnv1, "Print Defects Map1");
+      var prm = Convert.ToInt32(parameter);
+      
+      switch(prm)
+      {
+        case 0:
+          PrintPage(cnv1, "Print Defects Map1");
+          PrintPage(cnv2, "Print Defects Map2");
+          PrintPage(cnv3, "Print Defects Map3");
+          break;
+        case 1:
+          PrintPage(cnv1, "Print Defects Map1");
+          break;
+        case 2:
+          PrintPage(cnv2, "Print Defects Map2");
+          break;
+        case 3:
+          PrintPage(cnv3, "Print Defects Map3");
+          break;
       }
-
-      printDialog = new PrintDialog();
-      if (printDialog.ShowDialog().GetValueOrDefault() != true) return;
-      printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-      printDialog.PrintVisual(this.cnv2, "Print Defects Map2");
-
-      printDialog = new PrintDialog();
-      if (printDialog.ShowDialog().GetValueOrDefault() != true) return;
-      printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-      printDialog.PrintVisual(this.cnv3, "Print Defects Map3");
     }
 
     private bool CanExecutePrintMapDefects(Object parameter)

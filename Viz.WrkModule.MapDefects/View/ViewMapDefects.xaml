@@ -49,7 +49,13 @@
       </dxb:BarEditItem.EditSettings>
     </dxb:BarEditItem>
     <dxb:BarButtonItem Name="btnApScaleY" Command="{Binding ScaleYCommand}" Content="      Применить       " Glyph="pack://application:,,,/Viz.WrkModule.MapDefects;Component/Images/Apply-16x16.png" Description="New blank document." Hint="Применить масштаб к текущей карте дефектов." />
-    <dxb:BarButtonItem Name="btnPrintMap" Command="{Binding PrintMapDefectsCommand}" Content="Печать" LargeGlyph="pack://application:,,,/Viz.WrkModule.MapDefects;Component/Images/PrintMap-32x32.png" Hint="Распечатать карту дефектов." />
+    <dxb:BarSubItem Name="btnPrintMap" CloseSubMenuOnClick="False"  Content="Печать" LargeGlyph="pack://application:,,,/Viz.WrkModule.MapDefects;Component/Images/PrintMap-32x32.png" Hint="Распечатать карту дефектов.">
+      <dxb:BarButtonItem Name="btnAllPages"  Content="Все страницы"   Command="{Binding PrintMapDefectsCommand}" CommandParameter="0" />
+      <dxb:BarButtonItem Content="Страница 1" Command="{Binding PrintMapDefectsCommand}" CommandParameter="1" BarItemDisplayMode="Content"/>
+      <dxb:BarButtonItem Content="Страница 2" Command="{Binding PrintMapDefectsCommand}" CommandParameter="2" BarItemDisplayMode="Content"/>
+      <dxb:BarButtonItem Content="Страница 3" Command="{Binding PrintMapDefectsCommand}" CommandParameter="3" BarItemDisplayMode="Content"/>
+    </dxb:BarSubItem>
+
     <dxb:BarButtonItem Name="btnQuitxyz" Content="Выход" Tag="CloseUserControl" LargeGlyph="pack://application:,,,/Viz.WrkModule.MapDefects;Component/Images/close-32x32.png" Description="New blank document." Hint="Закончить работу с АРМ Карта дефектов." />
   </ruc:RibbonUserControl.BarManagerItems>
 
@@ -66,7 +72,7 @@
         <dxb:BarButtonItemLink BarItemName="btnApScaleY" RibbonStyle="SmallWithText" UserGlyphSize="Small" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
       </dxr:RibbonPageGroup>
       <dxr:RibbonPageGroup Name="rpgAction" Caption="Операции" AllowCollapse="False">
-        <dxb:BarButtonItemLink BarItemName="btnPrintMap" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
+        <dxb:BarSubItemLink BarItemName="btnPrintMap" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True"/>
       </dxr:RibbonPageGroup> 
       <dxr:RibbonPageGroup Name="rpgQuit" AllowCollapse="False">
         <dxb:BarButtonItemLink BarItemName="btnQuitxyz" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
