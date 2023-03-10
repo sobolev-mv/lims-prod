@@ -1185,7 +1185,7 @@ namespace Viz.WrkModule.RptManager
 
 
       //Делаем controls невидимыми
-      for (int i = ModuleConst.AccCmdRkSko; i < ModuleConst.AccCmdMonitorDefCrossTrim + 1; i++){
+      for (int i = ModuleConst.AccCmdRkSko; i < ModuleConst.AccCmdSgpTo3Cat2SortFinCut + 1; i++){
         var btn = LogicalTreeHelper.FindLogicalNode(this.usrControl, "b" + ModuleConst.ModuleId + "_" + i.ToString()) as UIElement;
 
         if (btn == null) continue;
@@ -1246,6 +1246,7 @@ namespace Viz.WrkModule.RptManager
     private DelegateCommand<Object> sgpTo2SortFinCutCommand;
     private DelegateCommand<Object> sgpTo2CatFinCutCommand;
     private DelegateCommand<Object> sgpTo3CatFinCutCommand;
+    private DelegateCommand<Object> sgpTo3Cat2SortFinCutCommand;
     private DelegateCommand<Object> lasScrAfterFinCutCommand;
     private DelegateCommand<Object> reasonOfStripBreakageRm1300Command;
     private DelegateCommand<Object> loadTblExceptCommand;
@@ -2182,6 +2183,86 @@ namespace Viz.WrkModule.RptManager
     }
 
     private bool CanExecuteSgpTo3CatFinCutCommand(Object parameter)
+    {
+      return true;
+    }
+    
+    public ICommand SgpTo3Cat2SortFinCutCommand => sgpTo3Cat2SortFinCutCommand ?? (sgpTo3Cat2SortFinCutCommand = new DelegateCommand<Object>(ExecuteSgpTo3Cat2SortFinCutCommand, CanExecuteSgpTo3Cat2SortFinCutCommand));
+
+    private void ExecuteSgpTo3Cat2SortFinCutCommand(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.SgpTo3Cat2SortFinCutSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.SgpTo3Cat2SortFinCutDest;
+
+      var rptParam = new Db.SgpTo3Cat2SortFinCutRptParam(src, dst)
+      {
+        PathScriptsDir = Smv.Utils.Etc.StartPath + ModuleConst.ScriptsFolder,
+        DateBegin = this.DateBegin,
+        DateEnd = this.DateEnd,
+        TypeFilter = this.SelectedTabIndexF5,
+        ListStendF5 = this.ListStendF5,
+        TypeListValueF5 = this.typeListValueF5,
+        IsAroF5 = this.IsAroF5,
+        Is1200F5 = this.Is1200F5,
+        IsApr1F5 = this.IsApr1F5,
+        IsAooF5 = this.IsAooF5,
+        IsVtoF5 = this.IsVtoF5,
+        IsAvoF5 = this.IsAvoF5,
+        IsMgOF5 = this.IsMgOF5,
+        IsPppF5 = this.IsPppF5,
+        IsWgtCoverF5 = this.IsWgtCoverF5,
+        IsStVtoF5 = this.IsStVtoF5,
+        IsKlpVtoF5 = this.IsKlpVtoF5,
+        IsDiskVtoF5 = this.IsDiskVtoF5,
+        IsTimeAooVtoF5 = this.IsTimeAooVtoF5,
+        IsDateAroF5 = this.IsDateAroF5,
+        IsDate1200F5 = this.IsDate1200F5,
+        IsDateApr1F5 = this.IsDateApr1F5,
+        IsDateAooF5 = this.IsDateAooF5,
+        DateBeginAroF5 = this.DateBeginAroF5,
+        DateEndAroF5 = this.DateEndAroF5,
+        DateBegin1200F5 = this.DateBegin1200F5,
+        DateEnd1200F5 = this.DateEnd1200F5,
+        DateBeginApr1F5 = this.DateBeginApr1F5,
+        DateEndApr1F5 = this.DateEndApr1F5,
+        DateBeginAooF5 = this.DateBeginAooF5,
+        DateEndAooF5 = this.DateEndAooF5,
+        AroF5Item = Convert.ToString(this.SelAroF5Item.Row["StrSql"]),
+        Stan1200F5Item = Convert.ToString(this.sel1200F5Item.Row["StrSql"]),
+        TolsF5Item = Convert.ToString(this.SelTolsF5Item.Row["StrSql"]),
+        BrgApr1F5Item = Convert.ToString(this.SelBrgApr1F5Item.Row["StrSql"]),
+        BrgVtoF5Item = Convert.ToString(this.SelBrgVtoF5Item.Row["StrSql"]),
+        BrgAvoF5Item = Convert.ToString(this.SelBrgAvoF5Item.Row["StrSql"]),
+        AooF5Item = Convert.ToString(this.SelAooF5Item.Row["StrSql"]),
+        AvoF5Item = Convert.ToString(this.SelAvoF5Item.Row["StrSql"]),
+        ShirApr1F5Item = Convert.ToString(this.SelShirApr1F5Item.Row["StrSql"]),
+        DiskVtoF5Item = Convert.ToString(this.SelDiskVtoF5Item.Row["StrSql"]),
+        //Apr1F5Width = this.Apr1F5Width,
+        AooF5MgOFrom = this.AooF5MgOFrom,
+        AooF5MgOTo = this.AooF5MgOTo,
+        AooF5PppFrom = this.AooF5PppFrom,
+        AooF5PppTo = this.AooF5PppTo,
+        AooF5WgtCoverFrom = this.AooF5WgtCoverFrom,
+        AooF5WgtCoverTo = this.AooF5WgtCoverTo,
+        VtoF5Stend = this.VtoF5Stend,
+        VtoF5Cap = this.VtoF5Cap,
+        VtoF5TimeAooVto = this.VtoF5TimeAooVto,
+        IsDateAvoLstF5 = this.IsDateAvoLstF5,
+        DateBeginAvoLstF5 = this.DateBeginAvoLstF5,
+        DateEndAvoLstF5 = this.DateEndAvoLstF5,
+        BrgAooF5Item = Convert.ToString(this.SelBrgAooF5Item.Row["StrSql"]),
+        IsBrgAooF5 = this.IsBrgAooF5,
+        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"])
+      };
+
+      var sp = new Db.SgpTo3Cat2SortFinCut();
+      Boolean res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+
+    private bool CanExecuteSgpTo3Cat2SortFinCutCommand(Object parameter)
     {
       return true;
     }

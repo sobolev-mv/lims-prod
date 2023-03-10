@@ -101,6 +101,7 @@
     <Compile Include="ReasonOfStripBreakageRm1300.cs" />
     <Compile Include="RkBrgSt1200.cs" />
     <Compile Include="RptWithF5\RptWithF5.cs" />
+    <Compile Include="RptWithF5\SgpTo3Cat2SortFinCut.cs" />
     <Compile Include="SgpState.cs" />
     <Compile Include="Lst1300.cs" />
     <Compile Include="PdbScl.cs" />

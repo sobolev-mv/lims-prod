@@ -147,7 +147,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
-    <dxl:LayoutGroup Name="Lg172001_606" Header="Причины перевода в 2 кат., 3 кат., 2 сорт для УО с фильтром по толщине" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="4">
+    <dxl:LayoutGroup Name="Lg172001_606" Header="Причины перевода в 2 кат., 3 кат., 2 сорт, 2 сорт и 3 кат. для УО с фильтром по толщине" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="4">
       <dxl:LayoutGroup>
         <dxl:LayoutItem Label="Дата:" IsRequired="True">
           <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="2" Padding="0">
@@ -380,6 +380,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
           <Button Name="b172001_525" Content="Прич. перевода в 2 сорт по УО1" HorizontalAlignment="Left"  Command="{Binding SgpTo2SortFinCutCommand}"/>
           <Button Name="b172001_527" Content="Прич. перевода в 2 к по УО1" HorizontalAlignment="Left" Command="{Binding SgpTo2CatFinCutCommand}"/>
           <Button Name="b172001_528" Content="Прич. перевода в 3 к по УО1" HorizontalAlignment="Left" Command="{Binding SgpTo3CatFinCutCommand}"/>
+          <Button Name="b172001_534" Content="Прич. перевода в 3 к и 2 сорт по УО1" HorizontalAlignment="Left" Command="{Binding SgpTo3Cat2SortFinCutCommand}"/>
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>

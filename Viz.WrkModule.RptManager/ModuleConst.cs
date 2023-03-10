@@ -37,6 +37,7 @@
     public const int AccCmdDefects1StRoll              = 531;
     public const int AccCmdMonitorDefLngTrim           = 532;
     public const int AccCmdMonitorDefCrossTrim         = 533;
+    public const int AccCmdSgpTo3Cat2SortFinCut        = 534;
 
     //Группы 1 уровня
     public const int AccGrpRk              = 600;
@@ -130,6 +131,9 @@
 
     public const string SgpTo3CatFinCutSource = "\\Xlt\\Viz.WrkModule.RptManager-SgpTo3CatFinCut.xltx";
     public const string SgpTo3CatFinCutDest = "\\Viz.WrkModule.RptManager-SgpTo3CatFinCut.xlsx";
+
+    public const string SgpTo3Cat2SortFinCutSource = "\\Xlt\\Viz.WrkModule.RptManager-SgpTo3Cat2SortFinCut.xltx";
+    public const string SgpTo3Cat2SortFinCutDest = "\\Viz.WrkModule.RptManager-SgpTo3Cat2SortFinCut.xlsx";
 
     public const string AppHSource = "\\Xlt\\Viz.WrkModule.RptManager-AppH.xltx";
     public const string AppHDest = "\\Viz.WrkModule.RptManager-AppH.xlsx";
