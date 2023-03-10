@@ -82,6 +82,8 @@ namespace Viz.WrkModule.RptManager.Db
         DbVar.SetRangeDate(prm.DateBegin, prm.DateEnd, 1);
         dtBegin = DbVar.GetDateBeginEnd(true, true);
         dtEnd = DbVar.GetDateBeginEnd(false, true);
+
+        //Excel
         CurrentWrkSheet.Cells[1, 1].Value = $"Причина перевода метала в 3 категорию, 2 сорт по первичной порезке УО в толщинах {prm.StrThicknessSql} (включая сопутствующие дефекты)";
         CurrentWrkSheet.Cells[2, 1].Value = $"за период с {dtBegin:dd.MM.yyyy HH:mm:ss} по {dtEnd:dd.MM.yyyy HH:mm:ss}";
 
