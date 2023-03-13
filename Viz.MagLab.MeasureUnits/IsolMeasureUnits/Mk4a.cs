@@ -363,11 +363,11 @@ namespace Viz.MagLab.MeasureUnits
  
         if ((ntRez1.TypIzm & 0x0f) == 1)
           //rez += "Задание Индукции" + "\n";
-          row["OutVal"] = /*Convert.ToDouble(row["Corr"]) + */  Math.Round(ntRez1.P.Zn, 2);
+          row["OutVal"] = /*Convert.ToDouble(row["Corr"]) + */  Math.Round(ntRez1.P.Zn, 3);
 
         if ((ntRez1.TypIzm & 0x0f) == 2)
          //rez += "Задание Поля" + "\n";
-          row["OutVal"] =  /*Convert.ToDouble(row["Corr"]) + */ Math.Round(ntRez1.B.Zn, 2);         
+          row["OutVal"] =  /*Convert.ToDouble(row["Corr"]) + */ Math.Round(ntRez1.B.Zn, 3);         
 
         row.EndEdit();  
         

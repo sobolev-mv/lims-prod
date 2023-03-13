@@ -42,7 +42,7 @@ Title="Измерение магнитных характеристик" Height=
         <dxg:GridControl.Columns>
           <dxg:GridColumn FieldName="IsActive" Header="А" MinWidth="20" Width="20" EditSettings="{dxe:CheckSettings}"/>
           <dxg:GridColumn FieldName="MeasName"  Header="Параметр" MinWidth="100" Width="100" ReadOnly="True" AllowEditing="False"/>
-          <dxg:GridColumn FieldName="OutVal" Header="Значение" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings MaskType=Numeric, Mask=n2, MaskUseAsDisplayFormat=True}" />
+          <dxg:GridColumn FieldName="OutVal" Header="Значение" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings MaskType=Numeric, Mask=n3, MaskUseAsDisplayFormat=True}" />
         </dxg:GridControl.Columns>
         <dxg:GridControl.View>
           <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" IsDeferredScrolling="True" ScrollingMode="Smart" EditorButtonShowMode="ShowAlways" AllowGrouping="False" AllowSorting="False" AllowColumnFiltering="False" AllowFilterEditor="False" AllowMoveColumnToDropArea="False" IsColumnMenuEnabled="False" IsGroupPanelMenuEnabled="False" />
