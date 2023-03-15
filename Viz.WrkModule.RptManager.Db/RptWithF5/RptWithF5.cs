@@ -40,6 +40,7 @@ namespace Viz.WrkModule.RptManager.Db
     public Boolean IsDiskVtoF5 { get; set; }
     public Boolean IsTimeAooVtoF5 { get; set; }
     public Boolean IsBrgAooF5 { get; set; }
+    public Boolean IsSleeveAooF5 { get; set; }
     public DateTime DateBeginAroF5 { get; set; }
     public DateTime DateEndAroF5 { get; set; }
     public DateTime DateBegin1200F5 { get; set; }
@@ -65,12 +66,14 @@ namespace Viz.WrkModule.RptManager.Db
     public decimal AooF5PppTo { get; set; }
     public int AooF5WgtCoverFrom { get; set; }
     public int AooF5WgtCoverTo { get; set; }
+    public Boolean SleeveAooF5 { get; set; }
     public string VtoF5Stend { get; set; }
     public string VtoF5Cap { get; set; }
     public int VtoF5TimeAooVto { get; set; }
     public Boolean IsDateAvoLstF5 { get; set; }
     public DateTime DateBeginAvoLstF5 { get; set; }
     public DateTime DateEndAvoLstF5 { get; set; }
+
 
 
     public RptWithF5Param(string sourceXlsFile, string destXlsFile) : base(sourceXlsFile, destXlsFile)
@@ -588,6 +591,27 @@ namespace Viz.WrkModule.RptManager.Db
             };
             lstParam.Add(param);
 
+            param = new OracleParameter
+            {
+              DbType = DbType.String,
+              OracleDbType = OracleDbType.Char,
+              Direction = ParameterDirection.Input,
+              ParameterName = "AOOMSLEEVE",
+              Value = prm.SleeveAooF5 ? 'Y' : 'N',
+              Size = 1
+            };
+            lstParam.Add(param);
+
+            param = new OracleParameter
+            {
+              DbType = DbType.Int32,
+              OracleDbType = OracleDbType.Integer,
+              Direction = ParameterDirection.Input,
+              ParameterName = "FAOOMSLEEVE",
+              Value = (prm.IsAooF5 && prm.IsSleeveAooF5) ? 1 : 0
+            };
+            lstParam.Add(param);
+            
             //ВТО
             param = new OracleParameter
             {

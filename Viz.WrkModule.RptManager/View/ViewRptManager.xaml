@@ -293,6 +293,15 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
                   <dxe:ComboBoxEdit Name="CbeTypeF1Ts10" Width="130" IsTextEditable="False" SelectedIndex="0" IsEnabled="{Binding IsBrgAooF5}" ItemsSource="{Binding Brg}" DisplayMember="StrDlg" ValueMember="Id" SelectedItem="{Binding SelBrgAooF5Item}"/>
                 </dxl:LayoutItem>
               </dxl:LayoutGroup>
+              <dxl:LayoutGroup View="Group" Orientation="Horizontal">
+                <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left">
+                  <dxe:CheckEdit IsChecked="{Binding IsSleeveAooF5}" IsEnabled="{Binding IsAooF5}"/>
+                </dxl:LayoutItem>
+                <dxl:LayoutItem Label="Гильза: " VerticalAlignment="Center" HorizontalAlignment="Left">
+                  <dxe:CheckEdit IsChecked="{Binding SleeveAooF5}" IsEnabled="{Binding IsSleeveAooF5}"/>                  
+                </dxl:LayoutItem>
+                <dxl:LayoutItem Label="Есть/Нет" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+              </dxl:LayoutGroup>
             </dxl:LayoutGroup>
           </dxl:LayoutGroup>
           <dxl:LayoutGroup View="Group" HorizontalAlignment="Stretch" Background="{Binding Path=IsVtoF5, Converter={StaticResource BooleanToFilterColor}}">

@@ -85,6 +85,7 @@ namespace Viz.WrkModule.RptManager
     private Boolean isDateAvoLstF5;
     private Boolean isTimeAooVtoF5;
     private Boolean isBrgAooF5;
+    private Boolean isSleeveAooF5;
 
     private DateTime dateBeginAroF5;
     private DateTime dateEndAroF5;
@@ -117,6 +118,8 @@ namespace Viz.WrkModule.RptManager
     private decimal aooF5PppTo;
     private int aooF5WgtCoverFrom;
     private int aooF5WgtCoverTo;
+    private Boolean sleeveAooF5;
+
     private string vtoF5Stend;
     private string vtoF5Cap;
     private int typeListValueF5 = 0; //0-№ Стенда, 1-№ Стенда ВТО 
@@ -420,8 +423,7 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("SelectedTabIndexF5");
       }
     }
-
-
+    
     public Boolean IsAroF5
     {
       get { return isAroF5; }
@@ -472,6 +474,8 @@ namespace Viz.WrkModule.RptManager
           IsPppF5 = false;
           IsWgtCoverF5 = false;
           IsBrgAooF5 = false;
+          IsSleeveAooF5 = false;
+          SleeveAooF5 = false;
         }
         OnPropertyChanged("IsAooF5");
       }
@@ -648,6 +652,22 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("IsBrgAooF5");
       }
     }
+    
+    public Boolean IsSleeveAooF5
+    {
+      get { return isSleeveAooF5; }
+      set
+      {
+        if (value == isSleeveAooF5) return;
+        isSleeveAooF5 = value;
+
+        if (!value)
+          SleeveAooF5 = false;
+
+        OnPropertyChanged("IsSleeveAooF5");
+      }
+    }
+
 
     public DateTime DateBeginAroF5
     {
@@ -822,14 +842,12 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("SelBrgApr1F5Item");
       }
     }
-
    
     public DataTable ShirApr1
     {
       get { return dsList4Filter.ShirApr1; }
     }
    
-
     public DataRowView SelShirApr1F5Item
     {
       get { return selShirApr1F5Item; }
@@ -840,8 +858,7 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("SelShirApr1F5Item");
       }
     }
-
-
+    
     public DataRowView SelBrgVtoF5Item
     {
       get { return selBrgVtoF5Item; }
@@ -905,6 +922,16 @@ namespace Viz.WrkModule.RptManager
       get { return dsList4Filter.AooTs; }
     }
     
+    public Boolean SleeveAooF5
+    {
+      get { return sleeveAooF5; }
+      set
+      {
+        if (value == sleeveAooF5) return;
+        sleeveAooF5 = value;
+        OnPropertyChanged("SleeveAooF5");
+      }
+    }
 
     public DataRowView SelAvoF5Item
     {
@@ -2012,7 +2039,9 @@ namespace Viz.WrkModule.RptManager
         DateEndAvoLstF5 = this.DateEndAvoLstF5,
         BrgAooF5Item = Convert.ToString(this.SelBrgAooF5Item.Row["StrSql"]),
         IsBrgAooF5 = this.IsBrgAooF5,
-        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"])
+        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
+        IsSleeveAooF5 = this.IsSleeveAooF5,
+        SleeveAooF5 = this.SleeveAooF5
       };
 
       var sp = new Db.SgpTo2SortFinCut();
@@ -2092,7 +2121,9 @@ namespace Viz.WrkModule.RptManager
         DateEndAvoLstF5 = this.DateEndAvoLstF5,
         BrgAooF5Item = Convert.ToString(this.SelBrgAooF5Item.Row["StrSql"]),
         IsBrgAooF5 = this.IsBrgAooF5,
-        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"])
+        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
+        IsSleeveAooF5 = this.IsSleeveAooF5,
+        SleeveAooF5 = this.SleeveAooF5
       };
 
       var sp = new Db.SgpTo2CatFinCut();
@@ -2172,7 +2203,9 @@ namespace Viz.WrkModule.RptManager
         DateEndAvoLstF5 = this.DateEndAvoLstF5,
         BrgAooF5Item = Convert.ToString(this.SelBrgAooF5Item.Row["StrSql"]),
         IsBrgAooF5 = this.IsBrgAooF5,
-        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"])
+        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
+        IsSleeveAooF5 = this.IsSleeveAooF5,
+        SleeveAooF5 = this.SleeveAooF5
       };
 
       var sp = new Db.SgpTo3CatFinCut();
@@ -2252,7 +2285,9 @@ namespace Viz.WrkModule.RptManager
         DateEndAvoLstF5 = this.DateEndAvoLstF5,
         BrgAooF5Item = Convert.ToString(this.SelBrgAooF5Item.Row["StrSql"]),
         IsBrgAooF5 = this.IsBrgAooF5,
-        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"])
+        StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
+        IsSleeveAooF5 = this.IsSleeveAooF5,
+        SleeveAooF5 = this.SleeveAooF5
       };
 
       var sp = new Db.SgpTo3Cat2SortFinCut();
