@@ -378,7 +378,7 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
           </dxl:LayoutGroup>
 
           <dxe:ButtonEdit IsTextEditable="True" Padding="2,0,0,0" AllowDefaultButton="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" EditValue="{Binding ListStendF5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <dxe:ButtonInfo GlyphKind="Regular" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadFromTxtFileCommand}" CommandParameter="61"/>
+            <dxe:ButtonInfo GlyphKind="Regular" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadFromTxtFileCommand}" CommandParameter="65"/>
           </dxe:ButtonEdit>
         </dxl:LayoutGroup>
       </dxl:LayoutGroup>

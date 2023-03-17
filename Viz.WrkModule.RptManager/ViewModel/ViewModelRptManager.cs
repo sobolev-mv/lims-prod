@@ -1329,6 +1329,9 @@ namespace Viz.WrkModule.RptManager
         case 62:
           this.ListStendF4 = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
           break;
+        case 65:
+          this.ListStendF5 = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
+          break;
         default:
           break;
       }

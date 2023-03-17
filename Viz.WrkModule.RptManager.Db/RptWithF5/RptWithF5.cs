@@ -127,8 +127,11 @@ namespace Viz.WrkModule.RptManager.Db
           flt += "Вес покрытия с " + AooF5WgtCoverFrom.ToString(CultureInfo.InvariantCulture) + " по " + AooF5WgtCoverTo.ToString(CultureInfo.InvariantCulture) + "  ";
 
         if (IsBrgAooF5)
-          flt += "Бригады: " + BrgAooF5Item + "  "; 
+          flt += "Бригады: " + BrgAooF5Item + "  ";
 
+        if (IsSleeveAooF5)
+          flt += "Мет. гильза: " + (SleeveAooF5 ? "Есть" : "Нет") + "  ";
+        
         flt += "\r\n";
       }
 
@@ -590,7 +593,7 @@ namespace Viz.WrkModule.RptManager.Db
               Value = (prm.IsAooF5 && prm.IsBrgAooF5) ? 1 : 0
             };
             lstParam.Add(param);
-
+            
             param = new OracleParameter
             {
               DbType = DbType.String,
@@ -612,6 +615,7 @@ namespace Viz.WrkModule.RptManager.Db
             };
             lstParam.Add(param);
             
+
             //ВТО
             param = new OracleParameter
             {

@@ -91,7 +91,7 @@ namespace Viz.WrkModule.RptManager.Db
         odr = Odac.GetOracleReader(sqlStmt, CommandType.Text, false, null, null);
 
         if (odr != null){
-          int row = 6;
+          int row = 8;
 
           while (odr.Read()){
             CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, 1], CurrentWrkSheet.Cells[row, 3]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, 1], CurrentWrkSheet.Cells[row + 1, 3]]);
@@ -102,9 +102,10 @@ namespace Viz.WrkModule.RptManager.Db
             row++;
           }
 
-          CurrentWrkSheet.Cells[4, 3].Value = sVal;
+          CurrentWrkSheet.Cells[6, 3].Value = sVal;
         }
-        
+
+        CurrentWrkSheet.Cells[4, 4].Value = prm.GetFilterCriteria();
         CurrentWrkSheet.Cells[1, 1].Select();
         Result = true;
       }
