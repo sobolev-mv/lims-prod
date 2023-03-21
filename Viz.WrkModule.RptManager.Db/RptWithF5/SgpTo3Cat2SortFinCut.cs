@@ -87,7 +87,7 @@ namespace Viz.WrkModule.RptManager.Db
         CurrentWrkSheet.Cells[1, 1].Value = $"Причина перевода метала в 3 категорию, 2 сорт по первичной порезке УО в толщинах {prm.StrThicknessSql} (включая сопутствующие дефекты)";
         CurrentWrkSheet.Cells[2, 1].Value = $"за период с {dtBegin:dd.MM.yyyy HH:mm:ss} по {dtEnd:dd.MM.yyyy HH:mm:ss}";
 
-        Odac.ExecuteNonQuery("VIZ_PRN.OTK_DEF_2SFC.preDEF_3K2SFC", CommandType.StoredProcedure, false, null, true);
+        Odac.ExecuteNonQuery(/*"VIZ_PRN.OTK_DEF_2SFC.preDEF_2S34C"*/ "VIZ_PRN.OTK_DEF_2SFC.preDEF_3K2SFC", CommandType.StoredProcedure, false, null, true);
         object sVal = null;
 
         odr = Odac.GetOracleReader(sqlStmt, CommandType.Text, false, null, null);

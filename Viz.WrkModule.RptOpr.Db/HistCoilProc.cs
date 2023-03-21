@@ -83,7 +83,7 @@ namespace Viz.WrkModule.RptOpr.Db
           int row = 6;
 
           const int firstExcelColumn = 1;
-          const int lastExcelColumn = 23;
+          const int lastExcelColumn = 24;
 
           int rnkAnLotOld = 0;
   
