@@ -466,6 +466,7 @@
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
           <Button Content="История обр. рулонов" HorizontalAlignment="Left" Command="{Binding HistCoilProcCommand}"/>
           <Button Content="Качеств. показатели УО1" HorizontalAlignment="Left" Command="{Binding QiUo1Command}"/>
+          <Button Content="Качеств. показатели УО1 расширен." HorizontalAlignment="Left" Command="{Binding QiExUo1Command}" />
         </dxl:FlowLayoutControl>
       </dxl:LayoutItem>
     </dxl:LayoutGroup>

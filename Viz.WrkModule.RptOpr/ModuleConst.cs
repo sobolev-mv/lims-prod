@@ -115,5 +115,8 @@
     public const string QiUo1Source = "\\Xlt\\Viz.WrkModule.RptOpr-QiUo1.xltx";
     public const string QiUo1ProcDest = "\\Viz.WrkModule.RptOpr-QiUo1.xlsx";
 
+    public const string QiExUo1Source = "\\Xlt\\Viz.WrkModule.RptOpr-QiExUo1.xltx";
+    public const string QiExUo1ProcDest = "\\Viz.WrkModule.RptOpr-QiExUo1.xlsx";
+
   }
 }
