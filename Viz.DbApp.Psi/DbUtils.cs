@@ -545,17 +545,19 @@ namespace Viz.DbApp.Psi
       Odac.ExecuteNonQuery(stmtSql, CommandType.StoredProcedure, false, lstPrm);
     }
 
-    public static void SetStringList(string str1, string Delim)
+    public static void SetStringList(string strSource, string Delim)
     {
+      if (string.IsNullOrEmpty(strSource))
+        return;
+
       const string stmtSql = "VIZ_PRN.VAR_RPT.SetListStr1";
       OracleParameter prm = null;
       var lstPrm = new List<OracleParameter>();
 
-      string[] dlmString;
       string[] stringSeparators = {Delim};
-      dlmString = str1.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+      string[] dlmString = strSource.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
-      prm = new OracleParameter
+      prm = new OracleParameter 
       {
         DbType = DbType.String,
         Direction = ParameterDirection.Input,

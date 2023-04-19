@@ -80,9 +80,7 @@ namespace Viz.WrkModule.RptOpr.Db
 
           const int firstExcelColumn = 1;
           const int lastExcelColumn = 45;
-
-          double valThick = 0;
-
+          
           while (odr.Read()){
             
             CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row, firstExcelColumn], CurrentWrkSheet.Cells[row, lastExcelColumn]].Copy(CurrentWrkSheet.Range[CurrentWrkSheet.Cells[row + 1, firstExcelColumn], CurrentWrkSheet.Cells[row + 1, lastExcelColumn]]);
