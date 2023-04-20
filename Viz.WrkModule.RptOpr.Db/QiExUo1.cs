@@ -24,7 +24,6 @@ namespace Viz.WrkModule.RptOpr.Db
 
   public sealed class QiExUo1 : Smv.Xls.XlsRpt
   {
-
     protected override void DoWorkXls(object sender, DoWorkEventArgs e)
     {
       var prm = (e.Argument as QiExUo1RptParam);
