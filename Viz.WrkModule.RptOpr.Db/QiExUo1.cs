@@ -135,7 +135,6 @@ namespace Viz.WrkModule.RptOpr.Db
       return Result;
     }
 
-
   }
 
 
