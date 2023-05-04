@@ -215,9 +215,11 @@ namespace Viz.WrkModule.RptManager.Db
       {
         case 0:
           sqlStmt = "begin " +
+                    //"DELETE FROM VIZ_PRN.Z_MIXX2; " + //!!!
                     "delete from VIZ_PRN.TMP_FINCUT_FILTR_CORE; " +
                     "insert into VIZ_PRN.TMP_FINCUT_FILTR_CORE " +
                     "select * from VIZ_PRN.V_FINCUT_FILTR_CORE where tols in (SELECT TO_NUMBER(VL_STRING) FROM TABLE(VIZ_PRN.VAR_RPT.GetTabOfStrDelim(:P1, ','))); " +
+                    //"INSERT INTO VIZ_PRN.Z_MIXX2 SELECT * FROM VIZ_PRN.TMP_FINCUT_FILTR_CORE; " + //!!!
                     "end;";
 
           List<OracleParameter> lstPrm = new List<OracleParameter>();
