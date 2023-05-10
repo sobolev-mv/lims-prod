@@ -90,8 +90,8 @@ namespace Viz.WrkModule.RptOpr.Db
 
         //stopWatch.Start();
         var arrSqlPrm = new[]{ "0.23, 0.27, 0.30, 0.35",  "0.23", "0.27", "0.30", "0.35"};
-        var arrStartRow = new[] {6, 5, 6, 6, 6 };
-        var arrRowHdr = new[] { 2, 1, 2, 2, 2 };
+        var arrStartRow = new[] {6, 6, 6, 6, 6 };
+        var arrRowHdr = new[] { 1, 1, 1, 1, 1 };
 
         const string sqlStmt = "SELECT * FROM VIZ_PRN.V_FINCUT_QM ORDER BY 1";
 
@@ -102,7 +102,7 @@ namespace Viz.WrkModule.RptOpr.Db
           CurrentWrkSheet.Cells[arrRowHdr[j], 3].Value = prm.DateBegin;
 
           if (j == 0)
-            CurrentWrkSheet.Cells[2, 15].Value = $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}";
+            CurrentWrkSheet.Cells[1, 15].Value = $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}";
           
 
           DbVar.SetString(arrSqlPrm[j]);
