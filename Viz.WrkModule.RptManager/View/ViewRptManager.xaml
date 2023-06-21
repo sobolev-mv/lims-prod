@@ -376,6 +376,12 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
               <dxe:DateEdit Width="90" IsTextEditable="False" IsEnabled="{Binding IsDateAvoLstF5}" EditValue="{Binding DateEndAvoLstF5}"/>
             </dxl:LayoutItem>
           </dxl:LayoutGroup>
+          <dxl:LayoutGroup View="Group" HorizontalAlignment="Stretch">
+            <dxl:LayoutItem VerticalAlignment="Center" HorizontalAlignment="Left" Padding="20,0,0,0">
+              <dxe:CheckEdit IsChecked="{Binding IsExclListStendF5}" />
+            </dxl:LayoutItem>
+            <dxl:LayoutItem Label="Исключить стенды из списка" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+          </dxl:LayoutGroup>
 
           <dxe:ButtonEdit IsTextEditable="True" Padding="2,0,0,0" AllowDefaultButton="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" EditValue="{Binding ListStendF5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <dxe:ButtonInfo GlyphKind="Regular" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadFromTxtFileCommand}" CommandParameter="65"/>

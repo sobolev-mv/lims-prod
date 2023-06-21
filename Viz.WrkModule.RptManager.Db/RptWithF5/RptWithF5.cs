@@ -73,8 +73,8 @@ namespace Viz.WrkModule.RptManager.Db
     public Boolean IsDateAvoLstF5 { get; set; }
     public DateTime DateBeginAvoLstF5 { get; set; }
     public DateTime DateEndAvoLstF5 { get; set; }
-
-
+    public Boolean IsExclListStendF5 { get; set; }
+    
 
     public RptWithF5Param(string sourceXlsFile, string destXlsFile) : base(sourceXlsFile, destXlsFile)
     {}
@@ -152,6 +152,11 @@ namespace Viz.WrkModule.RptManager.Db
 
       if (IsAvoF5){
         flt += "АВО\r\n" + "Агрегаты: " + AvoF5Item + "  " + "Бригады: " + BrgAvoF5Item;
+      }
+
+      if (TypeFilter == 2)
+      {
+        flt += "Список стендовых партий: " + ListStendF5 + " \r\n" + "Стендовые партии исключить: " + (IsExclListStendF5 ? "Да" : "Нет");
       }
 
       return flt;
@@ -789,9 +794,9 @@ namespace Viz.WrkModule.RptManager.Db
           sqlStmt = "begin " +
                     "delete from VIZ_PRN.TMP_FINCUT_FILTR_CORE; " +
                     "insert into VIZ_PRN.TMP_FINCUT_FILTR_CORE " +
-                    "select * from  VIZ_PRN.V_FINCUT_FILTR_STEND_CORE;" +
-                    "end;"; 
-
+                    (prm.IsExclListStendF5 ? "select * from  VIZ_PRN.V_FINCUT_FILTR_EXCLSTEND_CORE; " : "select * from  VIZ_PRN.V_FINCUT_FILTR_STEND_CORE; ") +
+                    "end;";
+          
           DbVar.SetStringList(prm.ListStendF5, ",");
           Odac.ExecuteNonQuery(sqlStmt, CommandType.Text, false, null, true);
 

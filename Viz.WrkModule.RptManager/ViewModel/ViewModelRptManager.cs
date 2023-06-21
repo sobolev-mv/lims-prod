@@ -124,6 +124,8 @@ namespace Viz.WrkModule.RptManager
     private string vtoF5Cap;
     private int typeListValueF5 = 0; //0-№ Стенда, 1-№ Стенда ВТО 
     private int vtoF5TimeAooVto;
+    private Boolean isExclListStendF5;
+
     //Поля для Фильтра качества Конец
 
     private string typeUm = "R";
@@ -1064,6 +1066,17 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("VtoF5TimeAooVto");
       }
     }
+    public Boolean IsExclListStendF5
+    {
+      get { return isExclListStendF5; }
+      set
+      {
+        if (value == isExclListStendF5) return;
+        isExclListStendF5 = value;
+        OnPropertyChanged("IsExclListStendF5");
+      }
+    }
+
     //конец Поля для фильтра качество
 
 
@@ -2044,7 +2057,8 @@ namespace Viz.WrkModule.RptManager
         IsBrgAooF5 = this.IsBrgAooF5,
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
-        SleeveAooF5 = this.SleeveAooF5
+        SleeveAooF5 = this.SleeveAooF5,
+        IsExclListStendF5 = this.IsExclListStendF5
       };
 
       var sp = new Db.SgpTo2SortFinCut();
@@ -2126,7 +2140,8 @@ namespace Viz.WrkModule.RptManager
         IsBrgAooF5 = this.IsBrgAooF5,
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
-        SleeveAooF5 = this.SleeveAooF5
+        SleeveAooF5 = this.SleeveAooF5,
+        IsExclListStendF5 = this.IsExclListStendF5
       };
 
       var sp = new Db.SgpTo2CatFinCut();
@@ -2208,7 +2223,8 @@ namespace Viz.WrkModule.RptManager
         IsBrgAooF5 = this.IsBrgAooF5,
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
-        SleeveAooF5 = this.SleeveAooF5
+        SleeveAooF5 = this.SleeveAooF5,
+        IsExclListStendF5 = this.IsExclListStendF5
       };
 
       var sp = new Db.SgpTo3CatFinCut();
@@ -2290,7 +2306,8 @@ namespace Viz.WrkModule.RptManager
         IsBrgAooF5 = this.IsBrgAooF5,
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
-        SleeveAooF5 = this.SleeveAooF5
+        SleeveAooF5 = this.SleeveAooF5,
+        IsExclListStendF5 = this.IsExclListStendF5
       };
 
       var sp = new Db.SgpTo3Cat2SortFinCut();
