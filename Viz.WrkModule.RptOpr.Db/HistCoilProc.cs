@@ -83,7 +83,7 @@ namespace Viz.WrkModule.RptOpr.Db
           int row = 6;
 
           const int firstExcelColumn = 1;
-          const int lastExcelColumn = 24;
+          const int lastExcelColumn = 33;
 
           int rnkAnLotOld = 0;
   
@@ -116,7 +116,17 @@ namespace Viz.WrkModule.RptOpr.Db
           CurrentWrkSheet.Range[CurrentWrkSheet.Cells[rowStart, 2], CurrentWrkSheet.Cells[rowStart + item - 1, 2]].Merge();
           rowStart += item;
         }
-        
+
+        CurrentWrkSheet.Columns(6).Hidden = true;
+        CurrentWrkSheet.Columns(9).Hidden = true;
+        CurrentWrkSheet.Columns(12).Hidden = true;
+        CurrentWrkSheet.Columns(15).Hidden = true;
+        CurrentWrkSheet.Columns(18).Hidden = true;
+        CurrentWrkSheet.Columns(21).Hidden = true;
+        CurrentWrkSheet.Columns(25).Hidden = true;
+        CurrentWrkSheet.Columns(28).Hidden = true;
+        CurrentWrkSheet.Columns(31).Hidden = true;
+
         CurrentWrkSheet.Cells[1, 1].Select();
         Result = true;
       }
