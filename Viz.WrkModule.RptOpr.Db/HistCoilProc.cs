@@ -67,7 +67,7 @@ namespace Viz.WrkModule.RptOpr.Db
 
       try{
         //CurrentWrkSheet.Cells[1, 12].Value = $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}";
-
+        
         DbVar.SetStringList(prm.ListAnLot, ",");
 
         const string sqlStmt0 = "VIZ_PRN.HIST_COILPROC.Prepare";
@@ -82,6 +82,8 @@ namespace Viz.WrkModule.RptOpr.Db
           int flds = odr.FieldCount;
           int row = 6;
 
+          double heightRow = CurrentWrkSheet.Rows(row).RowHeight;
+          
           const int firstExcelColumn = 1;
           const int lastExcelColumn = 33;
 
@@ -105,28 +107,37 @@ namespace Viz.WrkModule.RptOpr.Db
 
             row++;
           }
+
           odr.Close();
           odr.Dispose();
-        }
-                
-        int rowStart = 6;
-        foreach (var item in lstUnionCell)
-        {
-          CurrentWrkSheet.Range[CurrentWrkSheet.Cells[rowStart, 1], CurrentWrkSheet.Cells[rowStart + item - 1, 1]].Merge();
-          CurrentWrkSheet.Range[CurrentWrkSheet.Cells[rowStart, 2], CurrentWrkSheet.Cells[rowStart + item - 1, 2]].Merge();
-          rowStart += item;
-        }
 
-        CurrentWrkSheet.Columns(6).Hidden = true;
-        CurrentWrkSheet.Columns(9).Hidden = true;
-        CurrentWrkSheet.Columns(12).Hidden = true;
-        CurrentWrkSheet.Columns(15).Hidden = true;
-        CurrentWrkSheet.Columns(18).Hidden = true;
-        CurrentWrkSheet.Columns(21).Hidden = true;
-        CurrentWrkSheet.Columns(25).Hidden = true;
-        CurrentWrkSheet.Columns(28).Hidden = true;
-        CurrentWrkSheet.Columns(31).Hidden = true;
+          int rowStart = 6;
+          foreach (var item in lstUnionCell)
+          {
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[rowStart, 1], CurrentWrkSheet.Cells[rowStart + item - 1, 1]].Merge();
+            CurrentWrkSheet.Range[CurrentWrkSheet.Cells[rowStart, 2], CurrentWrkSheet.Cells[rowStart + item - 1, 2]].Merge();
+            rowStart += item;
+          }
 
+          /*
+          for (int i = rowStart; i < row; i++)
+            CurrentWrkSheet.Cells[i, 6].WrapText = CurrentWrkSheet.Cells[i, 9].WrapText = CurrentWrkSheet.Cells[i, 12].WrapText =
+            CurrentWrkSheet.Cells[i, 15].WrapText = CurrentWrkSheet.Cells[i, 18].WrapText = CurrentWrkSheet.Cells[i, 21].WrapText =
+            CurrentWrkSheet.Cells[i, 25].WrapText = CurrentWrkSheet.Cells[i, 28].WrapText = CurrentWrkSheet.Cells[i, 31].WrapText = false;
+          */
+          
+          CurrentWrkSheet.Columns(6).Hidden = true;
+          CurrentWrkSheet.Columns(9).Hidden = true;
+          CurrentWrkSheet.Columns(12).Hidden = true;
+          CurrentWrkSheet.Columns(15).Hidden = true;
+          CurrentWrkSheet.Columns(18).Hidden = true;
+          CurrentWrkSheet.Columns(21).Hidden = true;
+          CurrentWrkSheet.Columns(25).Hidden = true;
+          CurrentWrkSheet.Columns(28).Hidden = true;
+          CurrentWrkSheet.Columns(31).Hidden = true;
+          
+        }
+        
         CurrentWrkSheet.Cells[1, 1].Select();
         Result = true;
       }
