@@ -18,6 +18,8 @@ namespace Viz.WrkModule.RptOpr.Db
   public sealed class HistCoilProcRptParam : Smv.Xls.XlsInstanceParam
   {
     public string ListAnLot { get; set; }
+    public Boolean IsRemarkInclude { get; set; }
+
     public HistCoilProcRptParam(string sourceXlsFile, string destXlsFile) : base(sourceXlsFile, destXlsFile)
     {}
   }
@@ -68,6 +70,9 @@ namespace Viz.WrkModule.RptOpr.Db
       try{
         //CurrentWrkSheet.Cells[1, 12].Value = $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}";
         
+        if (prm.IsRemarkInclude)
+          DbVar.SetString("Y");
+
         DbVar.SetStringList(prm.ListAnLot, ",");
 
         const string sqlStmt0 = "VIZ_PRN.HIST_COILPROC.Prepare";

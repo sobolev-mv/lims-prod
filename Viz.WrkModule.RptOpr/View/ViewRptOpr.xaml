@@ -464,6 +464,8 @@
       </dxl:LayoutGroup>
       <dxl:LayoutItem HorizontalAlignment="Left">
         <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
+          <Label Content="Примечание"/>
+          <dxe:CheckEdit IsChecked="{Binding IsRemarkInclude}"/>
           <Button Content="История обр. рулонов" HorizontalAlignment="Left" Command="{Binding HistCoilProcCommand}"/>
           <Button Content="Качеств. показатели УО1" HorizontalAlignment="Left" Command="{Binding QiUo1Command}"/>
           <Button Content="Качеств. показатели УО1 расширен." HorizontalAlignment="Left" Command="{Binding QiExUo1Command}" />

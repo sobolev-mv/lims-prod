@@ -106,6 +106,7 @@ namespace Viz.WrkModule.RptOpr
 
     //Поля для отчета "История обработки рулонов"
     private string listAnLot;
+    private Boolean isRemarkInclude;
 
     #endregion
 
@@ -767,6 +768,16 @@ namespace Viz.WrkModule.RptOpr
         if (Equals(value, listAnLot)) return;
         listAnLot = value;
         OnPropertyChanged("ListAnLot");
+      }
+    }
+    public Boolean IsRemarkInclude
+    {
+      get { return isRemarkInclude; }
+      set
+      {
+        if (Equals(value, isRemarkInclude)) return;
+        isRemarkInclude = value;
+        OnPropertyChanged("IsRemarkInclude");
       }
     }
     #endregion
@@ -1637,7 +1648,8 @@ namespace Viz.WrkModule.RptOpr
 
       var rptParam = new HistCoilProcRptParam(src, dst)
       {
-        ListAnLot = this.ListAnLot
+        ListAnLot = this.ListAnLot,
+        IsRemarkInclude = this.IsRemarkInclude
       };
 
       var sp = new HistCoilProc();
