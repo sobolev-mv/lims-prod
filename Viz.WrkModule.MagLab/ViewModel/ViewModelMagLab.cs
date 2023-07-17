@@ -2,6 +2,7 @@
 using System.Data;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Controls;
 using DevExpress.XtraEditors.DXErrorProvider;
 using Smv.MVVM.Commands;
@@ -927,6 +928,8 @@ namespace Viz.WrkModule.MagLab
       if (args.NewItem == null)
         return;
 
+      //var stopwatch = new Stopwatch();
+
       currentSampleDataRow = (args.NewItem as DataRowView).Row; 
       isQm = Convert.ToInt32(currentSampleDataRow["IsQm"]);
       sampleState = Convert.ToInt32(currentSampleDataRow["State"]);
@@ -935,16 +938,54 @@ namespace Viz.WrkModule.MagLab
       currentProbeId = Convert.ToString(currentSampleDataRow["MatLocalNumber"]);
       currentSteelType = Convert.ToString(currentSampleDataRow["SteelType"]);
       currentMd = Convert.ToString(currentSampleDataRow["Md"]);
-      
+
+      //stopwatch.Restart();
+
       dsMagLab.MlUset.LoadData(currentSampleId);
+
+      //stopwatch.Stop();
+      //var tmMlUsetLoadData = stopwatch.ElapsedMilliseconds;
+
+      //stopwatch.Restart();
+
       SetSampleDataGrid(currentSampleId, currentMeasureUnit, sampleState);
+
+      //stopwatch.Stop();
+      //var tmSetSampleDataGrid = stopwatch.ElapsedMilliseconds;
+
+      //stopwatch.Restart();
+
       SetProbeDataGrid(currentSampleId, currentProbeId, sampleState);
+
+      //stopwatch.Stop();
+      //var tmSetProbeDataGrid = stopwatch.ElapsedMilliseconds;
+
+      //stopwatch.Restart();
+
       SetPropUnitSelector();
-      
-      
+
+      //stopwatch.Stop();
+      //var tmSetPropUnitSelector = stopwatch.ElapsedMilliseconds;
+
+
+      //stopwatch.Restart();
+
       dsMagLab.MlListApInfo.LoadData(currentSampleId);
+
+      //stopwatch.Stop();
+      //var tmMlListApInfoLoadData = stopwatch.ElapsedMilliseconds;
+
+      //stopwatch.Restart();
       GetKesi();
-        
+
+      //stopwatch.Stop();
+      //var tmGetKesi = stopwatch.ElapsedMilliseconds;
+
+      //var tmRes = $"tmMlUsetLoadData = {tmMlUsetLoadData}, tmSetSampleDataGrid = {tmSetSampleDataGrid}, tmSetProbeDataGrid = {tmSetProbeDataGrid}, tmSetPropUnitSelector = {tmSetPropUnitSelector}, tmMlListApInfoLoadData = {tmMlListApInfoLoadData}, " +
+      //                  $"tmGetKesi = {tmGetKesi}";
+
+      //MessageBox.Show(tmRes);
+
     }
 
     private int GetFirstSelectedMeasureDevice()

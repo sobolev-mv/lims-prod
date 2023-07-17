@@ -2617,10 +2617,8 @@ namespace Viz.WrkModule.MagLab.Db.DataSets {
     {
       return Odac.SaveChangedData(this, adapter);
     }
-
-
+    
   }
-  
   
   public sealed class MlUsetDataTable : DataTable
   {
@@ -2659,7 +2657,7 @@ namespace Viz.WrkModule.MagLab.Db.DataSets {
       adapter.SelectCommand = new OracleCommand
                                 {
                                   Connection = Odac.DbConnection,
-                                  CommandText = "SELECT UTYPE, MEASUREMENTTYPE, FTAG, IS_SAMPLE FROM LIMS.V_MLUSET WHERE (SAMPLEID = :SID)",
+                                  CommandText = "SELECT /*+ FIRST_ROWS */ UTYPE, MEASUREMENTTYPE, FTAG, IS_SAMPLE FROM LIMS.V_MLUSET WHERE (SAMPLEID = :SID)",
                                   CommandType = CommandType.Text
                                 };
 
