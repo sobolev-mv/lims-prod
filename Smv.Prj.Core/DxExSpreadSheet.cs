@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Smv.SpreadSheet
 {
@@ -14,8 +15,15 @@ namespace Smv.SpreadSheet
     {
       var src = Etc.StartPath + fileName;
       var workBook = new Workbook();
-      workBook.LoadDocument(src, DocumentFormat.Xltx);
 
+      try{
+        workBook.LoadDocument(src, DocumentFormat.Xltx);
+      }
+      catch (Exception e){
+        MessageBox.Show(e.Message);
+        throw;
+      }
+      
       return workBook;
     }
 
