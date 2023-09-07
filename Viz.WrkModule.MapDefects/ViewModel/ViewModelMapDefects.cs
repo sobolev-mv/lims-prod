@@ -568,11 +568,13 @@ namespace Viz.WrkModule.MapDefects
 
     private void BuildMapDef()
     {
+      /*
       if (Db.MapDefectsAction.IsMatLocked(findLocNumText))
       {
         Smv.Utils.DxInfo.ShowDxBoxInfo("Материал", "Показ дефектов невозможен!", MessageBoxImage.Error);
         return;
       }
+      */
 
       //Списки для запоминания координаты X дефекта каждой из поверхностей
       var lstSf1 = new List<double> { };
