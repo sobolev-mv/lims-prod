@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Forms;
 using Microsoft.Win32;
 using DevExpress.Xpf.Editors.Settings;
 using Viz.DbApp.Psi;
@@ -21,6 +22,8 @@ using DevExpress.Xpf.LayoutControl;
 using Smv.Utils;
 using Viz.WrkModule.RptManager.Db;
 using Viz.WrkModule.RptManager.Db.DataSets;
+using DevExpress.Utils.CommonDialogs.Internal;
+
 
 namespace Viz.WrkModule.RptManager
 {
@@ -130,6 +133,9 @@ namespace Viz.WrkModule.RptManager
 
     private string typeUm = "R";
 
+    private string listMatLocalNum;
+    private string listDef;
+    private string agTyp;
     #endregion
 
     #region Public Property
@@ -1076,6 +1082,28 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("IsExclListStendF5");
       }
     }
+   
+    public string ListMatLocalNum
+    {
+      get { return listMatLocalNum; }
+      set
+      {
+        if (value == listMatLocalNum) return;
+        listMatLocalNum = value;
+        OnPropertyChanged("ListMatLocalNum");
+      }
+    }
+
+    public string ListDef
+    {
+      get { return listDef; }
+      set
+      {
+        if (value == listDef) return;
+        listDef = value;
+        OnPropertyChanged("ListDef");
+      }
+    }
 
     //конец Поля для фильтра качество
 
@@ -1197,7 +1225,7 @@ namespace Viz.WrkModule.RptManager
       dsDcBlMet.ParamListThickness.LoadData(23);
  
       //Группы 1-уровня
-      for (int i = ModuleConst.AccGrpRk; i < ModuleConst.AccGrpMonitorDefTrim + 1; i++){
+      for (int i = ModuleConst.AccGrpRk; i < ModuleConst.AccGrpDownloadDefImages + 1; i++){
         var lg = LogicalTreeHelper.FindLogicalNode(this.usrControl, "Lg" + ModuleConst.ModuleId + "_" + i.ToString()) as DevExpress.Xpf.LayoutControl.LayoutGroup;
 
         if (lg != null){
@@ -1300,7 +1328,8 @@ namespace Viz.WrkModule.RptManager
     private DelegateCommand<Object> defects1StRollCommand;
     private DelegateCommand<Object> monitorDefLngTrimCommand;
     private DelegateCommand<Object> monitorDefCrossTrimCommand;
-
+    private DelegateCommand<Object> selectAgTypCommand;
+    private DelegateCommand<Object> downloadDefImagesCommand;
     public ICommand ShowListRptCommand
     {
       get { return showListRptCommand ?? (showListRptCommand = new DelegateCommand<Object>(ExecuteShowListRpt, CanExecuteShowListRpt)); }
@@ -1313,8 +1342,8 @@ namespace Viz.WrkModule.RptManager
         Height = 64,
         Width = 64,
         Stretch = Stretch.None,
-        HorizontalAlignment = HorizontalAlignment.Left,
-        VerticalAlignment = VerticalAlignment.Top,
+        HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+        VerticalAlignment = System.Windows.VerticalAlignment.Top,
         Margin = new Thickness(0, 0, 20, 0),
         Source = new BitmapImage(new Uri("pack://application:,,,/Viz.WrkModule.RptManager;Component/Images/BarImage.png"))
       };
@@ -1344,6 +1373,12 @@ namespace Viz.WrkModule.RptManager
           break;
         case 65:
           this.ListStendF5 = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
+          break;
+        case 66:
+          this.ListMatLocalNum = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
+          break;
+        case 67:
+          this.ListDef = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
           break;
         default:
           break;
@@ -2653,6 +2688,53 @@ namespace Viz.WrkModule.RptManager
       return true;
     }
 
+    public ICommand SelectAgTypCommand
+    {
+      get { return selectAgTypCommand ?? (selectAgTypCommand = new DelegateCommand<Object>(ExecuteSelectAgTyp, CanExecuteSelectAgTyp)); }
+    }
+
+    private void ExecuteSelectAgTyp(Object parameter)
+    {
+      agTyp = Convert.ToString(parameter);
+    }
+
+    private bool CanExecuteSelectAgTyp(Object parameter)
+    {
+      return true;
+    }
+    
+    public ICommand DownloadDefImagesCommand => downloadDefImagesCommand ?? (downloadDefImagesCommand = new DelegateCommand<Object>(ExecuteDownloadDefImages, CanExecuteDownloadDefImages));
+    private void ExecuteDownloadDefImages(Object parameter)
+    {
+      string destPath;
+      
+      using (var fbd = new FolderBrowserDialog())
+      {
+        System.Windows.Forms.DialogResult dlgResult = fbd.ShowDialog();
+        if (dlgResult == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+          destPath = fbd.SelectedPath;
+        else
+          return;
+      }
+      
+      var rptParam = new DownloadDefImagesRptParam(null, null)
+      {
+        ListMatLocalNum = this.ListMatLocalNum,
+        ListDef = this.ListDef,
+        AgTyp = agTyp,
+        DestPath = destPath
+      };
+
+      var sp = new DownloadDefImages();
+      Boolean res = sp.Run(rpt, RunXlsRptCompleted, rptParam);
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+    }
+    private bool CanExecuteDownloadDefImages(Object parameter)
+    {
+      return true;
+    }
 
     #endregion Commands
   }

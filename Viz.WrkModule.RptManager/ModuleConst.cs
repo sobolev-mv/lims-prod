@@ -40,18 +40,18 @@
     public const int AccCmdSgpTo3Cat2SortFinCut        = 534;
 
     //Группы 1 уровня
-    public const int AccGrpRk              = 600;
-    public const int AccGrpSgpState        = 601;
-    public const int AccGrpDynDef          = 602;
-    public const int AccGrpRkBrgSt1200     = 603;
-    public const int AccGrpLoadTblExcept   = 604;
-    public const int AccGrpLoadProdTargets = 605;
-    public const int AccGrpSgpTo2FinCut    = 606;
-    public const int AccGrpPartOf1Sort     = 607;
-    public const int AccGrpMonitorDef2Cat  = 608;
-    public const int AccGrpKpaRolling      = 609;
-    public const int AccGrpMonitorDefTrim  = 610;
-
+    public const int AccGrpRk                = 600;
+    public const int AccGrpSgpState          = 601;
+    public const int AccGrpDynDef            = 602;
+    public const int AccGrpRkBrgSt1200       = 603;
+    public const int AccGrpLoadTblExcept     = 604;
+    public const int AccGrpLoadProdTargets   = 605;
+    public const int AccGrpSgpTo2FinCut      = 606;
+    public const int AccGrpPartOf1Sort       = 607;
+    public const int AccGrpMonitorDef2Cat    = 608;
+    public const int AccGrpKpaRolling        = 609;
+    public const int AccGrpMonitorDefTrim    = 610;
+    public const int AccGrpDownloadDefImages = 611;
 
     //Группы 2 уровня
     public const int AccGrpDynDefUtl = 660;

@@ -59,10 +59,14 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SMBLibrary, Version=1.5.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SMBLibrary.1.5.0.1\lib\net40\SMBLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -79,6 +83,7 @@
     <Compile Include="DbUtils.cs" />
     <Compile Include="Defects1StRoll.cs" />
     <Compile Include="DefefectEdge.cs" />
+    <Compile Include="DownloadDefImages.cs" />
     <Compile Include="DynDefect12Cat1Sort.cs" />
     <Compile Include="DynDefect12Cat1SortUtl.cs" />
     <Compile Include="DynDefect2Cat.cs" />
@@ -133,7 +138,9 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -530,5 +530,37 @@ d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptManager" Caption="Отч�
       </dxl:LayoutItem>
     </dxl:LayoutGroup>
 
+    <dxl:LayoutGroup Name="Lg172001_611" Header="Выгрузка файлов изображений дефектов" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="9">
+      <dxl:LayoutItem>
+        <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="5" Padding="0">
+          <RadioButton Content="ГКР" Command="{Binding SelectAgTypCommand}" CommandParameter="RECEIPT" />
+          <RadioButton Content="1 Прок" Command="{Binding SelectAgTypCommand}" CommandParameter="1STROLL" />
+          <RadioButton Content="1 Подг" Command="{Binding SelectAgTypCommand}" CommandParameter="1STCUT" />
+          <RadioButton Content="Обезугл" Command="{Binding SelectAgTypCommand}"  CommandParameter="DECARB" />
+          <RadioButton Content="2 Прок" Command="{Binding SelectAgTypCommand}" CommandParameter="2NDROLL" />
+          <RadioButton Content="2 Подг" Command="{Binding SelectAgTypCommand}" CommandParameter="2NDCUT" />
+          <RadioButton Content="Терм покр" Command="{Binding SelectAgTypCommand}" CommandParameter="ISOGO" />
+          <RadioButton Content="ВТО" Command="{Binding SelectAgTypCommand}" CommandParameter="HTANNBF" />
+          <RadioButton Content="АВО" Command="{Binding SelectAgTypCommand}" CommandParameter="STRANN" />
+          <RadioButton Content="Перв. порезка" Command="{Binding SelectAgTypCommand}" CommandParameter="FINCUT" />
+        </dxl:FlowLayoutControl>
+      </dxl:LayoutItem>
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Список локальных №" HorizontalAlignment="Stretch">
+          <dxe:ButtonEdit IsTextEditable="True" Padding="2,0,0,0" AllowDefaultButton="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" EditValue="{Binding ListMatLocalNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <dxe:ButtonInfo GlyphKind="Regular" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadFromTxtFileCommand}" CommandParameter="66" />
+          </dxe:ButtonEdit>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Список дефектов" HorizontalAlignment="Stretch">
+          <dxe:ButtonEdit IsTextEditable="True" Padding="2,0,0,0" AllowDefaultButton="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" EditValue="{Binding ListDef, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <dxe:ButtonInfo GlyphKind="Regular" ToolTipService.ToolTip="Загрузить список значений из текстового файла" Command="{Binding LoadFromTxtFileCommand}" CommandParameter="67" />
+          </dxe:ButtonEdit>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+      <Button Content="Выгрузить"  HorizontalAlignment="Left" Command="{Binding DownloadDefImagesCommand}"/>
+    </dxl:LayoutGroup>
+
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>
