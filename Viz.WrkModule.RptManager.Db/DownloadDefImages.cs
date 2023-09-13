@@ -95,27 +95,29 @@ namespace Viz.WrkModule.RptManager.Db
       lstPrm.Add(prm);
 
       string[] stringSeparators = { "," };
-      string[] dlmString = listMat.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+      string[] dlmStringMat = listMat.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+      string[] dlmStringDef = new string[]{};
 
       prm = new OracleParameter
       {
         DbType = DbType.String,
         Direction = ParameterDirection.Input,
         OracleDbType = OracleDbType.VarChar,
-        ArrayLength = dlmString.Length,
-        Value = dlmString
+        ArrayLength = dlmStringMat.Length,
+        Value = dlmStringMat
       };
       lstPrm.Add(prm);
 
-      dlmString = listDef.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+      if (!string.IsNullOrEmpty(listDef))
+        dlmStringDef = listDef.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
       prm = new OracleParameter
       {
         DbType = DbType.String,
         Direction = ParameterDirection.Input,
         OracleDbType = OracleDbType.VarChar,
-        ArrayLength = dlmString.Length,
-        Value = dlmString
+        ArrayLength = dlmStringDef.Length,
+        Value = dlmStringDef
       };
       lstPrm.Add(prm);
 
@@ -134,7 +136,8 @@ namespace Viz.WrkModule.RptManager.Db
 
         if (status == NTStatus.STATUS_SUCCESS){
 
-          List<string> shares = client.ListShares(out status);
+          //List<string> shares = client.ListShares(out status);
+
           ISMBFileStore fileStore = client.TreeConnect(AuthData.AuthShareNameStore, out status);
 
           /*

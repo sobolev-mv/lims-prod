@@ -118,9 +118,7 @@
     <Compile Include="DataSets\ParamDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\ParamGroupDataTable.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DataSets\ParamGroupDataTable.cs" />
     <Compile Include="DataSets\ParamLnkDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
