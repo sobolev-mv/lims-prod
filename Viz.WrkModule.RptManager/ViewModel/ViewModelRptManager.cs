@@ -128,7 +128,8 @@ namespace Viz.WrkModule.RptManager
     private int typeListValueF5 = 0; //0-№ Стенда, 1-№ Стенда ВТО 
     private int vtoF5TimeAooVto;
     private Boolean isExclListStendF5;
-
+    private Boolean isAnnLotF5;
+    private Boolean isExclAnnLotF5;
     //Поля для Фильтра качества Конец
 
     private string typeUm = "R";
@@ -1102,6 +1103,31 @@ namespace Viz.WrkModule.RptManager
         if (value == listDef) return;
         listDef = value;
         OnPropertyChanged("ListDef");
+      }
+    }
+    
+    public Boolean IsAnnLotF5
+    {
+      get { return isAnnLotF5; }
+      set
+      {
+        if (value == isAnnLotF5) return;
+        isAnnLotF5 = value;
+
+        if (!value)
+          IsExclAnnLotF5 = false;
+        OnPropertyChanged("IsAnnLotF5");
+      }
+    }
+    
+    public Boolean IsExclAnnLotF5
+    {
+      get { return isExclAnnLotF5; }
+      set
+      {
+        if (value == isExclAnnLotF5) return;
+        isExclAnnLotF5 = value;
+        OnPropertyChanged("IsExclAnnLotF5");
       }
     }
 
