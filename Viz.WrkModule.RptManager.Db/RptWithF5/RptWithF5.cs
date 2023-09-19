@@ -74,122 +74,123 @@ namespace Viz.WrkModule.RptManager.Db
     public DateTime DateBeginAvoLstF5 { get; set; }
     public DateTime DateEndAvoLstF5 { get; set; }
     public Boolean IsExclListStendF5 { get; set; }
-    
+    public Boolean IsAnnLotF5 { get; set; }
+    public Boolean IsExclAnnLotF5 { get; set; }
+    public string AnnLotF5List { get; set; }
 
     public RptWithF5Param(string sourceXlsFile, string destXlsFile) : base(sourceXlsFile, destXlsFile)
     {}
 
     public Boolean IsFilter5Applayed()
     {
-      return (IsAroF5 || Is1200F5 || IsApr1F5 || IsAooF5 || IsVtoF5 || IsAvoF5);
+      return (IsAroF5 || Is1200F5 || IsApr1F5 || IsAooF5 || IsVtoF5 || IsAvoF5 || IsAnnLotF5);
     }
 
     public string GetFilterCriteria()
     {
       string flt = null;
 
-      if (IsAroF5){
-        flt += "АРО\r\n" + "Агрегаты: " + AroF5Item + "  ";
-        if (IsDateAroF5)
-          flt += string.Format("Дата АРО  с {0:dd.MM.yyyy  HH:mm:ss}", DateBeginAroF5) + " по " + string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEndAroF5);
+      switch (TypeFilter){
+        case 1:
 
-        flt += "\r\n";
-      }
+          if (IsAroF5)
+          {
+            flt += "АРО\r\n" + "Агрегаты: " + AroF5Item + "  ";
 
-      if (Is1200F5){
-        flt += "Стан 1200\r\n" + "Агрегаты: " + Stan1200F5Item + "  " + "Толщины: " + TolsF5Item + "  ";
-        if (IsDate1200F5)
-          flt += string.Format("Дата Стан 1200 с {0:dd.MM.yyyy  HH:mm:ss}", DateBegin1200F5) + " по " + string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEnd1200F5);
+            if (IsDateAroF5)
+              flt += string.Format("Дата АРО  с {0:dd.MM.yyyy  HH:mm:ss}", DateBeginAroF5) + " по " +
+                     string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEndAroF5);
 
-        flt += "\r\n";
-      }
+            flt += "\r\n";
+          }
 
-      if (IsApr1F5){
-        flt += "АПР1\r\n" + "Ширины: " + ShirApr1F5Item + "  " + "Бригады: " + BrgApr1F5Item + "  ";
-        if (IsDateApr1F5)
-          flt += string.Format("Дата АПР1 с {0:dd.MM.yyyy  HH:mm:ss}", DateBeginApr1F5) + " по " + string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEndApr1F5);
+          if (Is1200F5)
+          {
+            flt += "Стан 1200\r\n" + "Агрегаты: " + Stan1200F5Item + "  " + "Толщины: " + TolsF5Item + "  ";
 
-        flt += "\r\n";
-      }
+            if (IsDate1200F5)
+              flt += string.Format("Дата Стан 1200 с {0:dd.MM.yyyy  HH:mm:ss}", DateBegin1200F5) + " по " +
+                     string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEnd1200F5);
 
-      if (IsAooF5){
-        flt += "АОО\r\n" + "Агрегаты: " + AooF5Item + " ";
-        if (IsDateAooF5)
-          flt += string.Format("Дата АОО с {0:dd.MM.yyyy HH:mm:ss}", DateBeginAooF5) + " по " + string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEndAooF5) + "  ";
+            flt += "\r\n";
+          }
 
-        if (IsMgOF5)
-          flt += "MgO c " + AooF5MgOFrom.ToString(CultureInfo.InvariantCulture) + " по " + AooF5MgOTo.ToString(CultureInfo.InvariantCulture) + "  ";
+          if (IsApr1F5)
+          {
+            flt += "АПР1\r\n" + "Ширины: " + ShirApr1F5Item + "  " + "Бригады: " + BrgApr1F5Item + "  ";
 
-        if (IsPppF5)
-          flt += "ППП с " + AooF5PppFrom.ToString(CultureInfo.InvariantCulture) + " по " + AooF5PppTo.ToString(CultureInfo.InvariantCulture) + "  ";
+            if (IsDateApr1F5)
+              flt += string.Format("Дата АПР1 с {0:dd.MM.yyyy  HH:mm:ss}", DateBeginApr1F5) + " по " +
+                     string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEndApr1F5);
 
-        if (IsWgtCoverF5)
-          flt += "Вес покрытия с " + AooF5WgtCoverFrom.ToString(CultureInfo.InvariantCulture) + " по " + AooF5WgtCoverTo.ToString(CultureInfo.InvariantCulture) + "  ";
+            flt += "\r\n";
+          }
 
-        if (IsBrgAooF5)
-          flt += "Бригады: " + BrgAooF5Item + "  ";
+          if (IsAooF5)
+          {
+            flt += "АОО\r\n" + "Агрегаты: " + AooF5Item + " ";
 
-        if (IsSleeveAooF5)
-          flt += "Мет. гильза: " + (SleeveAooF5 ? "Есть" : "Нет") + "  ";
-        
-        flt += "\r\n";
-      }
+            if (IsDateAooF5)
+              flt += string.Format("Дата АОО с {0:dd.MM.yyyy HH:mm:ss}", DateBeginAooF5) + " по " +
+                     string.Format("{0:dd.MM.yyyy  HH:mm:ss}", DateEndAooF5) + "  ";
 
-      if (IsVtoF5){
-        flt += "ВТО\r\n";
-        flt += "Бригады: " + BrgVtoF5Item + "  ";  
-        
-        if (IsStVtoF5)
-          flt += "Стенд ВТО: " + VtoF5Stend + "  ";
-        if (IsKlpVtoF5)
-          flt += "Колпак: " + VtoF5Cap + "  ";
-        if (IsDiskVtoF5)
-          flt += "Диск ВТО: " + DiskVtoF5Item + "  ";
-        if (IsTimeAooVtoF5)
-          flt += "Время АОО-ВТО час: " + VtoF5TimeAooVto + "  ";
-        flt += "\r\n";
-      }
+            if (IsMgOF5)
+              flt += "MgO c " + AooF5MgOFrom.ToString(CultureInfo.InvariantCulture) + " по " +
+                     AooF5MgOTo.ToString(CultureInfo.InvariantCulture) + "  ";
 
-      if (IsAvoF5){
-        flt += "АВО\r\n" + "Агрегаты: " + AvoF5Item + "  " + "Бригады: " + BrgAvoF5Item;
-      }
+            if (IsPppF5)
+              flt += "ППП с " + AooF5PppFrom.ToString(CultureInfo.InvariantCulture) + " по " +
+                     AooF5PppTo.ToString(CultureInfo.InvariantCulture) + "  ";
 
-      if (TypeFilter == 2)
-      {
-        flt += "Список стендовых партий: " + ListStendF5 + " \r\n" + "Стендовые партии исключить: " + (IsExclListStendF5 ? "Да" : "Нет");
+            if (IsWgtCoverF5)
+              flt += "Вес покрытия с " + AooF5WgtCoverFrom.ToString(CultureInfo.InvariantCulture) + " по " +
+                     AooF5WgtCoverTo.ToString(CultureInfo.InvariantCulture) + "  ";
+
+            if (IsBrgAooF5)
+              flt += "Бригады: " + BrgAooF5Item + "  ";
+
+            if (IsSleeveAooF5)
+              flt += "Мет. гильза: " + (SleeveAooF5 ? "Есть" : "Нет") + "  ";
+
+            flt += "\r\n";
+          }
+
+          if (IsVtoF5)
+          {
+
+            flt += "ВТО\r\n";
+            flt += "Бригады: " + BrgVtoF5Item + "  ";
+
+            if (IsStVtoF5)
+              flt += "Стенд ВТО: " + VtoF5Stend + "  ";
+
+            if (IsKlpVtoF5)
+              flt += "Колпак: " + VtoF5Cap + "  ";
+
+            if (IsDiskVtoF5)
+              flt += "Диск ВТО: " + DiskVtoF5Item + "  ";
+
+            if (IsTimeAooVtoF5)
+              flt += "Время АОО-ВТО час: " + VtoF5TimeAooVto + "  ";
+
+            flt += "\r\n";
+          }
+
+          if (IsAvoF5)
+            flt += "АВО\r\n" + "Агрегаты: " + AvoF5Item + "  " + "Бригады: " + BrgAvoF5Item;
+
+          if (IsAnnLotF5)
+            flt += "Ст. партии\r\n" + (IsExclAnnLotF5 ? "Исключить" : "Включить") + "  " + AnnLotF5List;
+
+          break;
+
+        case 2:
+          flt += "Список стендовых партий: " + ListStendF5 + " \r\n" + "Стендовые партии исключить: " +
+                 (IsExclListStendF5 ? "Да" : "Нет");
+          break;
       }
 
       return flt;
-    }
-
-    public void GetFilterLstCriteria(int ExcelSheet)
-    {
-      dynamic wrkSheet = null;
-      //выбираем лист
-      ExcelApp.ActiveWorkbook.WorkSheets[ExcelSheet].Select();
-      wrkSheet = ExcelApp.ActiveSheet;
-      
-      /*
-      string hdrIncl = null;
-      hdrIncl = TypeInclList == 0 ? "Включая значения из списка " : "Исключая значения списка ";
-      */
-
-      switch (TypeListValueF5){
-        case 0:
-          wrkSheet.Cells[2, 1].Value = "Стендовые партии:";
-          break;
-        case 1:
-          wrkSheet.Cells[2, 1].Value = "Стенды ВТО:";
-          break;
-        default:
-          Console.WriteLine("Default case");
-          break;
-      }
-
-      const int row = 3;
-      string[] strArr = ListStendF5.Split(new char[] {','});
-      for (int i = 0; i < strArr.Length; i++) 
-        wrkSheet.Cells[row + i, 1].Value = strArr[i];
     }
 
   }
@@ -220,11 +221,11 @@ namespace Viz.WrkModule.RptManager.Db
       {
         case 0:
           sqlStmt = "begin " +
-                    //"DELETE FROM VIZ_PRN.Z_MIXX2; " + //!!!
+                    //"DELETE FROM VIZ_PRN.Z_FLT; " + //!!!
                     "delete from VIZ_PRN.TMP_FINCUT_FILTR_CORE; " +
                     "insert into VIZ_PRN.TMP_FINCUT_FILTR_CORE " +
                     "select * from VIZ_PRN.V_FINCUT_FILTR_CORE where tols in (SELECT TO_NUMBER(VL_STRING) FROM TABLE(VIZ_PRN.VAR_RPT.GetTabOfStrDelim(:P1, ','))); " +
-                    //"INSERT INTO VIZ_PRN.Z_MIXX2 SELECT * FROM VIZ_PRN.TMP_FINCUT_FILTR_CORE; " + //!!!
+                    //"INSERT INTO VIZ_PRN.Z_FLT SELECT * FROM VIZ_PRN.TMP_FINCUT_FILTR_CORE; " + //!!!
                     "end;";
 
           List<OracleParameter> lstPrm = new List<OracleParameter>();
@@ -776,6 +777,37 @@ namespace Viz.WrkModule.RptManager.Db
             };
             lstParam.Add(param);
 
+            param = new OracleParameter
+            {
+              DbType = DbType.String,
+              OracleDbType = OracleDbType.VarChar,
+              Direction = ParameterDirection.Input,
+              ParameterName = "ANNLOT",
+              Value = prm.AnnLotF5List,
+              Size = prm.AnnLotF5List.Length
+            };
+            lstParam.Add(param);
+
+            param = new OracleParameter
+            {
+              DbType = DbType.Int32,
+              OracleDbType = OracleDbType.Integer,
+              Direction = ParameterDirection.Input,
+              ParameterName = "FANNLOT",
+              Value = prm.IsAnnLotF5 ? 1 : 0
+            };
+            lstParam.Add(param);
+
+            param = new OracleParameter
+            {
+              DbType = DbType.Int32,
+              OracleDbType = OracleDbType.Integer,
+              Direction = ParameterDirection.Input,
+              ParameterName = "FANNLOTEXCL",
+              Value = prm.IsExclAnnLotF5 ? 1 : 0
+            };
+            lstParam.Add(param);
+            
             param = new OracleParameter()
             {
               ParameterName = "MTOLS",

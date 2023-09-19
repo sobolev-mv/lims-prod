@@ -130,6 +130,7 @@ namespace Viz.WrkModule.RptManager
     private Boolean isExclListStendF5;
     private Boolean isAnnLotF5;
     private Boolean isExclAnnLotF5;
+    private string annLotF5List;
     //Поля для Фильтра качества Конец
 
     private string typeUm = "R";
@@ -1130,6 +1131,17 @@ namespace Viz.WrkModule.RptManager
         OnPropertyChanged("IsExclAnnLotF5");
       }
     }
+    
+    public string AnnLotF5List
+    {
+      get { return annLotF5List; }
+      set
+      {
+        if (value == annLotF5List) return;
+        annLotF5List = value;
+        OnPropertyChanged("AnnLotF5List");
+      }
+    }
 
     //конец Поля для фильтра качество
 
@@ -1405,6 +1417,9 @@ namespace Viz.WrkModule.RptManager
           break;
         case 67:
           this.ListDef = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
+          break;
+        case 68:
+          this.AnnLotF5List = Etc.GetStringWithDelimFromTxtFile(Encoding.GetEncoding("windows-1251"), ",");
           break;
         default:
           break;
@@ -2119,7 +2134,10 @@ namespace Viz.WrkModule.RptManager
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
         SleeveAooF5 = this.SleeveAooF5,
-        IsExclListStendF5 = this.IsExclListStendF5
+        IsExclListStendF5 = this.IsExclListStendF5,
+        IsAnnLotF5 = this.IsAnnLotF5,
+        IsExclAnnLotF5 = this.IsExclAnnLotF5,
+        AnnLotF5List = this.AnnLotF5List
       };
 
       var sp = new Db.SgpTo2SortFinCut();
@@ -2202,7 +2220,10 @@ namespace Viz.WrkModule.RptManager
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
         SleeveAooF5 = this.SleeveAooF5,
-        IsExclListStendF5 = this.IsExclListStendF5
+        IsExclListStendF5 = this.IsExclListStendF5,
+        IsAnnLotF5 = this.IsAnnLotF5,
+        IsExclAnnLotF5 = this.IsExclAnnLotF5,
+        AnnLotF5List = this.AnnLotF5List
       };
 
       var sp = new Db.SgpTo2CatFinCut();
@@ -2285,7 +2306,10 @@ namespace Viz.WrkModule.RptManager
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
         SleeveAooF5 = this.SleeveAooF5,
-        IsExclListStendF5 = this.IsExclListStendF5
+        IsExclListStendF5 = this.IsExclListStendF5,
+        IsAnnLotF5 = this.IsAnnLotF5,
+        IsExclAnnLotF5 = this.IsExclAnnLotF5,
+        AnnLotF5List = this.AnnLotF5List
       };
 
       var sp = new Db.SgpTo3CatFinCut();
@@ -2368,7 +2392,10 @@ namespace Viz.WrkModule.RptManager
         StrThicknessSql = Convert.ToString(this.SelThicknessItemF2.Row["StrSql"]),
         IsSleeveAooF5 = this.IsSleeveAooF5,
         SleeveAooF5 = this.SleeveAooF5,
-        IsExclListStendF5 = this.IsExclListStendF5
+        IsExclListStendF5 = this.IsExclListStendF5,
+        IsAnnLotF5 = this.IsAnnLotF5,
+        IsExclAnnLotF5 = this.IsExclAnnLotF5,
+        AnnLotF5List = this.AnnLotF5List
       };
 
       var sp = new Db.SgpTo3Cat2SortFinCut();
