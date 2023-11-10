@@ -784,7 +784,7 @@ namespace Viz.WrkModule.RptManager.Db
               Direction = ParameterDirection.Input,
               ParameterName = "ANNLOT",
               Value = prm.AnnLotF5List,
-              Size = prm.AnnLotF5List.Length
+              Size = string.IsNullOrEmpty(prm.AnnLotF5List) ? 0 : prm.AnnLotF5List.Length
             };
             lstParam.Add(param);
 
