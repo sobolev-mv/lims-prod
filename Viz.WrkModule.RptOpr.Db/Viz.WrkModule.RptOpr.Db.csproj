@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AooMetSleeve.cs" />
     <Compile Include="Apr8MatOut.cs" />
+    <Compile Include="CrossTrimUo.cs" />
     <Compile Include="CuttingMatScrapUo.cs" />
     <Compile Include="DataSets\DsRptOpr.cs">
       <SubType>Component</SubType>

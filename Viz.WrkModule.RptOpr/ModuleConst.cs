@@ -52,7 +52,8 @@
       TrimAlongUo = 16016,
       MonitorTrimUoShift = 16017,
       AooMetSleeve = 16018,
-      AllowMonitorTrimUoShift = 16019
+      AllowMonitorTrimUoShift = 16019,
+      CrossTrimUo = 16020
     }
 
     public const string ScriptsFolder = "\\Scripts";
@@ -117,6 +118,9 @@
 
     public const string QiExUo1Source = "\\Xlt\\Viz.WrkModule.RptOpr-QiExUo1.xltx";
     public const string QiExUo1ProcDest = "\\Viz.WrkModule.RptOpr-QiExUo1.xlsx";
+
+    public const string CrossTrimUoSource = "\\Xlt\\Viz.WrkModule.RptOpr-CrossTrimUo.xltx";
+    public const string CrossTrimUoDest = "\\Viz.WrkModule.RptOpr-CrossTrimUo.xlsx";
 
   }
 }

@@ -960,6 +960,7 @@ namespace Viz.WrkModule.RptOpr
     private DelegateCommand<Object> histCoilProcCommand;
     private DelegateCommand<Object> qiUo1Command;
     private DelegateCommand<Object> qiExUo1Command;
+    private DelegateCommand<Object> crossTrimUoCommand;
 
     public ICommand LoadFromTxtFileCommand
     {
@@ -1717,7 +1718,34 @@ namespace Viz.WrkModule.RptOpr
     {
       return true;
     }
-    
+
+    public ICommand CrossTrimUoCommand => crossTrimUoCommand ?? (crossTrimUoCommand = new DelegateCommand<Object>(ExecuteCrossTrimUo, CanExecuteCrossTrimUo));
+
+    private void ExecuteCrossTrimUo(Object parameter)
+    {
+      var src = Etc.StartPath + ModuleConst.CrossTrimUoSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.CrossTrimUoDest;
+
+      var rptParam = new CrossTrimUoRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd,
+      };
+
+      var sp = new CrossTrimUo();
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) barEditItem.IsVisible = true;
+
+    }
+
+    private bool CanExecuteCrossTrimUo(Object parameter)
+    {
+      return true;
+    }
+
 
     #endregion
   }
