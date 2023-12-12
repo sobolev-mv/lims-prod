@@ -123,7 +123,7 @@ namespace Smv.Modules.MgrExt
 
     private void btnUpdate_ItemClick(object sender, ItemClickEventArgs e)
     {
-      var startInfo = new ProcessStartInfo(Etc.StartPath + "\\Smv.DispUpdate.exe", "UPDATE " + Etc.StartPath + " \\\\vs-sp-fs02.ao.nlmk\\PSI\\Root\\LIMS");
+      var startInfo = new ProcessStartInfo(Etc.StartPath + "\\Smv.DispUpdate.exe", "UPDATE " + Etc.StartPath + " \\\\vs-sp-fs02.ao.nlmk\\PSI\\Root.LIMS\\LIMS");
       Process.Start(startInfo);
     }
     
