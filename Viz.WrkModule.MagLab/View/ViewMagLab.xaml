@@ -94,6 +94,7 @@ RegName="UcMagLab" Caption="Магнитная лаборатория">
     <dxb:BarButtonItem Name="btnSiemens" Command="{Binding DlgSiemensCommand}" Content="Siemens" Glyph="pack://application:,,,/Viz.WrkModule.MagLab;Component/Images/Slact-16x16.png" Hint="Лист для Siemens."/>
     <dxb:BarButtonItem Name="btnAdgRpt" Command="{Binding AdgRptCommand}" Content="Отч. адг." Glyph="pack://application:,,,/Viz.WrkModule.MagLab;Component/Images/AdgRpt-16x16.png" Hint="Отчет по адгезии."/>
     <dxb:BarButtonItem Name="btnCopyApst4CmpCoil" Command="{Binding CopyApstCmpCoilCommand}" Content="Копир. Эпшт СР" Glyph="pack://application:,,,/Viz.WrkModule.MagLab;Component/Images/CopyApstCmpCoil-16x16.png" Hint="Копирование Эпштейна для составных рулонов."/>
+    <dxb:BarButtonItem Name="btnTunkiaImport" Command="{Binding TunkiaImportCommand}" Content="Tunkia имп." Glyph="pack://application:,,,/Viz.WrkModule.MagLab;Component/Images/Fr20Import-16x16.png" Hint="Импорт данных с ФТ Tunkia."/>
   </ruc:RibbonUserControl.BarManagerItems>
 
   <ruc:RibbonUserControl.UserPages>
@@ -129,6 +130,7 @@ RegName="UcMagLab" Caption="Магнитная лаборатория">
         <dxb:BarButtonItemLink BarItemName="btnSiemens" RibbonStyle="SmallWithText" UserGlyphSize="Small" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True"/>
         <dxb:BarButtonItemLink BarItemName="btnAdgRpt" RibbonStyle="SmallWithText" UserGlyphSize="Small" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True"/>
         <dxb:BarButtonItemLink BarItemName="btnCopyApst4CmpCoil" RibbonStyle="SmallWithText" UserGlyphSize="Small" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True"/>
+        <dxb:BarButtonItemLink BarItemName="btnTunkiaImport" RibbonStyle="SmallWithText" UserGlyphSize="Small" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True"/>
       </dxr:RibbonPageGroup>
 
       <dxr:RibbonPageGroup Name="rpgQuit" AllowCollapse="False">

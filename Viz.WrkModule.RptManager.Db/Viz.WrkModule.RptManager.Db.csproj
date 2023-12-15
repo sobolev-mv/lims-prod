@@ -59,8 +59,8 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SMBLibrary, Version=1.5.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SMBLibrary.1.5.0.1\lib\net40\SMBLibrary.dll</HintPath>
+    <Reference Include="SMBLibrary, Version=1.5.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SMBLibrary.1.5.0.3\lib\net40\SMBLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -139,7 +139,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Properties\packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

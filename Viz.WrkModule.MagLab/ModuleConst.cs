@@ -48,6 +48,7 @@ namespace Viz.WrkModule.MagLab
     public const int AccCmdSiemensSample = 22;
     public const int AccCmdAdgRpt = 23;
     public const int AccCmdCopyApstCmpCoil = 24;
+    public const int AccCmdTunkiaImport = 25;
 
     public const string MagLabConfig = "\\Config\\MagLab.config";
     public const string Fr20UsbIsolMeasureUnitConfig = "\\Config\\Fr20UsbIsolMeasureUnit.config";  

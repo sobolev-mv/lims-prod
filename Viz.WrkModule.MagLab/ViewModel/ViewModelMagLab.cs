@@ -84,6 +84,7 @@ namespace Viz.WrkModule.MagLab
     private bool accCmdSiemensSample;
     private bool accCmdAdgRpt;
     private bool accCmdCopyApstCmpCoil;
+    private bool accCmdTunkiaImport;
 
     #endregion Fields
 
@@ -1062,7 +1063,8 @@ namespace Viz.WrkModule.MagLab
       accCmdCopyApstProp = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdCopyApstProp, ModuleConst.ModuleId);
       accCmdSiemensSample = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdSiemensSample, ModuleConst.ModuleId);
       accCmdAdgRpt = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdAdgRpt, ModuleConst.ModuleId);
-      accCmdCopyApstCmpCoil = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdCopyApstCmpCoil, ModuleConst.ModuleId); 
+      accCmdCopyApstCmpCoil = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdCopyApstCmpCoil, ModuleConst.ModuleId);
+      accCmdTunkiaImport = Permission.GetPermissionForModuleUif(ModuleConst.AccCmdTunkiaImport, ModuleConst.ModuleId);
 
       //Читаем параметры конфиг файла МЛ
       try
@@ -1107,6 +1109,7 @@ namespace Viz.WrkModule.MagLab
     private DelegateCommand<Object> dlgSiemensCommand;
     private DelegateCommand<Object> adgRptCommand;
     private DelegateCommand<Object> copyApstCmpCoilCommand;
+    private DelegateCommand<Object> tunkiaImportCommand;
 
     public ICommand SelectUnitCommand
     {
@@ -1622,7 +1625,20 @@ namespace Viz.WrkModule.MagLab
       return accCmdAdgRpt;
     }
 
+    public ICommand TunkiaImportCommand
+    {
+      get { return tunkiaImportCommand ?? (tunkiaImportCommand = new DelegateCommand<Object>(ExecuteTunkiaImport, CanExecuteTunkiaImport)); }
+    }
 
+    private void ExecuteTunkiaImport(Object parameter)
+    {
+      
+    }
+
+    private bool CanExecuteTunkiaImport(Object parameter)
+    {
+      return accCmdTunkiaImport;
+    }
 
 
     #endregion Commands
