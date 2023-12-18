@@ -7,12 +7,15 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms;
 using Devart.Data.Oracle;
-using Microsoft.Win32;
 using Smv.App.Config;
 using Smv.Data.Oracle;
 using Smv.Utils;
 using Viz.DbApp.Psi;
+using DevExpress.Spreadsheet;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using System.Security.Cryptography;
 
 namespace Viz.WrkModule.MagLab.Db
 {
@@ -1056,6 +1059,81 @@ namespace Viz.WrkModule.MagLab.Db
       odr?.Dispose();
 
       DxInfo.ShowDxBoxInfo("Файл", "Файл: " + sfd.FileName + " сформирован!", MessageBoxImage.Information);
+    }
+
+    private static void TunkiaExcelData2Db(string excelFileName)
+    {
+      Workbook workbook = new Workbook();
+      workbook.LoadDocument(excelFileName, DocumentFormat.Xls);
+
+      var row = 1;
+      while (!string.IsNullOrEmpty(workbook.Worksheets[0].Cells[row, 0].Value.TextValue)){
+
+        var prmSampNum = new OracleParameter
+        {
+          DbType = DbType.String,
+          Direction = ParameterDirection.Input,
+          OracleDbType = OracleDbType.VarChar,
+        };
+
+
+        var prmUpperVal = new OracleParameter
+        {
+          DbType = DbType.Double,
+          Direction = ParameterDirection.Input,
+          OracleDbType = OracleDbType.Number,
+        };
+
+
+        var prmLowerVal = new OracleParameter
+        {
+          DbType = DbType.Double,
+          Direction = ParameterDirection.Input,
+          OracleDbType = OracleDbType.Number,
+        };
+
+        List<OracleParameter> lstPrm = new List<OracleParameter> {prmSampNum, prmUpperVal, prmLowerVal};
+
+        lstPrm[0].Size = workbook.Worksheets[0].Cells[row, 0].Value.TextValue.Length;
+        lstPrm[0].Value = workbook.Worksheets[0].Cells[row, 0].Value.TextValue;
+        lstPrm[1].Value = workbook.Worksheets[0].Cells[row, 7].Value.NumericValue;
+        lstPrm[2].Value = workbook.Worksheets[0].Cells[row, 8].Value.NumericValue;
+
+        Odac.ExecuteNonQuery("LIMS.MagLab.LoadI4FrTunkia", CommandType.StoredProcedure, false, lstPrm);
+
+        row++;
+      }
+
+      workbook?.Dispose();
+    }
+
+    public static void TunkiaImportData()
+    {
+      string importPath;
+
+      using (var fbd = new FolderBrowserDialog())
+      {
+        DialogResult dlgResult = fbd.ShowDialog();
+        if (dlgResult == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+          importPath = fbd.SelectedPath;
+        else
+          return;
+      }
+
+      //Clear tmp table.
+      Odac.ExecuteNonQuery("LIMS.MagLab.ClearI4FrTunkia", CommandType.StoredProcedure, false, null);
+
+      var di = new DirectoryInfo(importPath);
+      foreach (var fi in di.GetFiles("*.xls", SearchOption.TopDirectoryOnly))
+      {
+        TunkiaExcelData2Db(importPath + @"\" + fi.Name);
+        File.Move(importPath + @"\" + fi.Name, importPath + @"\" + fi.Name + ".bak");
+      }
+
+      //Processing loaded FrTunkia data
+      Odac.ExecuteNonQuery("LIMS.MagLab.ProcI4FrTunkia", CommandType.StoredProcedure, false, null);
+
+      DxInfo.ShowDxBoxInfo("Франклин-Тестер Tunkia", "Импорт данных завершен.", MessageBoxImage.Information);
     }
 
 

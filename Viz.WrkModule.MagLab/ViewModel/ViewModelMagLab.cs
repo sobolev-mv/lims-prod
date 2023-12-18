@@ -1632,7 +1632,7 @@ namespace Viz.WrkModule.MagLab
 
     private void ExecuteTunkiaImport(Object parameter)
     {
-      
+      LabAction.TunkiaImportData();
     }
 
     private bool CanExecuteTunkiaImport(Object parameter)
