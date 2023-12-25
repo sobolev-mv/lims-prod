@@ -90,7 +90,7 @@ namespace Viz.WrkModule.RptOpr.Db
           double heightRow = CurrentWrkSheet.Rows(row).RowHeight;
           
           const int firstExcelColumn = 1;
-          const int lastExcelColumn = 33;
+          const int lastExcelColumn = 34;
 
           int rnkAnLotOld = 0;
   
@@ -131,15 +131,15 @@ namespace Viz.WrkModule.RptOpr.Db
             CurrentWrkSheet.Cells[i, 25].WrapText = CurrentWrkSheet.Cells[i, 28].WrapText = CurrentWrkSheet.Cells[i, 31].WrapText = false;
           */
           
-          CurrentWrkSheet.Columns(6).Hidden = true;
-          CurrentWrkSheet.Columns(9).Hidden = true;
-          CurrentWrkSheet.Columns(12).Hidden = true;
-          CurrentWrkSheet.Columns(15).Hidden = true;
-          CurrentWrkSheet.Columns(18).Hidden = true;
-          CurrentWrkSheet.Columns(21).Hidden = true;
-          CurrentWrkSheet.Columns(25).Hidden = true;
-          CurrentWrkSheet.Columns(28).Hidden = true;
-          CurrentWrkSheet.Columns(31).Hidden = true;
+          CurrentWrkSheet.Columns(7).Hidden = true;
+          CurrentWrkSheet.Columns(10).Hidden = true;
+          CurrentWrkSheet.Columns(13).Hidden = true;
+          CurrentWrkSheet.Columns(16).Hidden = true;
+          CurrentWrkSheet.Columns(19).Hidden = true;
+          CurrentWrkSheet.Columns(22).Hidden = true;
+          CurrentWrkSheet.Columns(26).Hidden = true;
+          CurrentWrkSheet.Columns(29).Hidden = true;
+          CurrentWrkSheet.Columns(32).Hidden = true;
           
         }
         
