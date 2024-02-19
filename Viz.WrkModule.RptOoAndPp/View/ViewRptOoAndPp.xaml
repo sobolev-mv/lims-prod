@@ -1,0 +1,107 @@
+﻿<ruc:RibbonUserControl x:Class="Viz.WrkModule.RptOoAndPp.ViewRptOoAndPp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon" 
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxl="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"                       
+             xmlns:ruc="clr-namespace:Smv.RibbonUserUI;assembly=Smv.Prj.Core"
+             xmlns:conv="clr-namespace:Smv.XAML.Convertors;assembly=Smv.Prj.Core"                       
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" RegName="UcRptOoAndPp" Caption="Отчетность ООиПП">
+  <ruc:RibbonUserControl.Resources>
+    <conv:BooleanToFilterColor x:Key="BooleanToFilterColor" />
+    <conv:CharYn2BooleanConverter x:Key="CharYn2Boolean" />
+  </ruc:RibbonUserControl.Resources>
+  <ruc:RibbonUserControl.BarManagerItems>
+    <dxb:BarStaticItem Name="siGlyphqqq">
+      <dxb:BarStaticItem.ContentTemplate>
+        <DataTemplate>
+          <Image Source="pack://application:,,,/Viz.WrkModule.RptOoAndPp;Component/Images/BarImage.png"/>
+        </DataTemplate>
+      </dxb:BarStaticItem.ContentTemplate>
+    </dxb:BarStaticItem>
+    <dxb:BarButtonItem Name="btnHlpRpt" Content="Спис. отчет"  Command="{Binding ShowListRptCommand}" LargeGlyph="pack://application:,,,/Viz.WrkModule.RptOoAndPp;Component/Images/Help-32x32.png" Description="New blank document." Hint="Список отчетов." />
+    <dxb:BarButtonItem Name="btnQuitxyz" Content="Выход" Tag="CloseUserControl" LargeGlyph="pack://application:,,,/Viz.WrkModule.RptOoAndPp;Component/Images/close-32x32.png" Description="New blank document." Hint="Закончить работу с АРМ Цеховая (оперативная) отчетность." />
+  </ruc:RibbonUserControl.BarManagerItems>
+  <ruc:RibbonUserControl.UserPages>
+    <dxr:RibbonPage Caption="Отчеты">
+      <dxr:RibbonPageGroup Name="rpgProba" AllowCollapse="False">
+        <dxb:BarStaticItemLink BarItemName="siGlyphqqq" RibbonStyle="Large"/>
+        <dxb:BarButtonItemLink BarItemName="btnHlpRpt" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
+      </dxr:RibbonPageGroup>
+      <dxr:RibbonPageGroup Name="rpgQuit" AllowCollapse="False">
+        <dxb:BarButtonItemLink BarItemName="btnQuitxyz" RibbonStyle="Large" UserGlyphSize="Large" BarItemDisplayMode="ContentAndGlyph" AllowDrop="True" />
+      </dxr:RibbonPageGroup>
+    </dxr:RibbonPage>
+  </ruc:RibbonUserControl.UserPages>
+  <dxl:LayoutControl Name="LayoutRoot" Orientation="Vertical" StretchContentVertically="False" Background="Transparent">
+    <dxl:LayoutGroup Name="L1Grp_33001" Header="Отчет по оборачиваесмости НЗП" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="0">
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Дата:"  HorizontalAlignment="Left">
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left" Padding="10,0,0,0">
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Склад:" HorizontalAlignment="Left">
+          <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="5" Padding="0" HorizontalAlignment="Left">
+            <RadioButton Content="3134" Command="{Binding SelectWhsCommand}" CommandParameter="3134" />
+            <RadioButton Content="3135" Command="{Binding SelectWhsCommand}" CommandParameter="3135" />
+            <RadioButton Content="3136" Command="{Binding SelectWhsCommand}" CommandParameter="3136" />
+            <RadioButton Content="3137" Command="{Binding SelectWhsCommand}"  CommandParameter="3137" />
+            <RadioButton Content="3138" Command="{Binding SelectWhsCommand}" CommandParameter="3138" />
+            <RadioButton Content="3139" Command="{Binding SelectWhsCommand}" CommandParameter="3139" />
+            <RadioButton Content="313H" Command="{Binding SelectWhsCommand}" CommandParameter="313H" />
+            <RadioButton Content="313A" Command="{Binding SelectWhsCommand}" CommandParameter="313A" />
+            <RadioButton Content="313B(АВО)" Command="{Binding SelectWhsCommand}" CommandParameter="313B(АВО)" />
+            <RadioButton Content="313B(УО)" Command="{Binding SelectWhsCommand}" CommandParameter="313B(УО)" />
+          </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left" Padding="10,0,0,0">
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left">
+          <Button Content="Оборач. НЗП" HorizontalAlignment="Left" />
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
+      <dxl:LayoutItem Name="L2Grp_13003"  Label="Редактировать нормативы оборачиваемости:" IsRequired="True">
+        <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="3" Padding="0">
+          <Button Content="Сохранить"  HorizontalAlignment="Left" Command="{Binding SaveTrnValCommand}"/>
+          <Button Content="Удалить запись"  HorizontalAlignment="Left" Command="{Binding DeleteRowTrnValCommand}"/>
+        </dxl:FlowLayoutControl>
+      </dxl:LayoutItem>
+      <dxg:GridControl Name="GcTrnVal"  ShowBorder="true" Height="250" ItemsSource="{Binding TrnNzpDataSet}">
+        <dxg:GridControl.View>
+          <dxg:TableView NavigationStyle="Cell" ShowGroupPanel="False" AllowGrouping="False" AllowEditing="True" NewItemRowPosition="Bottom"/>
+        </dxg:GridControl.View>
+        <dxg:GridControl.Columns>
+          <dxg:GridColumn FieldName="Whs" Header="Склад" MinWidth="80" Width="80">
+            <dxg:GridColumn.EditSettings>
+              <dxe:ComboBoxEditSettings IsTextEditable="False">
+                <dxe:ComboBoxEditSettings.Items>
+                  <sys:String>3134</sys:String>
+                  <sys:String>3135</sys:String>
+                  <sys:String>3136</sys:String>
+                  <sys:String>3137</sys:String>
+                  <sys:String>3138</sys:String>
+                  <sys:String>3139</sys:String>
+                  <sys:String>313H</sys:String>
+                  <sys:String>313A</sys:String>
+                  <sys:String>313B(АВО)</sys:String>
+                  <sys:String>313B(УО)</sys:String>
+                </dxe:ComboBoxEditSettings.Items>
+              </dxe:ComboBoxEditSettings>
+            </dxg:GridColumn.EditSettings>
+          </dxg:GridColumn>
+          <dxg:GridColumn FieldName="DateBegin" Header="Дата начала" MinWidth="90" Width="90" EditSettings="{dxe:DateSettings DisplayFormat=dd.MM.yyyy}" ReadOnly="false" AllowEditing="true"/>
+          <dxg:GridColumn FieldName="DateEnd" Header="Дата оконч" MinWidth="90" Width="90" EditSettings="{dxe:DateSettings DisplayFormat=dd.MM.yyyy}" ReadOnly="false" AllowEditing="true"/>
+          <dxg:GridColumn FieldName="TurnVal" Header="Показатель" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings DisplayFormat=n3}" />
+        </dxg:GridControl.Columns>
+      </dxg:GridControl>
+
+
+    </dxl:LayoutGroup>
+  </dxl:LayoutControl>
+</ruc:RibbonUserControl>

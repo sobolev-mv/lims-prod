@@ -112,7 +112,9 @@
     <Compile Include="DataSets\ParamChrDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\ParamChrOptDataTable.cs" />
+    <Compile Include="DataSets\ParamChrOptDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataSets\ParamDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
