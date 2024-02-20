@@ -16,6 +16,10 @@ using System.Globalization;
 using Viz.DbApp.Psi;
 using Viz.WrkModule.RptOoAndPp.Db.DataSets;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.Bars;
+using System.ComponentModel;
+using Viz.WrkModule.RptOoAndPp.Db;
+using Smv.Xls;
 
 
 namespace Viz.WrkModule.RptOoAndPp
@@ -23,9 +27,12 @@ namespace Viz.WrkModule.RptOoAndPp
   public class ViewModelRptOoAndPp
   {
     #region Fields
+    private readonly XlsInstanceBackgroundReport rpt;
     private readonly UserControl usrControl;
     private readonly DsRptOoAndPp dsRptOoAndPp = new DsRptOoAndPp();
     private GridControl gcTrnVal;
+    private readonly Object param;
+    private string whsTurnNzp;
     #endregion
 
     #region Public Property
@@ -38,7 +45,13 @@ namespace Viz.WrkModule.RptOoAndPp
     #endregion
 
     #region Private Method
-
+    private void RunXlsRptCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      GC.Collect();
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null)
+        barEditItem.IsVisible = false;
+    }
     #endregion
 
     #region Constructor
@@ -46,6 +59,8 @@ namespace Viz.WrkModule.RptOoAndPp
     public ViewModelRptOoAndPp(UserControl control, Object mainWindow)
     {
       usrControl = control;
+      param = mainWindow;
+      rpt = new XlsInstanceBackgroundReport();
 
       //Группы 1-уровня
       foreach (int i in Enum.GetValues(typeof(ModuleConst.AccL1Gr)))
@@ -76,7 +91,8 @@ namespace Viz.WrkModule.RptOoAndPp
 
     public void SelectWhs(Object param)
     {
-      dsRptOoAndPp.TrnNzp.LoadData(Convert.ToString(param));
+      whsTurnNzp = Convert.ToString(param);
+      dsRptOoAndPp.TrnNzp.LoadData(whsTurnNzp);
     }
     public void SaveTrnVal()
     {
@@ -89,6 +105,30 @@ namespace Viz.WrkModule.RptOoAndPp
       (gcTrnVal.View as TableView)?.DeleteRow(gcTrnVal.View.FocusedRowHandle);
       dsRptOoAndPp.TrnNzp.SaveData();
     }
+
+    public void TurnoverNzp()
+    {
+      var src = Etc.StartPath + ModuleConst.TurnoverNzpSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.TurnoverNzpDest;
+
+      var rptParam = new TurnoverNzpRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateBegin,
+        Whs = whsTurnNzp
+      };
+
+      var sp = new TurnoverNzp();
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null) 
+        barEditItem.IsVisible = (barEditItem != null);
+    }
+
+
+
 
     #endregion
 

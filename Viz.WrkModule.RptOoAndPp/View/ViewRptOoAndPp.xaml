@@ -63,7 +63,7 @@
         <dxl:LayoutItem HorizontalAlignment="Left" Padding="10,0,0,0">
         </dxl:LayoutItem>
         <dxl:LayoutItem HorizontalAlignment="Left">
-          <Button Content="Оборач. НЗП" HorizontalAlignment="Left" />
+          <Button Content="Оборач. НЗП" HorizontalAlignment="Left" Command="{Binding TurnoverNzpCommand}"/>
         </dxl:LayoutItem>
       </dxl:LayoutGroup>
       <dxl:LayoutItem Name="L2Grp_13003"  Label="Редактировать нормативы оборачиваемости:" IsRequired="True">
