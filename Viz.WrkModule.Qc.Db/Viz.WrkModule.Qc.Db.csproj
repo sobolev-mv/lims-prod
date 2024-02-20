@@ -94,9 +94,7 @@
     <Compile Include="DataSets\TypeFq.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\TypeUst.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DataSets\TypeUst.cs" />
     <Compile Include="DataSets\UstTrendQualityDataTable.cs">
       <SubType>Component</SubType>
     </Compile>

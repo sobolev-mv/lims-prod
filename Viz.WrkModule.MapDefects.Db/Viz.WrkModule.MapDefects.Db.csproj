@@ -60,9 +60,7 @@
     <Compile Include="DataSets\LstDefZonesDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\MapDefDataTable.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DataSets\MapDefDataTable.cs" />
     <Compile Include="DataSets\TrendDataTable.cs">
       <SubType>Component</SubType>
     </Compile>

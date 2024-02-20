@@ -127,7 +127,10 @@ namespace Viz.WrkModule.RptOoAndPp
         barEditItem.IsVisible = (barEditItem != null);
     }
 
-
+    public bool CanTurnoverNzp()
+    {
+      return !string.IsNullOrEmpty(whsTurnNzp);
+    }
 
 
     #endregion
