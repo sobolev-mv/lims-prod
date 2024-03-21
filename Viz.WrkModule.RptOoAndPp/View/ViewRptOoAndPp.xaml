@@ -95,13 +95,43 @@
               </dxe:ComboBoxEditSettings>
             </dxg:GridColumn.EditSettings>
           </dxg:GridColumn>
-          <dxg:GridColumn FieldName="DateBegin" Header="Дата начала" MinWidth="90" Width="90" EditSettings="{dxe:DateSettings DisplayFormat=dd.MM.yyyy}" ReadOnly="false" AllowEditing="true"/>
-          <dxg:GridColumn FieldName="DateEnd" Header="Дата оконч" MinWidth="90" Width="90" EditSettings="{dxe:DateSettings DisplayFormat=dd.MM.yyyy}" ReadOnly="false" AllowEditing="true"/>
+          <dxg:GridColumn FieldName="DateBegin" Header="Дата начала" MinWidth="90" Width="90" EditSettings="{dxe:DateSettings DisplayFormat=dd.MM.yyyy}" ReadOnly="false" />
+          <dxg:GridColumn FieldName="DateEnd" Header="Дата оконч" MinWidth="90" Width="90" EditSettings="{dxe:DateSettings DisplayFormat=dd.MM.yyyy}" ReadOnly="false" />
           <dxg:GridColumn FieldName="TurnVal" Header="Показатель" MinWidth="100" Width="100" Visible="True" EditSettings="{dxe:TextSettings DisplayFormat=n3}" />
         </dxg:GridControl.Columns>
       </dxg:GridControl>
+    </dxl:LayoutGroup>
 
+    <dxl:LayoutGroup Name="L1Grp_33002" Header="Отчет Производство по переделам" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="1">
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Дата:"  HorizontalAlignment="Left">
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left">
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateEnd}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left" Padding="10,0,0,0">
+        </dxl:LayoutItem>
+        <dxl:LayoutItem Label="Передел:" HorizontalAlignment="Left">
+          <dxl:FlowLayoutControl Orientation="Horizontal" ItemSpace="5" Padding="0" HorizontalAlignment="Left">
+            <RadioButton Content="1ХП" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="1" />
+            <RadioButton Content="1ПП" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="2" />
+            <RadioButton Content="ОО" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="3" />
+            <RadioButton Content="2ХП" Command="{Binding SelectPageNum4PjTsCommand}"  CommandParameter="4" />
+            <RadioButton Content="2ПП" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="5" />
+            <RadioButton Content="АОО ТИП" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="6" />
+            <RadioButton Content="ВТО" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="7" />
+            <RadioButton Content="АВО" Command="{Binding SelectPageNum4PjTsCommand}" CommandParameter="8" />
+          </dxl:FlowLayoutControl>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left" Padding="10,0,0,0">
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left">
+          <Button Content="Произв. по переделам" HorizontalAlignment="Left" Command="{Binding Pj4TsCommand}"/>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
 
     </dxl:LayoutGroup>
+
   </dxl:LayoutControl>
 </ruc:RibbonUserControl>

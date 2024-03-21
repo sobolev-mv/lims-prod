@@ -8,6 +8,7 @@
     internal enum AccL1Gr
     {
       TurnoverNzp = 33001,
+      Pj4Ts = 33002
     }
 
     //Группы 2ур.
@@ -16,7 +17,7 @@
       ShiftRptUo = 13000,
       ReasonSettleMetal = 13001,
       IsolFinCut2Strann = 13002,
-      StateWhsUoEdit = 13003
+      StateWhsUoEdit = 13003,
     }
 
     //Кнопки запуска отчетов
@@ -48,6 +49,9 @@
     public const string ScriptsFolder = "\\Scripts";
     public const string TurnoverNzpSource = "\\Xlt\\Viz.WrkModule.RptOoAndPp.TurnoverNzp.xltx";
     public const string TurnoverNzpDest = "\\Viz.WrkModule.RptOoAndPp.TurnoverNzp.xlsx";
+
+    public const string Pj4TsSource = "\\Xlt\\Viz.WrkModule.RptOoAndPp.Pj4Ts.xltx";
+    public const string Pj4TsDest = "\\Viz.WrkModule.RptOoAndPp.Pj4Ts.xlsx";
 
   }
 }

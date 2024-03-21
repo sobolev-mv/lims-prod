@@ -33,10 +33,12 @@ namespace Viz.WrkModule.RptOoAndPp
     private GridControl gcTrnVal;
     private readonly Object param;
     private string whsTurnNzp;
+    private int pageNumber;
     #endregion
 
     #region Public Property
     public DateTime DateBegin { get; set; }
+    public DateTime DateEnd { get; set; }
     public DataTable TrnNzpDataSet => this.dsRptOoAndPp.TrnNzp;
     #endregion
 
@@ -81,7 +83,7 @@ namespace Viz.WrkModule.RptOoAndPp
         }
       }
 
-      DateBegin = DateTime.Today;
+      DateBegin = DateEnd = DateTime.Today;
       gcTrnVal = LogicalTreeHelper.FindLogicalNode(usrControl, "GcTrnVal") as GridControl;
     }
 
@@ -94,6 +96,12 @@ namespace Viz.WrkModule.RptOoAndPp
       whsTurnNzp = Convert.ToString(param);
       dsRptOoAndPp.TrnNzp.LoadData(whsTurnNzp);
     }
+
+    public void SelectPageNum4PjTs(Object param)
+    {
+      pageNumber = Convert.ToInt32(param);
+    }
+
     public void SaveTrnVal()
     {
       (gcTrnVal.View as TableView)?.UpdateRow();
@@ -132,7 +140,31 @@ namespace Viz.WrkModule.RptOoAndPp
       return !string.IsNullOrEmpty(whsTurnNzp);
     }
 
+    public void Pj4Ts()
+    {
+      var src = Etc.StartPath + ModuleConst.Pj4TsSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.Pj4TsDest;
 
+      var rptParam = new Pj4TsRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateEnd,
+        PageNumber = pageNumber
+      };
+
+      var sp = new Pj4Ts();
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null)
+        barEditItem.IsVisible = (barEditItem != null);
+    }
+
+    public bool CanPj4Ts()
+    {
+      return pageNumber != 0;
+    }
     #endregion
 
   }

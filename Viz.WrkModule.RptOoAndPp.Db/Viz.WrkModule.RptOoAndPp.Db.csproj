@@ -59,6 +59,7 @@
     <Compile Include="DataSets\DsRptOoAndPp.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Pj4Ts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

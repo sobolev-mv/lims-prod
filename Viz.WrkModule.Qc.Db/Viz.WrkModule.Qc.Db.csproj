@@ -76,9 +76,7 @@
     <Compile Include="DataSets\AgTyp.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\Brigade.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DataSets\Brigade.cs" />
     <Compile Include="DataSets\ProtCalcUst.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -94,7 +92,9 @@
     <Compile Include="DataSets\TypeFq.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\TypeUst.cs" />
+    <Compile Include="DataSets\TypeUst.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataSets\UstTrendQualityDataTable.cs">
       <SubType>Component</SubType>
     </Compile>
