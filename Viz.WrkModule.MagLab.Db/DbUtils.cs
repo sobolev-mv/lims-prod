@@ -879,7 +879,7 @@ namespace Viz.WrkModule.MagLab.Db
 
     public static string CheckThickness(string sampleId, Boolean allState)
     {
-      const string stmtSql = "LIMS.MagLab.CheckThickness";
+      const string stmtSql = "LIMS.MagLab.CheckMassSample";
       var lstPrm = new List<OracleParameter>();
       int len = 0;
 

@@ -1313,13 +1313,13 @@ namespace Viz.WrkModule.MagLab
 
       if (string.IsNullOrEmpty(chkThickness))
 
-        DXMessageBox.Show(Application.Current.Windows[0], "Ошибка в функции контроля толщины.\r\nСообщите разработчикам ПО.", "Контроль толщины", MessageBoxButton.OK, MessageBoxImage.Warning);
+        DXMessageBox.Show(Application.Current.Windows[0], "Ошибка в функции контроля массы образца.\r\nСообщите разработчикам ПО.", "Контроль массы образца", MessageBoxButton.OK, MessageBoxImage.Warning);
 
       else if (chkThickness == "N"){
 
-        mbRes = DXMessageBox.Show(Application.Current.Windows[0], "Внимание!\r\nВыявлено отклонение по толщине.\r\nПродолжить отправку х-тик образца в MES?", "Контроль толщины", MessageBoxButton.OK, MessageBoxImage.Error);
+        mbRes = DXMessageBox.Show(Application.Current.Windows[0], "Внимание!\r\nВыявлено отклонение по массе образца.\r\nПродолжить отправку х-тик образца в MES?", "Контроль массы образца", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
-        //if (mbRes == MessageBoxResult.No)
+        if (mbRes == MessageBoxResult.No)
           return;
       }
 
