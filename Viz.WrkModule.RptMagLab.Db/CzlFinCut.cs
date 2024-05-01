@@ -99,7 +99,7 @@ namespace Viz.WrkModule.RptMagLab.Db
 
         string prevLocId = null;
         const int firstExcelColumn = 1;
-        const int lastExcelColumn = 198;
+        const int lastExcelColumn = 199;
 
         while (odr.Read()){
           var curLocId = Convert.ToString(odr.GetValue("MLOCID"));
