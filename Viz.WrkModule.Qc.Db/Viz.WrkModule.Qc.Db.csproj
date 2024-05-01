@@ -76,7 +76,9 @@
     <Compile Include="DataSets\AgTyp.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSets\Brigade.cs" />
+    <Compile Include="DataSets\Brigade.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataSets\ProtCalcUst.cs">
       <SubType>Component</SubType>
     </Compile>

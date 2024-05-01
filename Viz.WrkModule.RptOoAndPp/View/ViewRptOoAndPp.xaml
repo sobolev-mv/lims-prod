@@ -130,6 +130,17 @@
           <Button Content="Произв. по переделам" HorizontalAlignment="Left" Command="{Binding Pj4TsCommand}"/>
         </dxl:LayoutItem>
       </dxl:LayoutGroup>
+    </dxl:LayoutGroup>
+
+    <dxl:LayoutGroup Name="L1Grp_33003" Header="Отчет cостояние склада по признаку монтажа на дату" View="GroupBox" HorizontalAlignment="Stretch" Orientation="Vertical" ItemLabelsAlignment="Local" IsCollapsible="True" IsCollapsed="True" Tag="2">
+      <dxl:LayoutGroup>
+        <dxl:LayoutItem Label="Дата:"  HorizontalAlignment="Left">
+          <dxe:DateEdit Width="90" IsTextEditable="False" EditValue="{Binding DateBegin}"/>
+        </dxl:LayoutItem>
+        <dxl:LayoutItem HorizontalAlignment="Left">
+          <Button Content="Сост. склада по призн. монтажа" HorizontalAlignment="Left" Command="{Binding MountIdCommand}"/>
+        </dxl:LayoutItem>
+      </dxl:LayoutGroup>
 
     </dxl:LayoutGroup>
 

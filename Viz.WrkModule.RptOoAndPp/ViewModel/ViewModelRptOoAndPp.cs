@@ -165,6 +165,31 @@ namespace Viz.WrkModule.RptOoAndPp
     {
       return pageNumber != 0;
     }
+
+    public void MountId()
+    {
+      var src = Etc.StartPath + ModuleConst.MountIdSource;
+      var dst = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + ModuleConst.MountIdDest;
+
+      var rptParam = new MountIdRptParam(src, dst)
+      {
+        DateBegin = DateBegin,
+        DateEnd = DateBegin
+      };
+
+      var sp = new MountId();
+      var res = sp.RunXls(rpt, RunXlsRptCompleted, rptParam);
+
+      if (!res) return;
+      var barEditItem = param as BarEditItem;
+      if (barEditItem != null)
+        barEditItem.IsVisible = (barEditItem != null);
+    }
+    public bool CanMountId()
+    {
+      return true;
+    }
+
     #endregion
 
   }

@@ -8,7 +8,8 @@
     internal enum AccL1Gr
     {
       TurnoverNzp = 33001,
-      Pj4Ts = 33002
+      Pj4Ts = 33002,
+      MountId = 33003
     }
 
     //Группы 2ур.
@@ -52,6 +53,9 @@
 
     public const string Pj4TsSource = "\\Xlt\\Viz.WrkModule.RptOoAndPp.Pj4Ts.xltx";
     public const string Pj4TsDest = "\\Viz.WrkModule.RptOoAndPp.Pj4Ts.xlsx";
+
+    public const string MountIdSource = "\\Xlt\\Viz.WrkModule.RptOoAndPp.MountId.xltx";
+    public const string MountIdDest = "\\Viz.WrkModule.RptOoAndPp.MountId.xlsx";
 
   }
 }

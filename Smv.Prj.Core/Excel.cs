@@ -50,9 +50,10 @@ namespace Smv.Xls
 
     public Boolean RunBackgroundXlsReport(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler completeWork, XlsInstanceParam arg, string local = "ru")
     {
-      string verMso;
-      string hdrMsg;
+      string verMso = "The version of a MS Offce is lower than MS Offce 2007!";
+      string hdrMsg = "Error";
 
+      /*
       if (local == "ru"){
         hdrMsg = "Ошибка";
         verMso = "Версия пакета MS Offce ниже чем MS Offce 2007!";
@@ -61,7 +62,8 @@ namespace Smv.Xls
         hdrMsg = "Error";
         verMso = "The version of a MS Offce is lower than MS Offce 2007!";
       }
-      
+      */
+
       if (doWorkHandler != null)
         this.bw.DoWork -= doWorkHandler;
 
@@ -86,8 +88,10 @@ namespace Smv.Xls
         arg.ExcelVersion = GetExcelVersion(arg.ExcelApp.Version);
 
         //Проверяем что оффисе MS Office не ниже 2007
+        /*
         if (arg.ExcelVersion <= 12)
           throw new Exception(verMso);
+        */
 
         arg.ExcelApp.ScreenUpdating = false;
         arg.ExcelApp.DisplayAlerts = false;
