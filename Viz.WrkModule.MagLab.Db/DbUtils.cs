@@ -1107,18 +1107,48 @@ namespace Viz.WrkModule.MagLab.Db
       workbook?.Dispose();
     }
 
-    public static void TunkiaImportData()
+    public static void TunkiaImportData(string rootPath)
     {
       string importPath;
 
       using (var fbd = new FolderBrowserDialog())
       {
+        string dayPath;
+        string monthPath;
+
+        fbd.Description = "Папка с файлами измерений Tunkia TS1700";
+        fbd.ShowNewFolderButton = false;
+
+        if (DateTime.Today.Day < 10)
+          dayPath = "0" + DateTime.Today.Day.ToString();
+        else
+          dayPath = DateTime.Today.Day.ToString();
+
+        if (DateTime.Today.Month < 10)
+          monthPath = "0" + DateTime.Today.Month.ToString();
+        else
+          monthPath = DateTime.Today.Month.ToString();
+
+
+        if (Directory.Exists(rootPath + "\\" + DateTime.Today.Year.ToString() + "\\" + monthPath + "\\" + dayPath))
+          fbd.SelectedPath = rootPath + "\\" + DateTime.Today.Year.ToString() + "\\" + monthPath + "\\"  + dayPath;
+        else if (Directory.Exists(rootPath + "\\" + DateTime.Today.Year.ToString() + "\\" + monthPath))
+          fbd.SelectedPath = rootPath + "\\" + DateTime.Today.Year.ToString() + "\\" + monthPath;
+        else if (Directory.Exists(rootPath + "\\" + DateTime.Today.Year.ToString()))
+          fbd.SelectedPath = rootPath + "\\" + DateTime.Today.Year.ToString();
+        else if (Directory.Exists(rootPath))
+          fbd.SelectedPath = rootPath;
+        
         DialogResult dlgResult = fbd.ShowDialog();
+        
+
         if (dlgResult == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
           importPath = fbd.SelectedPath;
         else
           return;
       }
+
+      return;
 
       //Clear tmp table.
       Odac.ExecuteNonQuery("LIMS.MagLab.ClearI4FrTunkia", CommandType.StoredProcedure, false, null);

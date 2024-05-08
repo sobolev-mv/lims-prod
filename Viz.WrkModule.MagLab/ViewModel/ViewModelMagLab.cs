@@ -28,6 +28,7 @@ namespace Viz.WrkModule.MagLab
     #region Fields
     private Boolean applyCorrectCoeff = true;
     private uint qntIsolPointsPerSide = 3;
+    private string tunkiaPath;
 
     private readonly UserControl usrControl;
     private readonly DsMgLab dsMagLab = new DsMgLab();
@@ -1076,6 +1077,8 @@ namespace Viz.WrkModule.MagLab
         cfg = Smv.App.Config.ConfigParam.ReadAppSettingsParamValue(Etc.StartPath + ModuleConst.MagLabConfig, "QntIsolPointsPerSide");
         if (!string.IsNullOrEmpty(cfg))
           qntIsolPointsPerSide = Convert.ToUInt32(cfg);
+
+        tunkiaPath = Smv.App.Config.ConfigParam.ReadAppSettingsParamValue(Etc.StartPath + ModuleConst.MagLabConfig, "TunkiaPath");
       }
       catch (Exception){
         DXMessageBox.Show(Application.Current.Windows[0], "Ошибка при чтении конфигурационных параметров МЛ!", "Ошибка конфигурации", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -1632,7 +1635,7 @@ namespace Viz.WrkModule.MagLab
 
     private void ExecuteTunkiaImport(Object parameter)
     {
-      LabAction.TunkiaImportData();
+      LabAction.TunkiaImportData(tunkiaPath);
     }
 
     private bool CanExecuteTunkiaImport(Object parameter)
